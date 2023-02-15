@@ -19,9 +19,7 @@
             android:layout_height="100dp"
             android:layout_marginRight="10dp"
             android:background="#FFFFFF"
-            android:src="@mipmap/platzhalter_icon"
-             />
-
+            android:src="@mipmap/platzhalter_icon" />
 
 
         <LinearLayout
@@ -79,14 +77,12 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -255,12 +251,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="352dp"
+        android:layout_height="421dp"
+        android:layout_marginTop="10dp"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:paddingBottom="20dp">
@@ -491,6 +488,15 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        android:orientation="horizontal"
+        >
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
