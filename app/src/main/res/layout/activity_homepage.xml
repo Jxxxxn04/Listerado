@@ -18,14 +18,15 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/appIcon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="10dp"
                 android:background="#FFFFFF"
+                android:clickable="true"
                 android:contentDescription="@string/platzhalter_icon"
-                android:src="@mipmap/app_icon_mipmap"
-                android:paddingRight="10dp"/>
+                android:paddingRight="10dp"
+                android:src="@mipmap/app_icon_mipmap" />
 
 
             <LinearLayout
@@ -476,11 +477,13 @@
         android:orientation="horizontal">
 
         <LinearLayout
+
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/homepage_navigation_goToMyProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center"
@@ -504,6 +507,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/homepage_navigation_goToHomepage"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -534,6 +538,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/homepage_navigation_goToMyList"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">

@@ -1,5 +1,6 @@
 package com.example.listerado;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,14 +15,24 @@ public class accountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homepage);
+        setContentView(R.layout.activity_account);
 
         LinearLayout changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
 
+        LinearLayout NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
+
+        Intent switchToHomepageIntent = new Intent(this, homepageActivity.class);
 
 
 
 
+        NAV_account_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(switchToHomepageIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 
 
 

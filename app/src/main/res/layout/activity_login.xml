@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="30mm"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        >
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            app:srcCompat="@mipmap/app_icon_mipmap_white_background" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listerado"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="top|center">
+
+
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rectangle_for_login"
+            android:gravity="left|center"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+
+
+            <EditText
+                android:id="@+id/editTexdsadtTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:ems="10"
+                android:hint="Benutzername oder Email"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColorHint="#9A9A9A" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_for_login"
+            android:gravity="left|center">
+
+
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:ems="10"
+                android:hint="Passwort"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColorHint="#9A9A9A" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="290dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:text="Anmelden"
+            android:background="@drawable/rectangle_for_login_button"
+            android:textColor="#5F5F85"/>
+    </LinearLayout>
+
+
+</LinearLayout>

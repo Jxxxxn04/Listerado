@@ -25,16 +25,17 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/circle"
         android:src="@mipmap/account_icon"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="96dp"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="0dp">
 
         <TextView
             android:id="@+id/textView6"
@@ -101,7 +102,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="134dp"
+        android:layout_height="80dp"
+        android:layout_gravity="top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:elevation="6dp"
+            android:gravity="center|left"
+            android:paddingLeft="20dp"
+            android:text="Abmelden"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_gravity="top"
         android:orientation="vertical">
 
@@ -123,9 +143,11 @@
         android:layout_height="100dp"
         android:elevation="12dp"
         android:gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
 
         <LinearLayout
+            android:id="@+id/account_navigation_goToMyProfile"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -155,6 +177,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/account_navigation_goToHomepage"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -183,6 +206,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/account_navigation_goToMyList"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
