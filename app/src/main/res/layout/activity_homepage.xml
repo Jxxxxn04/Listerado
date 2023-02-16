@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="634dp"
+        android:layout_height="747dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -24,7 +24,8 @@
                 android:layout_marginEnd="10dp"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/platzhalter_icon"
-                android:src="@mipmap/platzhalter_icon" />
+                android:src="@mipmap/app_icon_mipmap"
+                android:paddingRight="10dp"/>
 
 
             <LinearLayout
@@ -256,19 +257,19 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="421dp"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="20dp"
-            android:scrollbars="none">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="403dp"
+            android:layout_height="509dp"
+            >
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="20dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -284,7 +285,7 @@
 
                     <TextView
                         android:id="@+id/textView3"
-                        android:layout_width="290dp"
+                        android:layout_width="282dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
@@ -296,14 +297,16 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:layout_marginEnd="10dp">
 
 
                         <ImageView
                             android:id="@+id/imageView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
+                            app:srcCompat="@mipmap/add_icon"
+                            />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -320,7 +323,7 @@
 
                     <TextView
                         android:id="@+id/textView55"
-                        android:layout_width="290dp"
+                        android:layout_width="282dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
@@ -358,7 +361,7 @@
 
                     <TextView
                         android:id="@+id/textView56"
-                        android:layout_width="290dp"
+                        android:layout_width="282dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
@@ -396,7 +399,7 @@
 
                     <TextView
                         android:id="@+id/textView57"
-                        android:layout_width="290dp"
+                        android:layout_width="282dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
@@ -435,7 +438,7 @@
 
                     <TextView
                         android:id="@+id/textView32323"
-                        android:layout_width="290dp"
+                        android:layout_width="282dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
@@ -458,78 +461,45 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
-
-
-                    <TextView
-                        android:id="@+id/textView3234"
-                        android:layout_width="290dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 6"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/imageView3432"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
-                    </RelativeLayout>
-                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:elevation="12dp">
+        android:layout_height="100dp"
+        android:elevation="12dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="136dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="bottom|center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:srcCompat="@mipmap/acount_icon" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@mipmap/account_icon" />
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Account"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:textColor="#A6A6A6A6"/>
+                    android:text="Account"
+                    android:textColor="#A6A6A6A6" />
             </LinearLayout>
         </LinearLayout>
 
@@ -541,19 +511,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="bottom|center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/imageView41231322"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     app:srcCompat="@mipmap/add_icon" />
 
                 <TextView
                     android:id="@+id/textView4123123"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:text="Produkte"
                     android:textColor="#A6A6A6A6" />
@@ -568,29 +539,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="bottom|center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/imageView412313"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     app:srcCompat="@mipmap/meine_listen_icon" />
 
                 <TextView
                     android:id="@+id/textView423123"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:text="Meine Listen"
                     android:textColor="#A6A6A6A6" />
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
 
