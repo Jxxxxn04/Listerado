@@ -30,16 +30,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class loginActivity extends AppCompatActivity {
-/*
+
     EditText edUsername, edPassword;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
 
-
-    RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
-    String url = "http://bfi.bbs-me.org:2536/api/login.php";
-*/
-/*
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,35 +48,54 @@ public class loginActivity extends AppCompatActivity {
         tvPasswordForgot = findViewById(R.id.textViewPasswordReset);
 
 
-        // Switch to Register Page
         tvSwitchtoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getApplicationContext(), "Registration", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(loginActivity.this, RegisterActivity.class ));
+                startActivity(new Intent(loginActivity.this, RegisterActivity.class));
             }
         });
 
-        */
-
-/*
-        // Button POST request
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
+                String url = "http://bfi.bbs-me.org:2536/api/login.php";
+
+
+                // Variables of EditText to get the Entry-String
                 String username = edUsername.getText().toString();
                 String password = edPassword.getText().toString();
 
-                if(username.length() == 0 || password.length() == 0){
-                    Toast.makeText(getApplicationContext(), "Bitte fülle alle Felder aus.", Toast.LENGTH_SHORT).show();
+
+                if (username.length() == 0 || password.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Bitte, fülle alle Felder aus", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    //Post request
                     StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     //Toast.makeText(getApplicationContext(),"Done!", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(loginActivity.this, homepageActivity.class));
 
+                                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                startActivity(new Intent(loginActivity.this, homepageActivity.class));
+                                                Toast.makeText(getApplicationContext(), response.getString("status"), Toast.LENGTH_SHORT).show();
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                        }
+                                    });
+                                    MySingleton.getInstance(loginActivity.this).addToRequestQueue(request);
                                 }
 
                             },
@@ -103,7 +117,7 @@ public class loginActivity extends AppCompatActivity {
                     queue.add(postRequest);
                 }
             }
-        });
-*/
 
-}
+        });
+    }
+    }
