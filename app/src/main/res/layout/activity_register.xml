@@ -53,17 +53,19 @@
 
 
             <EditText
-                android:id="@+id/editTexdsadtTextPersonName2"
+                android:id="@+id/editTextRegisterUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:background="@null"
                 android:ems="10"
                 android:hint="Benutzername"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
-                android:autofillHints="" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,17 +78,19 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName12"
+                android:id="@+id/editTextRegisterEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:background="@null"
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
-                android:autofillHints="" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,17 +103,19 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/editTextRegisterPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:background="@null"
                 android:ems="10"
                 android:hint="Passwort"
                 android:inputType="textPassword"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
-                android:autofillHints="" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -122,26 +128,37 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName1"
+                android:id="@+id/editTextRegisterConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:autofillHints=""
                 android:background="@null"
                 android:ems="10"
                 android:hint="Passwort bestätigen"
                 android:inputType="textPassword"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
-                android:autofillHints="" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonRegister"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:text="Anmelden"
+            android:layout_marginTop="55dp"
+            android:text="Registrieren"
             android:background="@drawable/rectangle_for_login_button"
             android:textColor="#5F5F85"/>
+
+        <TextView
+            android:id="@+id/textViewSwitchToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Du hast bereits einen Account?"
+            android:textAlignment="center"
+            android:textColor="#A13F3F45" />
     </LinearLayout>
 </LinearLayout>

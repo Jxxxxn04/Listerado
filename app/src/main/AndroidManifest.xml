@@ -18,6 +18,10 @@
 
         <activity
             android:name=".RegisterActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".loginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
