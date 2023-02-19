@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class loginActivity extends AppCompatActivity {
-
+/*
     EditText edUsername, edPassword;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
@@ -38,8 +38,8 @@ public class loginActivity extends AppCompatActivity {
 
     RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
     String url = "http://bfi.bbs-me.org:2536/api/login.php";
-
-
+*/
+/*
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,9 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
+        */
+
+/*
         // Button POST request
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +104,6 @@ public class loginActivity extends AppCompatActivity {
                 }
             }
         });
+*/
 
-    }
 }
