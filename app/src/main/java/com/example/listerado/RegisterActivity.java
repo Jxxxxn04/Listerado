@@ -72,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (username.length() == 0 || email.length() == 0 || password.length() == 0 || confirm.length() == 0) {
                     Toast.makeText(getApplicationContext(), "Bitte, fülle alle Felder aus", Toast.LENGTH_SHORT).show();
                 } else {
+                    //TODO Validation of Email
                     if (password.compareTo(confirm) == 0) {
                         //Post request
                         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
