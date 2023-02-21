@@ -74,6 +74,34 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     //TODO Validation of Email
                     if (password.compareTo(confirm) == 0) {
+
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("username", edUsername.getText().toString());
+                                params.put("email", edEmail.getText().toString());
+                                params.put("password", edPassword.getText().toString());
+                                return params;
+                            }
+                        };
+                        queue.add(postRequest);
+
+                        /*
                         //Post request
                         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {
@@ -120,6 +148,9 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         };
                         queue.add(postRequest);
+
+                        */
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Passwort stimmt nicht über ein", Toast.LENGTH_SHORT).show();
                     }

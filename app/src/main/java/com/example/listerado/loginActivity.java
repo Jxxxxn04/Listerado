@@ -73,20 +73,12 @@ public class loginActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(JSONObject responses) {
-                                            //startActivity(new Intent(loginActivity.this, homepageActivity.class));
-                                            Toast.makeText(getApplicationContext()," response.toString()", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    MySingleton.getInstance(loginActivity.this).addToRequestQueue(request);
+                                    if(response.equals("{\"status\" : \"Login successfully! \"}")) {
+                                        Toast.makeText(getApplicationContext(), "Login correct!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(loginActivity.this, homepageActivity.class));
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Failed Login!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                             },
