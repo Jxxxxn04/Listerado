@@ -2,9 +2,6 @@ package com.example.listerado;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,14 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -77,25 +72,24 @@ public class loginActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    //Toast.makeText(getApplicationContext(),"Done!", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(), response.toString(),Toast.LENGTH_SHORT).show();
 
-                                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                                        @Override
-                                        public void onResponse(JSONObject response) {
-                                            try {
-                                                startActivity(new Intent(loginActivity.this, homepageActivity.class));
-                                                Toast.makeText(getApplicationContext(), response.getString("status"), Toast.LENGTH_SHORT).show();
-                                            } catch (JSONException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
+                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    Toast.makeText(getApplicationContext(), response.toString(),Toast.LENGTH_SHORT).show();
 
-                                    }, new Response.ErrorListener() {
+                                                }
+                                            }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
+
                                         }
                                     });
-                                    MySingleton.getInstance(loginActivity.this).addToRequestQueue(request);
+
+// Add the request to the RequestQueue.
+                                    queue.add(stringRequest);
                                 }
 
                             },
@@ -115,6 +109,7 @@ public class loginActivity extends AppCompatActivity {
                         }
                     };
                     queue.add(postRequest);
+
                 }
             }
 
