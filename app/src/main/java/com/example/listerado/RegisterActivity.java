@@ -80,7 +80,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(String response) {
                                         //Toast.makeText(getApplicationContext(),"Done!", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(RegisterActivity.this, loginActivity.class));
 
                                         // Get Status from API
                                         //TODO Async / Status wird nicht zurück geschickt.

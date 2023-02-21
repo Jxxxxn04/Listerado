@@ -15,6 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -72,24 +73,20 @@ public class loginActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    //Toast.makeText(getApplicationContext(), response.toString(),Toast.LENGTH_SHORT).show();
+                                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject responses) {
+                                            //startActivity(new Intent(loginActivity.this, homepageActivity.class));
+                                            Toast.makeText(getApplicationContext()," response.toString()", Toast.LENGTH_SHORT).show();
+                                        }
 
-                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                                            new Response.Listener<String>() {
-                                                @Override
-                                                public void onResponse(String response) {
-                                                    Toast.makeText(getApplicationContext(), response.toString(),Toast.LENGTH_SHORT).show();
-
-                                                }
-                                            }, new Response.ErrorListener() {
+                                    }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-
+                                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-
-// Add the request to the RequestQueue.
-                                    queue.add(stringRequest);
+                                    MySingleton.getInstance(loginActivity.this).addToRequestQueue(request);
                                 }
 
                             },
@@ -103,16 +100,14 @@ public class loginActivity extends AppCompatActivity {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("username", edUsername.getText().toString());
+                            params.put("name", edUsername.getText().toString());
                             params.put("password", edPassword.getText().toString());
                             return params;
                         }
                     };
                     queue.add(postRequest);
-
                 }
-            }
-
+            };
         });
     }
     }

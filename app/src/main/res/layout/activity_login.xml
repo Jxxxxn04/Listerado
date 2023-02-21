@@ -61,6 +61,7 @@
                 android:hint="Benutzername oder Email"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -83,6 +84,7 @@
                 android:hint="Passwort"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
                 android:textSize="15sp" />
 
