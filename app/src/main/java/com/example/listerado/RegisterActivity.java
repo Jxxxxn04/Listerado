@@ -49,7 +49,9 @@ public class RegisterActivity extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(RegisterActivity.this, loginActivity.class));
+                finish();
             }
         });
 
@@ -59,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                String url = "http://bfi.bbs-me.org:2536/api/createUser.php";
+                String url = "http://10.128.25.243:2536/api/createUser.php";
 
 
                 // Variables of EditText to get the Entry-String

@@ -49,6 +49,8 @@ public class loginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(getApplicationContext(), "Registration", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(loginActivity.this, RegisterActivity.class));
+                finish();
+
             }
         });
 
@@ -76,6 +78,7 @@ public class loginActivity extends AppCompatActivity {
                                     if(response.equals("{\"status\" : \"Login successfully! \"}")) {
                                         Toast.makeText(getApplicationContext(), "Login correct!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(loginActivity.this, homepageActivity.class));
+
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Failed Login!", Toast.LENGTH_SHORT).show();
                                     }
@@ -97,7 +100,8 @@ public class loginActivity extends AppCompatActivity {
                             return params;
                         }
                     };
-                    queue.add(postRequest);
+                    //queue.add(postRequest);
+                    MySingleton.getInstance(loginActivity.this).addToRequestQueue(postRequest);
                 }
             };
         });
