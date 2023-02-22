@@ -27,9 +27,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class loginActivity extends AppCompatActivity {
 
+    String jsonUsername, jsonEmail, jsonStatus;
     EditText edUsername, edPassword;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
@@ -108,6 +110,8 @@ public class loginActivity extends AppCompatActivity {
                         String password = edPassword.getText().toString();
 
 
+
+
                         if (username.length() == 0 || password.length() == 0) {
                             ToastManager.showToast(loginActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
                         } else {
@@ -117,29 +121,42 @@ public class loginActivity extends AppCompatActivity {
                                     new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
-                                            if(response.equals("{\"status\" : \"Login successfully! \"}")) {
-                                                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+
+                                            JSONObject jsonObject;
+                                            try {
+                                                jsonObject = new JSONObject(response);
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+
+                                            try {
+                                                jsonStatus = jsonObject.getString("status");
+                                                jsonUsername = jsonObject.getString("username");
+                                                jsonEmail = jsonObject.getString("email");
+                                                int id = jsonObject.getInt("id");
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+
+                                            System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
+                                            if(Objects.equals(jsonStatus, "login successfully")) {
+                                                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
                                                     return;
                                                 }
                                                 mLastClickTime = SystemClock.elapsedRealtime();
 
+                                                ToastManager.showToast(loginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
 
 
                                                 startActivity(new Intent(loginActivity.this, homepageActivity.class));
-
                                                 finish();
 
-                                                // Schreiben Sie den Benutzernamen und das Passwort in SharedPreferences
-                                                editor.putString("username", edUsername.getText().toString());
+
+                                                //Username, Email, Passwort werden in die SharedPreferences geschrieben
+                                                editor.putString("username", jsonUsername);
+                                                editor.putString("email", jsonEmail);
                                                 editor.putString("password", edPassword.getText().toString());
-
-
                                                 editor.apply();
-
-
-
-
-
 
 
                                             } else {

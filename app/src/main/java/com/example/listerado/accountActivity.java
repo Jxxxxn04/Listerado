@@ -43,7 +43,7 @@ public class accountActivity extends AppCompatActivity {
         String savedUsername = sharedPreferences.getString("username", "");
         String savedEmail = sharedPreferences.getString("email", "");
 
-        System.out.println("\n\n\n\n\n\n\n\n"+ savedUsername+ "\n\n\n\n\n\n\n\n\n");
+        //System.out.println("\n\n\n\n\n\n\n\n"+ savedUsername+ "\n\n\n\n\n\n\n\n\n");
 
         username.setText(savedUsername);
         email.setText(savedEmail);
