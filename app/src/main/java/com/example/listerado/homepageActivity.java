@@ -30,22 +30,13 @@ public class homepageActivity extends AppCompatActivity {
 
         ImageView appIcon = findViewById(R.id.appIcon);
 
-        Intent dontTouchIntent = new Intent(this, dontTouch.class);
         Intent switchToAccountIntent = new Intent(this, accountActivity.class);
-        Intent test = new Intent(this, loginActivity.class);
 
 
 
 
 
 
-        NAV_homepage_goToMyLists.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(test);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
 
 
 
@@ -55,37 +46,17 @@ public class homepageActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     startActivity(switchToAccountIntent);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    finish();
                 }
             });
 
 
 
 
-        appIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countIconClicker++;
 
 
-                if (countIconClicker == 88 || countIconClicker == 69) {
-                    new CountDownTimer(5000, 1000) {
-                        // 5000 Millisekunden (5 Sekunden), CountDownInterval = 1000 Millisekunden (1 Sekunde)
-                        public void onTick(long millisUntilFinished) {
 
-                        }
 
-                        public void onFinish() {
-                            if (countIconClicker == 88 || countIconClicker == 69) {
-                                startActivity(dontTouchIntent);
-                            } else {
-                                countIconClicker = 0;
-                            }
-
-                        }
-                    }.start();
-                }
-            }
-        });
 
 
 

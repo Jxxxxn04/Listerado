@@ -114,55 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                         };
                         queue.add(postRequest);
 
-                        /*
-                        //Post request
-                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        //Toast.makeText(getApplicationContext(),"Done!", Toast.LENGTH_LONG).show();
 
-                                        // Get Status from API
-                                        //TODO Async / Status wird nicht zurück geschickt.
-                                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                try {
-                                                    startActivity(new Intent(RegisterActivity.this, loginActivity.class));
-                                                    Toast.makeText(getApplicationContext(), response.getString("status"), Toast.LENGTH_SHORT).show();
-                                                } catch (JSONException e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                            }
-
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                            }
-                                        });
-                                        MySingleton.getInstance(RegisterActivity.this).addToRequestQueue(request);
-                                    }
-
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("username", edUsername.getText().toString());
-                                params.put("email", edEmail.getText().toString());
-                                params.put("password", edPassword.getText().toString());
-                                return params;
-                            }
-                        };
-                        queue.add(postRequest);
-
-                        */
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Passwort stimmt nicht über ein", Toast.LENGTH_SHORT).show();
