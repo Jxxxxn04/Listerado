@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
+                                        startActivity(new Intent(RegisterActivity.this, loginActivity.class));
                                         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                                     }
 
