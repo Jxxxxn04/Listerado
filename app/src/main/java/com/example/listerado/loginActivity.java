@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,8 @@ public class loginActivity extends AppCompatActivity {
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
 
-   Boolean isClicked = false;
+    private long mLastClickTime = 0;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,7 +79,7 @@ public class loginActivity extends AppCompatActivity {
         // Holen Sie die SharedPreferences-Instanz
 
         // Überprüfen Sie, ob ein Benutzername und Passwort gespeichert sind
-        if (sharedPreferences.contains("username") && sharedPreferences.contains("password")) {
+        if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
 
 
 
@@ -88,13 +90,11 @@ public class loginActivity extends AppCompatActivity {
             startActivity(new Intent(this, homepageActivity.class));
             finish();
         } else {
-
-            if(!isClicked) {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        isClicked = true;
+
 
                         RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
                         String url = "http://bfi.bbs-me.org:2536/api/login.php";
@@ -115,16 +115,28 @@ public class loginActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(String response) {
                                             if(response.equals("{\"status\" : \"Login successfully! \"}")) {
+                                                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                                                    return;
+                                                }
+                                                mLastClickTime = SystemClock.elapsedRealtime();
+
                                                 Toast.makeText(getApplicationContext(), "Login correct!", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(loginActivity.this, homepageActivity.class));
+
                                                 finish();
 
                                                 // Schreiben Sie den Benutzernamen und das Passwort in SharedPreferences
-                                                editor.putString("username", "MeinBenutzername");
-                                                editor.putString("password", "MeinPasswort");
+                                                editor.putString("username", edUsername.getText().toString());
+                                                editor.putString("password", edPassword.getText().toString());
 
 
                                                 editor.apply();
+
+
+
+
+
+
 
                                             } else {
                                                 Toast.makeText(getApplicationContext(), "Failed Login!", Toast.LENGTH_SHORT).show();
@@ -154,5 +166,5 @@ public class loginActivity extends AppCompatActivity {
                 });
             }
         }
-    }
 }
+

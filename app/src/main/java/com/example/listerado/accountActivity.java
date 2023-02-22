@@ -59,6 +59,7 @@ public class accountActivity extends AppCompatActivity {
                 // Entfernen Sie den Benutzernamen und das Passwort aus SharedPreferences
                 editor.remove("username");
                 editor.remove("password");
+                editor.remove("email");
 
                 // Speichern Sie die Änderungen
                 editor.apply();
