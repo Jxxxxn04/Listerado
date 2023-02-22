@@ -81,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     public void onResponse(String response) {
                                         if(response.equals("{\"status\" : \"user created\"}")) {
                                             startActivity(new Intent(RegisterActivity.this, loginActivity.class));
+                                            //KOmentar
                                             Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                                         }
                                         if(response.equals("{\"status\" : \"user already exists\"}")) {
