@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 if (username.length() == 0 || email.length() == 0 || password.length() == 0 || confirm.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Bitte, fülle alle Felder aus", Toast.LENGTH_SHORT).show();
+                    ToastManager.showToast(RegisterActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
                 } else {
                     //TODO Validation of Email
                     if (password.compareTo(confirm) == 0) {
@@ -84,13 +84,13 @@ public class RegisterActivity extends AppCompatActivity {
                                         if(response.equals("{\"status\" : \"user created\"}")) {
                                             startActivity(new Intent(RegisterActivity.this, loginActivity.class));
                                             //KOmentar
-                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
                                         }
                                         if(response.equals("{\"status\" : \"user already exists\"}")) {
-                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
                                         }
                                         if(response.equals("{\"status\" : \"password too short\"}")) {
-                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
                                         }
 
                                     }
@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_LONG).show();
+                                        ToastManager.showToast(RegisterActivity.this, "Failed!", Toast.LENGTH_LONG);
                                     }
                                 }
                         ) {
@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Passwort stimmt nicht über ein", Toast.LENGTH_SHORT).show();
+                        ToastManager.showToast(RegisterActivity.this, "Passwörter stimmen nicht über ein!", Toast.LENGTH_SHORT);
                     }
                 }
             }

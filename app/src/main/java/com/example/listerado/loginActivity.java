@@ -49,11 +49,15 @@ public class loginActivity extends AppCompatActivity {
         tvSwitchtoRegister = findViewById(R.id.textViewSwitchToRegister);
         tvPasswordForgot = findViewById(R.id.textViewPasswordReset);
 
+        
 
 
 
 
-        // Holen Sie die SharedPreferences-Instanz
+
+
+
+        // Holen Sie die SharedP references-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
         // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
@@ -68,7 +72,6 @@ public class loginActivity extends AppCompatActivity {
         tvSwitchtoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(), "Registration", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(loginActivity.this, RegisterActivity.class));
                 finish();
 
@@ -106,7 +109,7 @@ public class loginActivity extends AppCompatActivity {
 
 
                         if (username.length() == 0 || password.length() == 0) {
-                            Toast.makeText(getApplicationContext(), "Bitte, fülle alle Felder aus", Toast.LENGTH_SHORT).show();
+                            ToastManager.showToast(loginActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
                         } else {
 
                             //Post request
@@ -120,7 +123,8 @@ public class loginActivity extends AppCompatActivity {
                                                 }
                                                 mLastClickTime = SystemClock.elapsedRealtime();
 
-                                                Toast.makeText(getApplicationContext(), "Login correct!", Toast.LENGTH_SHORT).show();
+
+
                                                 startActivity(new Intent(loginActivity.this, homepageActivity.class));
 
                                                 finish();
@@ -139,7 +143,7 @@ public class loginActivity extends AppCompatActivity {
 
 
                                             } else {
-                                                Toast.makeText(getApplicationContext(), "Failed Login!", Toast.LENGTH_SHORT).show();
+                                                ToastManager.showToast(loginActivity.this, "Failed Login!", Toast.LENGTH_SHORT);
                                             }
                                         }
 
@@ -147,7 +151,7 @@ public class loginActivity extends AppCompatActivity {
                                     new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_LONG).show();
+                                            ToastManager.showToast(loginActivity.this, "Failed", Toast.LENGTH_LONG);
                                         }
                                     }
                             ) {
