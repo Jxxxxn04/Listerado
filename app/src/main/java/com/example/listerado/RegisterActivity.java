@@ -79,8 +79,17 @@ public class RegisterActivity extends AppCompatActivity {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        startActivity(new Intent(RegisterActivity.this, loginActivity.class));
-                                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                        if(response.equals("{\"status\" : \"user created\"}")) {
+                                            startActivity(new Intent(RegisterActivity.this, loginActivity.class));
+                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        if(response.equals("{\"status\" : \"user already exists\"}")) {
+                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        if(response.equals("{\"status\" : \"password too short\"}")) {
+                                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+
                                     }
 
                                 },
