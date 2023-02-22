@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class accountActivity extends AppCompatActivity {
 
+    TextView username, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,11 @@ public class accountActivity extends AppCompatActivity {
         TextView logoutButton = findViewById(R.id.logout_Button);
         logoutButton.bringToFront();
 
+        username = findViewById(R.id.myAccount_username);
+        email = findViewById(R.id.myAccount_email);
+
         Intent switchToHomepageIntent = new Intent(this, homepageActivity.class);
+        Intent switchToLoginActivity = new Intent(this, loginActivity.class);
 
         // Holen Sie die SharedPreferences-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
@@ -35,11 +40,17 @@ public class accountActivity extends AppCompatActivity {
         // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        Intent switchToLoginActivity = new Intent(this, loginActivity.class);
+        String savedUsername = sharedPreferences.getString("username", "");
+        String savedEmail = sharedPreferences.getString("email", "");
+
+        System.out.println("\n\n\n\n\n\n\n\n"+ savedUsername+ "\n\n\n\n\n\n\n\n\n");
+
+        username.setText(savedUsername);
+        email.setText(savedEmail);
 
 
 
-
+        //Navigation zur Homepage
         NAV_account_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,17 +62,17 @@ public class accountActivity extends AppCompatActivity {
 
 
 
-
+        //Logout Button
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // Entfernen Sie den Benutzernamen und das Passwort aus SharedPreferences
+                // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
                 editor.remove("username");
                 editor.remove("password");
                 editor.remove("email");
 
-                // Speichern Sie die Änderungen
+                // Änderungen werden gespeichert
                 editor.apply();
 
                 startActivity(switchToLoginActivity);
@@ -70,19 +81,6 @@ public class accountActivity extends AppCompatActivity {
         });
 
 
-        changeUsernameLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Erstellen Sie eine Animation für das LinearLayout
-                Animation animation = new ScaleAnimation(1, 1.1f, 1, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                animation.setDuration(500);
-                animation.setRepeatCount(1);
-                animation.setRepeatMode(Animation.REVERSE);
-
-                // Starten Sie die Animation für das LinearLayout
-                v.startAnimation(animation);
-            }
-        });
 
 
 

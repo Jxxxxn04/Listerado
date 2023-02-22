@@ -6,8 +6,6 @@ import android.widget.Toast;
 
 public class ToastManager {
 
-    private static boolean isToastShowing = false; // Variable, um den Status des Toasts zu verfolgen
-
     private static Toast mToast;
 
     public static void showToast(Context context, String message, int duration) {

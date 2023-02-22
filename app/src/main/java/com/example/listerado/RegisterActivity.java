@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +47,20 @@ public class RegisterActivity extends AppCompatActivity {
         tv = findViewById(R.id.textViewSwitchToLogin);
 
 
+
+
+        // Holen Sie die SharedPreferences-Instanz
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
+        // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove("username");
+        editor.remove("password");
+        editor.remove("email");
+        editor.apply();
+
+
         // Change to Login-Page
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                String url = "http://10.128.25.243:2536/api/createUser.php";
+                String url = "http://bfi.bbs-me.org:2536/api/createUser.php";
 
 
                 // Variables of EditText to get the Entry-String
@@ -82,9 +98,14 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(String response) {
                                         if(response.equals("{\"status\" : \"user created\"}")) {
-                                            startActivity(new Intent(RegisterActivity.this, loginActivity.class));
+                                            startActivity(new Intent(RegisterActivity.this, homepageActivity.class));
                                             //KOmentar
                                             ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                            editor.putString("username", edUsername.getText().toString());
+                                            editor.putString("password", edPassword.getText().toString());
+                                            editor.putString("email", edEmail.getText().toString());
+                                            editor.apply();
+
                                         }
                                         if(response.equals("{\"status\" : \"user already exists\"}")) {
                                             ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
