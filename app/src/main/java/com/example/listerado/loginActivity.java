@@ -138,6 +138,7 @@ public class loginActivity extends AppCompatActivity {
                                                 throw new RuntimeException(e);
                                             }
 
+
                                             System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
                                             if(Objects.equals(jsonStatus, "login successfully")) {
                                                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {

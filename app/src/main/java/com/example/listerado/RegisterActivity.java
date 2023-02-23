@@ -97,9 +97,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
+
+                                        System.out.println("\n\n\n\n\n\n\n\n\n"+ response + "\n\n\n\n\n\n\n\n\n");
+
                                         if(response.equals("{\"status\" : \"user created\"}")) {
                                             startActivity(new Intent(RegisterActivity.this, homepageActivity.class));
-                                            //KOmentar
                                             ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
                                             editor.putString("username", edUsername.getText().toString());
                                             editor.putString("password", edPassword.getText().toString());
@@ -110,8 +112,20 @@ public class RegisterActivity extends AppCompatActivity {
                                         if(response.equals("{\"status\" : \"user already exists\"}")) {
                                             ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
                                         }
-                                        if(response.equals("{\"status\" : \"password too short\"}")) {
+                                        else if(response.equals("{\"status\" : \"password too short\"}")) {
                                             ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                        }
+                                        else if(response.equals("")) {
+                                            ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
+                                        }
+                                        else if (response.equals("{\"status\" : \"empty requests\"}")) {
+                                            ToastManager.showToast(RegisterActivity.this, "Ein Fehler ist aufgetreten! \n Error: Empty Requests", Toast.LENGTH_LONG);
+                                        }
+                                        else if (response.equals("{\"status\" : \"username already exists\"}")) {
+                                            ToastManager.showToast(RegisterActivity.this, "Der Benutzername ist bereits vergeben!", Toast.LENGTH_LONG);
+                                        }
+                                        else if (response.equals("{\"status\" : \"email already exists\"}")) {
+                                            ToastManager.showToast(RegisterActivity.this, "Die email ist bereits vergeben!", Toast.LENGTH_LONG);
                                         }
 
                                     }
