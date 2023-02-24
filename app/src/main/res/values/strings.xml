@@ -3,4 +3,6 @@
     <string name="platzhalter_icon">Platzhalter Icon</string>
     <string name="suchen">Suchen</string>
     <string name="such_icon">Such-Icon</string>
+    <string name="meine_listen">Meine Listen</string>
+    <string name="content_desc_add_button">Add Button</string>
 </resources>

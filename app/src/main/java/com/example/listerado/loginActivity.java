@@ -31,7 +31,7 @@ import java.util.Objects;
 
 public class loginActivity extends AppCompatActivity {
 
-    String jsonUsername, jsonEmail, jsonStatus;
+    String jsonUsername, jsonEmail, jsonStatus, id;
     EditText edUsername, edPassword;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
@@ -133,7 +133,7 @@ public class loginActivity extends AppCompatActivity {
                                                 jsonStatus = jsonObject.getString("status");
                                                 jsonUsername = jsonObject.getString("username");
                                                 jsonEmail = jsonObject.getString("email");
-                                                int id = jsonObject.getInt("id");
+                                                id = jsonObject.getString("id");
                                             } catch (JSONException e) {
                                                 throw new RuntimeException(e);
                                             }
@@ -157,6 +157,7 @@ public class loginActivity extends AppCompatActivity {
                                                 editor.putString("username", jsonUsername);
                                                 editor.putString("email", jsonEmail);
                                                 editor.putString("password", edPassword.getText().toString());
+                                                editor.putString("id", id);
                                                 editor.apply();
 
 

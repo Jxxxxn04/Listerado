@@ -109,23 +109,25 @@ public class RegisterActivity extends AppCompatActivity {
                                             editor.apply();
 
                                         }
-                                        if(response.equals("{\"status\" : \"user already exists\"}")) {
-                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
-                                        }
-                                        else if(response.equals("{\"status\" : \"password too short\"}")) {
-                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
-                                        }
-                                        else if(response.equals("")) {
-                                            ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
-                                        }
-                                        else if (response.equals("{\"status\" : \"empty requests\"}")) {
-                                            ToastManager.showToast(RegisterActivity.this, "Ein Fehler ist aufgetreten! \n Error: Empty Requests", Toast.LENGTH_LONG);
-                                        }
-                                        else if (response.equals("{\"status\" : \"username already exists\"}")) {
-                                            ToastManager.showToast(RegisterActivity.this, "Der Benutzername ist bereits vergeben!", Toast.LENGTH_LONG);
-                                        }
-                                        else if (response.equals("{\"status\" : \"email already exists\"}")) {
-                                            ToastManager.showToast(RegisterActivity.this, "Die email ist bereits vergeben!", Toast.LENGTH_LONG);
+                                        switch (response) {
+                                            case "{\"status\" : \"user already exists\"}":
+                                                ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                                break;
+                                            case "{\"status\" : \"password too short\"}":
+                                                ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                                break;
+                                            case "":
+                                                ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
+                                                break;
+                                            case "{\"status\" : \"empty requests\"}":
+                                                ToastManager.showToast(RegisterActivity.this, "Ein Fehler ist aufgetreten! \n Error: Empty Requests", Toast.LENGTH_LONG);
+                                                break;
+                                            case "{\"status\" : \"username already exists\"}":
+                                                ToastManager.showToast(RegisterActivity.this, "Der Benutzername ist bereits vergeben!", Toast.LENGTH_LONG);
+                                                break;
+                                            case "{\"status\" : \"email already exists\"}":
+                                                ToastManager.showToast(RegisterActivity.this, "Die email ist bereits vergeben!", Toast.LENGTH_LONG);
+                                                break;
                                         }
 
                                     }
