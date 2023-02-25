@@ -44,7 +44,7 @@
 
 
         <LinearLayout
-            android:id="@+id/linearlayout_username"
+            android:id="@+id/register_linearlayout_username"
             android:layout_width="290dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
@@ -70,7 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearlayout_email"
+            android:id="@+id/register_linearlayout_email"
             android:layout_width="290dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
@@ -96,18 +96,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearlayout_password"
+            android:id="@+id/register_linearlayout_password"
             android:layout_width="290dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_for_login"
             android:gravity="left|center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
 
             <EditText
                 android:id="@+id/editTextRegisterPassword"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:autofillHints=""
@@ -119,10 +119,18 @@
                 android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
                 android:textSize="15sp" />
+
+
+            <ImageView
+                android:id="@+id/register_showPassword"
+                android:paddingStart="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_show_password"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearlayout_confirm"
+            android:id="@+id/register_linearlayout_confirm"
             android:layout_width="290dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"

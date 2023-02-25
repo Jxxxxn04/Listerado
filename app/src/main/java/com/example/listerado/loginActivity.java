@@ -6,9 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +40,11 @@ public class loginActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
+    LinearLayout layout_username, layout_password;
+    ImageView showPasswordImage;
 
     private long mLastClickTime = 0;
+    private int currentImage = 0;
 
 
     @SuppressLint("MissingInflatedId")
@@ -50,9 +58,11 @@ public class loginActivity extends AppCompatActivity {
         btn = findViewById(R.id.buttonLogin);
         tvSwitchtoRegister = findViewById(R.id.textViewSwitchToRegister);
         tvPasswordForgot = findViewById(R.id.textViewPasswordReset);
+        layout_password = findViewById(R.id.login_linearlayout_password);
+        layout_username = findViewById(R.id.login_linearlayout_username);
+        showPasswordImage = findViewById(R.id.login_showPassword);
 
         
-
 
 
 
@@ -86,7 +96,7 @@ public class loginActivity extends AppCompatActivity {
         // Überprüfen Sie, ob ein Benutzername und Passwort gespeichert sind
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
 
-
+            //TODO Abfrage ob gespeicherte Daten immernoch in der Datenbank vorhanden sind
 
 
 
@@ -122,20 +132,17 @@ public class loginActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(String response) {
 
-                                            JSONObject jsonObject;
                                             try {
-                                                jsonObject = new JSONObject(response);
-                                            } catch (JSONException e) {
-                                                throw new RuntimeException(e);
-                                            }
-
-                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
                                                 jsonStatus = jsonObject.getString("status");
                                                 jsonUsername = jsonObject.getString("username");
                                                 jsonEmail = jsonObject.getString("email");
                                                 id = jsonObject.getString("id");
+
+
                                             } catch (JSONException e) {
-                                                throw new RuntimeException(e);
+                                                ToastManager.showToast(loginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                                e.printStackTrace();
                                             }
 
 
@@ -147,6 +154,9 @@ public class loginActivity extends AppCompatActivity {
                                                 mLastClickTime = SystemClock.elapsedRealtime();
 
                                                 ToastManager.showToast(loginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
+
+                                                layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                                layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
 
 
                                                 startActivity(new Intent(loginActivity.this, homepageActivity.class));
@@ -162,7 +172,9 @@ public class loginActivity extends AppCompatActivity {
 
 
                                             } else {
-                                                ToastManager.showToast(loginActivity.this, "Failed Login!", Toast.LENGTH_SHORT);
+                                                ToastManager.showToast(loginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
+                                                layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                                layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
                                             }
                                         }
 
@@ -188,6 +200,63 @@ public class loginActivity extends AppCompatActivity {
                     };
                 });
             }
+
+
+        edUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_password.setBackgroundResource(R.drawable.rectangle_for_login);
+                layout_username.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_password.setBackgroundResource(R.drawable.rectangle_for_login);
+                layout_username.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        showPasswordImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Passwort wird versteckt
+                if(currentImage == 0) {
+                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
+                    currentImage = 1;
+                    edPassword.setTransformationMethod(null);
+                }   else    {
+                    //Passwort wird angezeigt
+                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
+                    currentImage = 0;
+                    edPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
+            }
+        });
+
+
+
         }
 }
 

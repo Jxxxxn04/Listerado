@@ -44,6 +44,7 @@
 
 
         <LinearLayout
+            android:id="@+id/login_linearlayout_username"
             android:layout_width="290dp"
             android:layout_height="60dp"
             android:background="@drawable/rectangle_for_login"
@@ -69,16 +70,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/login_linearlayout_password"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:orientation="vertical"
             android:background="@drawable/rectangle_for_login"
-            android:gravity="left|center">
+            android:gravity="left|center"
+            android:orientation="horizontal">
 
 
             <EditText
                 android:id="@+id/editTextLoginPassword"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
@@ -89,6 +91,13 @@
                 android:textColor="#A1303032"
                 android:textColorHint="#9A9A9A"
                 android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/login_showPassword"
+                android:paddingStart="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_show_password"/>
 
 
         </LinearLayout>

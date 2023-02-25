@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button btn;
     TextView tv;
     LinearLayout layout_username, layout_email, layout_password, layout_confirm;
+    ImageView showPasswordImage;
+    private int currentImage = 0;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +48,18 @@ public class RegisterActivity extends AppCompatActivity {
         edConfirm = findViewById(R.id.editTextRegisterConfirm);
         btn = findViewById(R.id.buttonRegister);
         tv = findViewById(R.id.textViewSwitchToLogin);
-        layout_username = findViewById(R.id.linearlayout_username);
-        layout_email = findViewById(R.id.linearlayout_email);
-        layout_password = findViewById(R.id.linearlayout_password);
-        layout_confirm = findViewById(R.id.linearlayout_confirm);
+        layout_username = findViewById(R.id.register_linearlayout_username);
+        layout_email = findViewById(R.id.register_linearlayout_email);
+        layout_password = findViewById(R.id.register_linearlayout_password);
+        layout_confirm = findViewById(R.id.register_linearlayout_confirm);
+        showPasswordImage = findViewById(R.id.register_showPassword);
 
 
 
 
 
+
+        //edPassword.setInputType();
 
 
         // Holen Sie die SharedPreferences-Instanz
@@ -107,8 +114,13 @@ public class RegisterActivity extends AppCompatActivity {
                                         System.out.println("\n\n\n\n\n\n\n\n\n"+ response + "\n\n\n\n\n\n\n\n\n");
 
                                         if(response.equals("{\"status\" : \"user created\"}")) {
+                                            layout_confirm.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                            layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                            layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                            layout_email.setBackgroundResource(R.drawable.success_field_for_text_input);
+
                                             startActivity(new Intent(RegisterActivity.this, homepageActivity.class));
-                                            ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                            ToastManager.showToast(RegisterActivity.this, "Erfolgreich Registriert!", Toast.LENGTH_SHORT);
                                             editor.putString("username", edUsername.getText().toString());
                                             editor.putString("password", edPassword.getText().toString());
                                             editor.putString("email", edEmail.getText().toString());
@@ -118,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         switch (response) {
                                             case "{\"status\" : \"password too short\"}":
                                                 ToastManager.showToast(RegisterActivity.this, "Das Passwort ist zu kurz!", Toast.LENGTH_SHORT);
-                                                layout_password.setBackgroundResource(R.drawable.testtest);
+                                                layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
                                                 break;
                                             case "":
                                                 ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
@@ -128,15 +140,15 @@ public class RegisterActivity extends AppCompatActivity {
                                                 break;
                                             case "{\"status\" : \"username already exists\"}":
                                                 ToastManager.showToast(RegisterActivity.this, "Der Benutzername ist bereits vergeben!", Toast.LENGTH_LONG);
-                                                layout_username.setBackgroundResource(R.drawable.testtest);
+                                                layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
                                                 break;
                                             case "{\"status\" : \"email already exists\"}":
                                                 ToastManager.showToast(RegisterActivity.this, "Die Email ist bereits vergeben!", Toast.LENGTH_LONG);
-                                                layout_email.setBackgroundResource(R.drawable.testtest);
+                                                layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
                                                 break;
                                             case "{\"status\" : \"invalid email\"}":
                                                 ToastManager.showToast(RegisterActivity.this, "Bitte gib eine richtige Email an!", Toast.LENGTH_LONG);
-                                                layout_email.setBackgroundResource(R.drawable.testtest);
+                                                layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
                                                 break;
                                         }
 
@@ -165,8 +177,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                     } else {
                         ToastManager.showToast(RegisterActivity.this, "Passwörter stimmen nicht über ein!", Toast.LENGTH_SHORT);
-                        layout_confirm.setBackgroundResource(R.drawable.testtest);
-                        layout_password.setBackgroundResource(R.drawable.testtest);
+                        layout_confirm.setBackgroundResource(R.drawable.error_field_for_text_input);
+                        layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
 
                     }
                 }
@@ -246,6 +258,33 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
+        showPasswordImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Passwort wird versteckt
+                if(currentImage == 0) {
+                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
+                    currentImage = 1;
+                    edPassword.setTransformationMethod(null);
+                    edConfirm.setTransformationMethod(null);
+                    //System.out.println("\n\n\n\n\n\n\n\n\n"+ currentImage + "\n\n\n\n\n\n\n\n\n");
+                }   else    {
+                    //Passwort wird angezeigt
+                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
+                    currentImage = 0;
+                    edPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    edConfirm.setTransformationMethod(new PasswordTransformationMethod());
+                    //System.out.println("\n\n\n\n\n\n\n\n\n"+ currentImage + "\n\n\n\n\n\n\n\n\n");
+                }
+            }
+        });
+
+
+
+
+
+
     }
 
 

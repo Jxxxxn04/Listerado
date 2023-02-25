@@ -122,17 +122,35 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/icon_settings" />
+                android:src="@mipmap/icon_add_user" />
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/icon_settings" />
+                android:src="@mipmap/icon_trashcan" />
 
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </ListView>
+
+    </ScrollView>
+
+
+
 
 </LinearLayout>
