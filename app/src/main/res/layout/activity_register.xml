@@ -44,12 +44,13 @@
 
 
         <LinearLayout
+            android:id="@+id/linearlayout_username"
             android:layout_width="290dp"
             android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_for_login"
             android:gravity="left|center"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
 
             <EditText
@@ -69,12 +70,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearlayout_email"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_for_login"
             android:gravity="left|center"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
 
             <EditText
@@ -94,12 +96,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearlayout_password"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_for_login"
             android:gravity="left|center"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
 
             <EditText
@@ -119,12 +122,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearlayout_confirm"
             android:layout_width="290dp"
             android:layout_height="60dp"
-            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_for_login"
             android:gravity="left|center"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
 
             <EditText
