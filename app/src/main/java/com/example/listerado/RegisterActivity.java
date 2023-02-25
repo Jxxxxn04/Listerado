@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         }
                                         switch (response) {
                                             case "{\"status\" : \"password too short\"}":
-                                                ToastManager.showToast(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT);
+                                                ToastManager.showToast(RegisterActivity.this, "Das Passwort ist zu kurz!", Toast.LENGTH_SHORT);
                                                 layout_password.setBackgroundResource(R.drawable.testtest);
                                                 break;
                                             case "":
@@ -129,7 +131,11 @@ public class RegisterActivity extends AppCompatActivity {
                                                 layout_username.setBackgroundResource(R.drawable.testtest);
                                                 break;
                                             case "{\"status\" : \"email already exists\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Die email ist bereits vergeben!", Toast.LENGTH_LONG);
+                                                ToastManager.showToast(RegisterActivity.this, "Die Email ist bereits vergeben!", Toast.LENGTH_LONG);
+                                                layout_email.setBackgroundResource(R.drawable.testtest);
+                                                break;
+                                            case "{\"status\" : \"invalid email\"}":
+                                                ToastManager.showToast(RegisterActivity.this, "Bitte gib eine richtige Email an!", Toast.LENGTH_LONG);
                                                 layout_email.setBackgroundResource(R.drawable.testtest);
                                                 break;
                                         }
@@ -160,9 +166,90 @@ public class RegisterActivity extends AppCompatActivity {
                     } else {
                         ToastManager.showToast(RegisterActivity.this, "Passwörter stimmen nicht über ein!", Toast.LENGTH_SHORT);
                         layout_confirm.setBackgroundResource(R.drawable.testtest);
+                        layout_password.setBackgroundResource(R.drawable.testtest);
 
                     }
                 }
             }
             });
-}}
+
+
+
+
+        edUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_username.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+
+        edEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_email.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_password.setBackgroundResource(R.drawable.rectangle_for_login);
+                layout_confirm.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edConfirm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                layout_password.setBackgroundResource(R.drawable.rectangle_for_login);
+                layout_confirm.setBackgroundResource(R.drawable.rectangle_for_login);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+
+
+
+
+}
