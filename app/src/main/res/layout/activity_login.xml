@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/login_parent_linearlayout">
 
 
     <LinearLayout

@@ -1,6 +1,7 @@
 package com.example.listerado;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,11 +10,15 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +42,12 @@ import java.util.Objects;
 public class loginActivity extends AppCompatActivity {
 
     String jsonUsername, jsonEmail, jsonStatus, id;
-    EditText edUsername, edPassword;
+    EditText edUsername, edPassword, popupSendText;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
-    LinearLayout layout_username, layout_password;
-    ImageView showPasswordImage;
+    LinearLayout layout_username, layout_password, parentLayout;
+    ImageView showPasswordImage, popupSendImage, popupCancelImage;
+    PopupWindow popupWindow;
 
     private long mLastClickTime = 0;
     private int currentImage = 0;
@@ -61,10 +67,7 @@ public class loginActivity extends AppCompatActivity {
         layout_password = findViewById(R.id.login_linearlayout_password);
         layout_username = findViewById(R.id.login_linearlayout_username);
         showPasswordImage = findViewById(R.id.login_showPassword);
-
-        
-
-
+        parentLayout = findViewById(R.id.login_parent_linearlayout);
 
 
 
@@ -74,10 +77,6 @@ public class loginActivity extends AppCompatActivity {
 
         // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-
-
 
 
 
@@ -220,6 +219,7 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
+        //Change the Background of Inputs if something is wrong with the Login
         edPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -238,6 +238,8 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
+
+        //Passwort wird angezeigt und versteckt
         showPasswordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,6 +254,41 @@ public class loginActivity extends AppCompatActivity {
                     currentImage = 0;
                     edPassword.setTransformationMethod(new PasswordTransformationMethod());
                 }
+            }
+        });
+
+        tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = (LayoutInflater) loginActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                ViewGroup parent = findViewById(android.R.id.content);
+                View customView = layoutInflater.inflate(R.layout.forgot_password_popup, parent, false);
+
+                popupCancelImage = customView.findViewById(R.id.popup_cancel);
+                popupSendImage = customView.findViewById(R.id.popup_send);
+                popupSendText = customView.findViewById(R.id.popup_ed_email);
+
+
+
+                popupWindow = new PopupWindow(customView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                popupWindow.showAtLocation(parentLayout, Gravity.CENTER, 0,0);
+
+                popupCancelImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupWindow.dismiss();
+                    }
+                });
+
+                popupSendImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastManager.showToast(loginActivity.this, "Nix wurde gesendet! :3", Toast.LENGTH_SHORT);
+                        //TODO popupSendText ist die Email bei welcher das Passwort zurückgesetzt werden soll, muss noch implementiert werden
+                    }
+                });
+
+
             }
         });
 
