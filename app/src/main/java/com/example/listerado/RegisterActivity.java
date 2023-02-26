@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(RegisterActivity.this, loginActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
                                             layout_email.setBackgroundResource(R.drawable.success_field_for_text_input);
 
-                                            startActivity(new Intent(RegisterActivity.this, homepageActivity.class));
+                                            startActivity(new Intent(RegisterActivity.this, HomepageActivity.class));
                                             ToastManager.showToast(RegisterActivity.this, "Erfolgreich Registriert!", Toast.LENGTH_SHORT);
                                             editor.putString("username", edUsername.getText().toString());
                                             editor.putString("password", edPassword.getText().toString());

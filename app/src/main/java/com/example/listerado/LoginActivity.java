@@ -1,7 +1,6 @@
 package com.example.listerado;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +9,7 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +24,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -39,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class loginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     String jsonUsername, jsonEmail, jsonStatus, id;
     EditText edUsername, edPassword, popupSendText;
@@ -72,135 +67,129 @@ public class loginActivity extends AppCompatActivity {
 
 
 
-        // Holen Sie die SharedP references-Instanz
+        // Create SharedP references-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
-        // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
+        // Create an Editor for saving Data in SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
 
-        tvSwitchtoRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(loginActivity.this, RegisterActivity.class));
-                finish();
+        //Switch Activity to RegisterActivity
+        tvSwitchtoRegister.setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            finish();
 
-            }
         });
 
 
-        // Holen Sie die SharedPreferences-Instanz
 
-        // Überprüfen Sie, ob ein Benutzername und Passwort gespeichert sind
+        //Check if SharedPrefernces file contains Username, Password and Email
+        //If true set Activity to HomepageActivity
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
-
             //TODO Abfrage ob gespeicherte Daten immernoch in der Datenbank vorhanden sind
-
-
-
-
-
-            startActivity(new Intent(this, homepageActivity.class));
+            startActivity(new Intent(this, HomepageActivity.class));
             finish();
+
+        //If false load LoginActivity
         } else {
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                btn.setOnClickListener(view -> {
+
+
+                    Volley.newRequestQueue(LoginActivity.this);
+                    String url = "http://bfi.bbs-me.org:2536/api/login.php";
+
+
+                    // Variables of EditText to get the Entry-String
+                    String username = edUsername.getText().toString();
+                    String password = edPassword.getText().toString();
 
 
 
-                        RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
-                        String url = "http://bfi.bbs-me.org:2536/api/login.php";
+                    //Checks if Input Fields are empty
+                    if (username.length() == 0 || password.length() == 0) {
+                        ToastManager.showToast(LoginActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
+                    } else {
+
+                        //Post request
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                        //Breaks up the JSON response into several variables
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            jsonStatus = jsonObject.getString("status");
+                                            jsonUsername = jsonObject.getString("username");
+                                            jsonEmail = jsonObject.getString("email");
+                                            id = jsonObject.getString("id");
 
 
-                        // Variables of EditText to get the Entry-String
-                        String username = edUsername.getText().toString();
-                        String password = edPassword.getText().toString();
-
-
-
-
-                        if (username.length() == 0 || password.length() == 0) {
-                            ToastManager.showToast(loginActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
-                        } else {
-
-                            //Post request
-                            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-
-                                            try {
-                                                JSONObject jsonObject = new JSONObject(response);
-                                                jsonStatus = jsonObject.getString("status");
-                                                jsonUsername = jsonObject.getString("username");
-                                                jsonEmail = jsonObject.getString("email");
-                                                id = jsonObject.getString("id");
-
-
-                                            } catch (JSONException e) {
-                                                ToastManager.showToast(loginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
-                                                e.printStackTrace();
-                                            }
-
-
-                                            System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
-                                            if(Objects.equals(jsonStatus, "login successfully")) {
-                                                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
-                                                    return;
-                                                }
-                                                mLastClickTime = SystemClock.elapsedRealtime();
-
-                                                ToastManager.showToast(loginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
-
-                                                layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
-                                                layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
-
-
-                                                startActivity(new Intent(loginActivity.this, homepageActivity.class));
-                                                finish();
-
-
-                                                //Username, Email, Passwort werden in die SharedPreferences geschrieben
-                                                editor.putString("username", jsonUsername);
-                                                editor.putString("email", jsonEmail);
-                                                editor.putString("password", edPassword.getText().toString());
-                                                editor.putString("id", id);
-                                                editor.apply();
-
-
-                                            } else {
-                                                ToastManager.showToast(loginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
-                                                layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                                layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                            }
+                                        } catch (JSONException e) {
+                                            ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                            e.printStackTrace();
                                         }
 
-                                    },
-                                    new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            ToastManager.showToast(loginActivity.this, "Failed", Toast.LENGTH_LONG);
+
+                                        //System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
+
+
+                                        //Checks whether the Login was Successful or not
+                                        if(Objects.equals(jsonStatus, "login successfully")) {
+                                            if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
+                                                return;
+                                            }
+                                            mLastClickTime = SystemClock.elapsedRealtime();
+
+                                            ToastManager.showToast(LoginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
+                                            layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                            layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
+
+                                            startActivity(new Intent(LoginActivity.this, HomepageActivity.class));
+                                            finish();
+
+                                            //Write Username, Email, Password and ID in SharedPreferences File
+                                            editor.putString("username", jsonUsername);
+                                            editor.putString("email", jsonEmail);
+                                            editor.putString("password", edPassword.getText().toString());
+                                            editor.putString("id", id);
+                                            //Save the file and apply changes
+                                            editor.apply();
+
+
+                                        } else {
+                                            //Set the Background of all inputs to red
+                                            ToastManager.showToast(LoginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
+                                            layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                            layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
                                         }
                                     }
-                            ) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    Map<String, String> params = new HashMap<String, String>();
-                                    params.put("name", edUsername.getText().toString());
-                                    params.put("password", edPassword.getText().toString());
-                                    return params;
+
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ToastManager.showToast(LoginActivity.this, "Failed", Toast.LENGTH_LONG);
+                                    }
                                 }
-                            };
-                            //queue.add(postRequest);
-                            MySingleton.getInstance(loginActivity.this).addToRequestQueue(postRequest);
-                        }
-                    };
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("name", edUsername.getText().toString());
+                                params.put("password", edPassword.getText().toString());
+                                return params;
+                            }
+                        };
+                        //queue.add(postRequest);
+                        MySingleton.getInstance(LoginActivity.this).addToRequestQueue(postRequest);
+                    }
                 });
             }
 
 
+        //Changes the Background of all Inputs to normal if text is changed
         edUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -219,7 +208,7 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-        //Change the Background of Inputs if something is wrong with the Login
+        //Changes the Backround of all Inputs to normal if text is changed
         edPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -239,7 +228,7 @@ public class loginActivity extends AppCompatActivity {
         });
 
 
-        //Passwort wird angezeigt und versteckt
+        //Changes whether the Password can be seen or not
         showPasswordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -257,7 +246,10 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
-        tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
+
+        //Popup Window (sucks)
+
+        /*tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater layoutInflater = (LayoutInflater) loginActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -290,7 +282,7 @@ public class loginActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
 
 
 

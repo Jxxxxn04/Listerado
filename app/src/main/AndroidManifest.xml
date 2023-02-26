@@ -24,7 +24,7 @@
              />
 
         <activity
-            android:name=".loginActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -34,14 +34,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".accountActivity"
+            android:name=".AccountActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".homepageActivity"
+            android:name=".HomepageActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".myListsActivity"
+            android:name=".MyListsActivity"
             android:screenOrientation="portrait"
             android:exported="true"/>
 

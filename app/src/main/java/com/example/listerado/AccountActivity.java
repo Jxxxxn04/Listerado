@@ -5,34 +5,34 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class accountActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
 
-    TextView username, email;
+    TextView username, email,logoutButton;
+    LinearLayout changeUsernameLayoutButton, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout;
+    Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        LinearLayout changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
-
-        LinearLayout NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
-
-        TextView logoutButton = findViewById(R.id.logout_Button);
-        logoutButton.bringToFront();
-
+        changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
+        NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
+        NAV_account_goTomyListLayout = findViewById(R.id.account_navigation_goToMyList);
         username = findViewById(R.id.myAccount_username);
         email = findViewById(R.id.myAccount_email);
+        logoutButton = findViewById(R.id.logout_Button);
+        logoutButton.bringToFront();
 
-        Intent switchToHomepageIntent = new Intent(this, homepageActivity.class);
-        Intent switchToLoginActivity = new Intent(this, loginActivity.class);
+
+        switchToHomepageIntent = new Intent(this, HomepageActivity.class);
+        switchToLoginActivity = new Intent(this, LoginActivity.class);
+        switchToMyListsActivity = new Intent(this, MyListsActivity.class);
 
         // Holen Sie die SharedPreferences-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
@@ -43,7 +43,6 @@ public class accountActivity extends AppCompatActivity {
         String savedUsername = sharedPreferences.getString("username", "");
         String savedEmail = sharedPreferences.getString("email", "");
 
-        //System.out.println("\n\n\n\n\n\n\n\n"+ savedUsername+ "\n\n\n\n\n\n\n\n\n");
 
         username.setText(savedUsername);
         email.setText(savedEmail);
@@ -55,6 +54,15 @@ public class accountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(switchToHomepageIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+        });
+
+        NAV_account_goTomyListLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(switchToMyListsActivity);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
