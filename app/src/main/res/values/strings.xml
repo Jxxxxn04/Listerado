@@ -5,4 +5,5 @@
     <string name="such_icon">Such-Icon</string>
     <string name="meine_listen">Meine Listen</string>
     <string name="content_desc_add_button">Add Button</string>
+    <string name="account_loeschen">Account <b>Löschen</b>?  </string>
 </resources>

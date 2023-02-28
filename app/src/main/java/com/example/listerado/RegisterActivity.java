@@ -304,6 +304,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+
+
         showPasswordImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,6 +316,8 @@ public class RegisterActivity extends AppCompatActivity {
                     edPassword.setTransformationMethod(null);
                     edConfirm.setTransformationMethod(null);
                     //System.out.println("\n\n\n\n\n\n\n\n\n"+ currentImage + "\n\n\n\n\n\n\n\n\n");
+                    edPassword.setSelection(edPassword.getText().length());
+                    edConfirm.setSelection(edConfirm.getText().length());
                 }   else    {
                     //Passwort wird angezeigt
                     showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
@@ -321,9 +325,13 @@ public class RegisterActivity extends AppCompatActivity {
                     edPassword.setTransformationMethod(new PasswordTransformationMethod());
                     edConfirm.setTransformationMethod(new PasswordTransformationMethod());
                     //System.out.println("\n\n\n\n\n\n\n\n\n"+ currentImage + "\n\n\n\n\n\n\n\n\n");
+                    edPassword.setSelection(edPassword.getText().length());
+                    edConfirm.setSelection(edConfirm.getText().length());
                 }
             }
         });
+
+
 
 
 
