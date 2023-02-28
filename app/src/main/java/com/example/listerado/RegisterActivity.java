@@ -25,11 +25,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    String jsonStatus, jsonMessage, jsonID;
     EditText edUsername, edEmail, edPassword, edConfirm;
     Button btn;
     TextView tv;
@@ -53,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         layout_password = findViewById(R.id.register_linearlayout_password);
         layout_confirm = findViewById(R.id.register_linearlayout_confirm);
         showPasswordImage = findViewById(R.id.register_showPassword);
+        showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
 
 
 
@@ -110,47 +116,85 @@ public class RegisterActivity extends AppCompatActivity {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-
+                                        JSONObject jsonObject = null;
+                                        try {
+                                            jsonObject = new JSONObject(response);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                         System.out.println("\n\n\n\n\n\n\n\n\n"+ response + "\n\n\n\n\n\n\n\n\n");
 
-                                        if(response.equals("{\"status\" : \"user created\"}")) {
+                                        //Breaks up the JSON response into several variables
+                                        try {
+
+                                            if(jsonObject.has("id")) {
+                                                jsonID = jsonObject.getString("id");
+                                            }
+                                            if (jsonObject.has("status")) {
+                                                jsonStatus = jsonObject.getString("status");
+                                            }
+
+                                            jsonMessage = jsonObject.getString("message");
+
+
+
+                                        } catch (JSONException e) {
+                                            ToastManager.showToast(RegisterActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                            e.printStackTrace();
+                                            System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: "+ jsonObject + "\nJsonStatus: " + jsonStatus + "\njsonMessage: " + jsonMessage + "\n\n\n\n\n\n\n\n\n");
+                                        }
+
+                                        if(Objects.equals(jsonStatus, "200")) {
                                             layout_confirm.setBackgroundResource(R.drawable.success_field_for_text_input);
                                             layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
                                             layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
                                             layout_email.setBackgroundResource(R.drawable.success_field_for_text_input);
 
                                             startActivity(new Intent(RegisterActivity.this, HomepageActivity.class));
-                                            ToastManager.showToast(RegisterActivity.this, "Erfolgreich Registriert!", Toast.LENGTH_SHORT);
+                                            ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_SHORT);
+
+                                            //TODO The ID has to be written in SharedPreferences
                                             editor.putString("username", edUsername.getText().toString());
                                             editor.putString("password", edPassword.getText().toString());
                                             editor.putString("email", edEmail.getText().toString());
+                                            editor.putString("id", jsonID);
                                             editor.apply();
 
+                                            ToastManager.showToast(RegisterActivity.this, jsonID, Toast.LENGTH_LONG);
+
+                                        } else {
+                                            try {
+                                                switch (jsonMessage) {
+                                                    case "Passwort zu kurz":
+                                                        ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_SHORT);
+                                                        layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                                        break;
+                                                    case "":
+                                                        ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
+                                                        break;
+                                                    case "Alle Felder ausfüllen":
+                                                        ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_LONG);
+                                                        break;
+                                                    case "Benutzername bereits vergeben":
+                                                    case "Benutzername enthält ungültige Zeichen":
+                                                        ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_LONG);
+                                                        layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                                        break;
+                                                    case "Ungültige Email Adresse":
+                                                    case "Email Adresse bereits vergeben":
+                                                        ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_LONG);
+                                                        layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }   catch (Exception e) {
+                                                ToastManager.showToast(RegisterActivity.this, "Error:\njsonMessage is null!", Toast.LENGTH_LONG);
+                                                e.printStackTrace();
+                                            }
                                         }
-                                        switch (response) {
-                                            case "{\"status\" : \"password too short\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Das Passwort ist zu kurz!", Toast.LENGTH_SHORT);
-                                                layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                                break;
-                                            case "":
-                                                ToastManager.showToast(RegisterActivity.this, "Problem bei API aufgetreten! \n Error: Keine Rückgabe von API bekommen", Toast.LENGTH_LONG);
-                                                break;
-                                            case "{\"status\" : \"empty requests\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Ein Fehler ist aufgetreten! \n Error: Empty Requests", Toast.LENGTH_LONG);
-                                                break;
-                                            case "{\"status\" : \"username already exists\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Der Benutzername ist bereits vergeben!", Toast.LENGTH_LONG);
-                                                layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                                break;
-                                            case "{\"status\" : \"email already exists\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Die Email ist bereits vergeben!", Toast.LENGTH_LONG);
-                                                layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                                break;
-                                            case "{\"status\" : \"invalid email\"}":
-                                                ToastManager.showToast(RegisterActivity.this, "Bitte gib eine richtige Email an!", Toast.LENGTH_LONG);
-                                                layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                                break;
-                                        }
+
+
 
                                     }
 
@@ -168,6 +212,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 params.put("username", edUsername.getText().toString());
                                 params.put("email", edEmail.getText().toString());
                                 params.put("password", edPassword.getText().toString());
+                                params.put("password_confirm", edConfirm.getText().toString());
                                 return params;
                             }
                         };
@@ -264,14 +309,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Passwort wird versteckt
                 if(currentImage == 0) {
-                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
+                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
                     currentImage = 1;
                     edPassword.setTransformationMethod(null);
                     edConfirm.setTransformationMethod(null);
                     //System.out.println("\n\n\n\n\n\n\n\n\n"+ currentImage + "\n\n\n\n\n\n\n\n\n");
                 }   else    {
                     //Passwort wird angezeigt
-                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
+                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
                     currentImage = 0;
                     edPassword.setTransformationMethod(new PasswordTransformationMethod());
                     edConfirm.setTransformationMethod(new PasswordTransformationMethod());

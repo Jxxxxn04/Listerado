@@ -9,7 +9,10 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +39,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String jsonUsername, jsonEmail, jsonStatus, id;
+    String jsonUsername, jsonEmail, jsonStatus, jsonID;
     EditText edUsername, edPassword, popupSendText;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
@@ -62,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         layout_password = findViewById(R.id.login_linearlayout_password);
         layout_username = findViewById(R.id.login_linearlayout_username);
         showPasswordImage = findViewById(R.id.login_showPassword);
+        showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
         parentLayout = findViewById(R.id.login_parent_linearlayout);
 
 
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     Volley.newRequestQueue(LoginActivity.this);
-                    String url = "http://bfi.bbs-me.org:2536/api/login.php";
+                    String url = "http://bfi.bbs-me.org:2536/api/loginUser.php";
 
 
                     // Variables of EditText to get the Entry-String
@@ -120,11 +124,19 @@ public class LoginActivity extends AppCompatActivity {
                                         //Breaks up the JSON response into several variables
                                         try {
                                             JSONObject jsonObject = new JSONObject(response);
-                                            jsonStatus = jsonObject.getString("status");
-                                            jsonUsername = jsonObject.getString("username");
-                                            jsonEmail = jsonObject.getString("email");
-                                            id = jsonObject.getString("id");
 
+                                            if(jsonObject.has("id")) {
+                                                jsonID = jsonObject.getString("id");
+                                            }
+                                            if (jsonObject.has("status")) {
+                                                jsonStatus = jsonObject.getString("status");
+                                            }
+                                            if (jsonObject.has("username")) {
+                                                jsonUsername = jsonObject.getString("username");
+                                            }
+                                            if (jsonObject.has("email")) {
+                                                jsonEmail = jsonObject.getString("email");
+                                            }
 
                                         } catch (JSONException e) {
                                             ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
@@ -136,7 +148,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                         //Checks whether the Login was Successful or not
-                                        if(Objects.equals(jsonStatus, "login successfully")) {
+                                        if(Objects.equals(jsonStatus, "200")) {
+                                            //Does that one cant spam the Login Button
                                             if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
                                                 return;
                                             }
@@ -153,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                                             editor.putString("username", jsonUsername);
                                             editor.putString("email", jsonEmail);
                                             editor.putString("password", edPassword.getText().toString());
-                                            editor.putString("id", id);
+                                            editor.putString("id", jsonID);
                                             //Save the file and apply changes
                                             editor.apply();
 
@@ -234,12 +247,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Passwort wird versteckt
                 if(currentImage == 0) {
-                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
+                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
                     currentImage = 1;
                     edPassword.setTransformationMethod(null);
                 }   else    {
                     //Passwort wird angezeigt
-                    showPasswordImage.setImageResource(R.mipmap.icon_show_password);
+                    showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
                     currentImage = 0;
                     edPassword.setTransformationMethod(new PasswordTransformationMethod());
                 }
@@ -252,7 +265,7 @@ public class LoginActivity extends AppCompatActivity {
         /*tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) loginActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater layoutInflater = (LayoutInflater) LoginActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 ViewGroup parent = findViewById(android.R.id.content);
                 View customView = layoutInflater.inflate(R.layout.forgot_password_popup, parent, false);
 
@@ -275,7 +288,7 @@ public class LoginActivity extends AppCompatActivity {
                 popupSendImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastManager.showToast(loginActivity.this, "Nix wurde gesendet! :3", Toast.LENGTH_SHORT);
+                        ToastManager.showToast(LoginActivity.this, "Nix wurde gesendet! :3", Toast.LENGTH_SHORT);
                         //TODO popupSendText ist die Email bei welcher das Passwort zurückgesetzt werden soll, muss noch implementiert werden
                     }
                 });

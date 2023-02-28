@@ -45,11 +45,18 @@ public class MyListsActivity extends AppCompatActivity {
         items.add("Element 1");
         items.add("Element 2");
         items.add("Element 3");
+        items.add("Element 4");
+        items.add("Element 5");
+        items.add("Element 6");
+        items.add("Element 7");
+        items.add("Element 8");
+        items.add("Element 9");
 
 
 
 
-        NAV_myList_goTomyAccountLayout.setOnClickListener(new View.OnClickListener() {
+
+        NAV_myList_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(switchToHomepageIntent);

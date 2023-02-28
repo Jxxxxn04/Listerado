@@ -70,8 +70,7 @@
         android:elevation="12dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_weight="0">
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:id="@+id/myList_navigation_goToMyProfile"

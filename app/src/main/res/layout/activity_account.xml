@@ -116,7 +116,7 @@
         android:layout_gravity="top"
         android:orientation="vertical"
         android:elevation="1dp"
-        android:background="#FFF"
+        android:background="#fff"
 
         android:layout_marginBottom="5dp">
 
@@ -135,6 +135,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/account_linearlayout_delete_user"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="top"
