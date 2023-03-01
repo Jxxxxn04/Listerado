@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     //Checks if Input Fields are empty
                     if (username.length() == 0 || password.length() == 0) {
-                        ToastManager.showToast(LoginActivity.this, "Bitte, fülle alle felder aus!", Toast.LENGTH_SHORT);
+                        ToastManager.showToast(LoginActivity.this, "Bitte, fülle alle Felder aus!", Toast.LENGTH_SHORT);
                     } else {
 
                         //Post request

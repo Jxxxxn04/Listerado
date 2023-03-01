@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="test1">#9a9a9a</color>
+    <color name="red_cancel_delete_user_button">#EE0000</color>
 </resources>

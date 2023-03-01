@@ -23,6 +23,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
 public class AccountActivity extends AppCompatActivity {
 
     Integer onClickedColorChange;
@@ -65,6 +79,7 @@ public class AccountActivity extends AppCompatActivity {
         String savedEmail = sharedPreferences.getString("email", "");
 
 
+
         username.setText(savedUsername);
         email.setText(savedEmail);
 
@@ -99,6 +114,7 @@ public class AccountActivity extends AppCompatActivity {
                 editor.remove("username");
                 editor.remove("password");
                 editor.remove("email");
+                editor.remove("id");
 
                 // Änderungen werden gespeichert
                 editor.apply();
@@ -116,112 +132,12 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        deleteUserLayoutButton.setOnClickListener(new View.OnClickListener() {
+        changeUsernameLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentLayout.setAlpha(0.5F);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.user_delete_template, null);
-                builder.setView(dialogView);
-
-                deletePasswordEditText = dialogView.findViewById(R.id.delete_user_edPassword);
-
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        parentLayout.setAlpha(1.0F);
-                        String password = deletePasswordEditText.getText().toString();
-                        // Delete user account
-                        // ...
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        parentLayout.setAlpha(1.0F);
-                    }
-                });
-
-                deleteUserDialog = builder.create();
-                deleteUserDialog.show();
+                showChangeUsernameDialog();
             }
         });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (deleteUserDialog != null) {
-            deleteUserDialog.dismiss();
-        }
-    }*/
-
-        /*
-        deleteUserLayoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentLayout.setAlpha(0.5F);
-                LayoutInflater layoutInflater = (LayoutInflater) AccountActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                ViewGroup parent = findViewById(android.R.id.content);
-                View customView = layoutInflater.inflate(R.layout.user_delete_template, parent, false);
-
-                delete_user_cancel_image = customView.findViewById(R.id.delete_user_cancel_icon);
-                delete_user_submit_image = customView.findViewById(R.id.delete_user_send_icon);
-
-                EditText editText = customView.findViewById(R.id.delete_user_edPassword);
-                editText.requestFocus();
-
-                // Tastatur öffnen
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-
-                int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
-                int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-
-                PopupWindow popupWindow = new PopupWindow(customView, width, height);
-                popupWindow.showAtLocation(deleteUserLayoutButton, Gravity.CENTER, 0,0);
-
-                delete_user_cancel_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                        parentLayout.setAlpha(1.0F);
-
-                        // Tastatur schließen
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
-                });
-
-                delete_user_submit_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ToastManager.showToast(AccountActivity.this, "Nix wurde gesendet! :3", Toast.LENGTH_SHORT);
-                        //TODO popupSendText ist die Email bei welcher das Passwort zurückgesetzt werden soll, muss noch implementiert werden
-                    }
-                });
-
-
-            }
-        });*/
 
 
     }
@@ -242,8 +158,107 @@ public class AccountActivity extends AppCompatActivity {
                 if (password.isEmpty()) {
                     Toast.makeText(AccountActivity.this, "Bitte Passwort eingeben", Toast.LENGTH_SHORT).show();
                 } else {
-                    //TODO: Delete user account
-                    Toast.makeText(AccountActivity.this, "Benutzerkonto gelöscht!", Toast.LENGTH_SHORT).show();
+                    Volley.newRequestQueue(AccountActivity.this);
+                    String url = "http://bfi.bbs-me.org:2536/api/deleteUser.php";
+                    // Holen Sie die SharedPreferences-Instanz
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String savedID = sharedPreferences.getString("id", "");
+                    String savedPassword = sharedPreferences.getString("password", "");
+
+                    final String[] jsonMessage = new String[1];
+                    final String[] jsonStatus = new String[1];
+
+
+                    //Checks if Input Fields are empty
+                    if (password.isEmpty()) {
+                        ToastManager.showToast(AccountActivity.this, "Bitte, fülle alle Felder aus!", Toast.LENGTH_SHORT);
+                    } else {
+                        if (!password.equals(savedPassword)) {
+                            ToastManager.showToast(AccountActivity.this, "Falsches Passwort!", Toast.LENGTH_SHORT);
+                        } else {
+                            //Post request
+                            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+                                            JSONObject jsonObject = null;
+                                            try {
+                                                jsonObject = new JSONObject(response);
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                            System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+
+
+                                            //Breaks up the JSON response into several variables
+                                            try {
+
+                                                if (jsonObject.has("status")) {
+                                                    jsonStatus[0] = jsonObject.getString("status");
+                                                }
+                                                if (jsonObject.has("message")) {
+                                                    jsonMessage[0] = jsonObject.getString("message");
+                                                }
+
+                                                System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                            } catch (JSONException e) {
+                                                ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                                e.printStackTrace();
+                                                System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
+                                            }
+
+
+                                            if (jsonStatus[0].equals("200")) {
+                                                //Account wurde erfolgreich gelöscht
+                                                ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+
+                                                // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
+                                                editor.remove("username");
+                                                editor.remove("password");
+                                                editor.remove("email");
+                                                editor.remove("id");
+
+                                                // Änderungen werden gespeichert
+                                                editor.apply();
+
+                                                startActivity(new Intent(AccountActivity.this, LoginActivity.class));
+                                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                                finish();
+
+                                            } else {
+                                                //Account löschen hat nicht funktioniert
+                                                ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                            }
+
+
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            ToastManager.showToast(AccountActivity.this, "Failed", Toast.LENGTH_LONG);
+                                        }
+                                    }
+                            ) {
+                                @Override
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<String, String>();
+                                    params.put("id", savedID);
+                                    params.put("password", edPassword.getText().toString());
+                                    return params;
+                                }
+                            };
+                            //queue.add(postRequest);
+                            MySingleton.getInstance(AccountActivity.this).addToRequestQueue(postRequest);
+                        }
+
+
+                    }
+
                 }
             }
         });
@@ -260,10 +275,151 @@ public class AccountActivity extends AppCompatActivity {
 
         //Set the custom icons for the dialog buttons
         Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        positiveButton.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_check, 0, 0, 0);
-        positiveButton.setTextColor(getResources().getColor(R.color.test1));
+        positiveButton.setTextColor(getResources().getColor(R.color.red_cancel_delete_user_button));
         Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        negativeButton.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_cancel, 0, 0, 0);
         negativeButton.setTextColor(getResources().getColor(R.color.test1));
     }
+
+
+    private void showChangeUsernameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.user_changeusername_template, null);
+        builder.setView(view);
+
+        final EditText edNewUsername = view.findViewById(R.id.changeUsername_edNewUsername);
+        final EditText edPassword = view.findViewById(R.id.changeUsername_edPassword);
+
+        builder.setPositiveButton("Ändern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newUsername = edNewUsername.getText().toString();
+                String password = edPassword.getText().toString().trim();
+                if (password.isEmpty() || newUsername.isEmpty()) {
+                    Toast.makeText(AccountActivity.this, "Bitte alle Felder ausfüllen", Toast.LENGTH_SHORT).show();
+                } else {
+                    Volley.newRequestQueue(AccountActivity.this);
+                    String url = "http://bfi.bbs-me.org:2536/api/changeUserName.php";
+
+                    // Holen Sie die SharedPreferences-Instanz
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String savedID = sharedPreferences.getString("id", "");
+                    String savedPassword = sharedPreferences.getString("password", "");
+
+                    final String[] jsonMessage = new String[1];
+                    final String[] jsonStatus = new String[1];
+
+
+                    //Checks if Input Fields are empty
+                    if (!password.equals(savedPassword)) {
+                        ToastManager.showToast(AccountActivity.this, "Falsches Passwort!", Toast.LENGTH_SHORT);
+                    } else {
+                        //Post request
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                        JSONObject jsonObject = null;
+                                        try {
+                                            jsonObject = new JSONObject(response);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+
+
+                                        //Breaks up the JSON response into several variables
+                                        try {
+
+                                            if (jsonObject.has("status")) {
+                                                jsonStatus[0] = jsonObject.getString("status");
+                                            }
+                                            if (jsonObject.has("message")) {
+                                                jsonMessage[0] = jsonObject.getString("message");
+                                            }
+
+
+                                            System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                        } catch (JSONException e) {
+                                            ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                            e.printStackTrace();
+                                            System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
+                                        }
+
+
+                                        if (jsonObject.has("status")) {
+                                            if (jsonStatus[0].equals("200")) {
+                                                //Benutzernamen erfolgreich geändert
+                                                editor.putString("username", edNewUsername.getText().toString());
+                                                editor.apply();
+                                                username.setText(edNewUsername.getText().toString());
+
+
+                                                ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+
+                                            }
+                                        } else {
+                                            //Fehler aufgetreten
+                                            ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                        }
+
+
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ToastManager.showToast(AccountActivity.this, "Failed", Toast.LENGTH_LONG);
+                                    }
+                                }
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("id", savedID);
+                                params.put("password", edPassword.getText().toString());
+                                params.put("new_username", edNewUsername.getText().toString());
+                                return params;
+                            }
+                        };
+                        //queue.add(postRequest);
+                        MySingleton.getInstance(AccountActivity.this).addToRequestQueue(postRequest);
+                    }
+
+
+                }
+
+            }
+
+        });
+
+        builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //Set the custom icons for the dialog buttons
+        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.red_cancel_delete_user_button));
+        Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        negativeButton.setTextColor(getResources().getColor(R.color.test1));
+
+
+    }
+
+
+    public void onBackPressed() {
+        startActivity(new Intent(AccountActivity.this, HomepageActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
+    }
+
 }

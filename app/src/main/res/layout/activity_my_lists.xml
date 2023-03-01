@@ -44,24 +44,19 @@
 
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        >
 
 
         <ListView
+            android:layout_marginTop="40dp"
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="600dp"
             android:dividerHeight="10.0sp"
             tools:listitem="@layout/my_lists_template">
 
 
         </ListView>
 
-    </ScrollView>
 
 
     <LinearLayout

@@ -97,6 +97,11 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
+    public void onBackPressed() {
+        startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
+    }
 
 
 }
