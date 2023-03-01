@@ -416,6 +416,25 @@ public class AccountActivity extends AppCompatActivity {
     }
 
 
+    public void showChangeEmailDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.user_changepassword_template, null);
+        builder.setView(view);
+
+        final EditText edOldPassword = view.findViewById(R.id.changePassword_edOldPassword);
+        final EditText edNewPassword = view.findViewById(R.id.changePassword_edNewPassword);
+        final EditText edConfirm = view.findViewById(R.id.changePassword_edConfirm);
+
+
+        builder.setPositiveButton("Ändern", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+    }
+
+
     public void onBackPressed() {
         startActivity(new Intent(AccountActivity.this, HomepageActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

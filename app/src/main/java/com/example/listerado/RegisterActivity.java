@@ -13,10 +13,8 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,11 +37,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RegisterActivity extends AppCompatActivity {
 
     String jsonStatus, jsonMessage, jsonID;
-    Boolean codeChecked;
     EditText edUsername, edEmail, edPassword, edConfirm;
     Button btn;
     TextView tv;
@@ -69,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         layout_confirm = findViewById(R.id.register_linearlayout_confirm);
         showPasswordImage = findViewById(R.id.register_showPassword);
         showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
-        codeChecked = false;
 
 
 
@@ -295,8 +293,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                showVerificationDialog();
-                                if (codeChecked = true) {
                                     System.out.println("\n\n\n\n\n\n\n\n\n" + "blblblblblblblblblblaskaldjsjdjasidasd" + "\n\n\n\n\n\n\n\n\n");
                                     if (Objects.equals(jsonStatus, "200")) {
                                         layout_confirm.setBackgroundResource(R.drawable.success_field_for_text_input);
@@ -331,7 +327,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
 
 
-                            }
+
 
                         },
                         new Response.ErrorListener() {
@@ -364,8 +360,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public Boolean showVerificationDialog() {
-        Integer code = generateRandomNumber(1111, 9999);
+    public void showVerificationDialog() {
+        Integer code = generateRandomNumber(1111, 8000);
         String requestEmail = edEmail.getText().toString();
 
         RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
@@ -453,6 +449,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                //Alle Felder werden auf den normalen Hintergrund gesetzt
+                field1.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field2.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field3.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field4.setBackgroundResource(R.drawable.code_verification_normal_background);
+
+
                 if (!field1.getText().toString().equals("")) {
                     field2.requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -474,6 +477,13 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                //Alle Felder werden auf den normalen Hintergrund gesetzt
+                field1.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field2.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field3.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field4.setBackgroundResource(R.drawable.code_verification_normal_background);
+
 
                 if (!field2.getText().toString().equals("")) {
                     field3.requestFocus();
@@ -497,6 +507,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                //Alle Felder werden auf den normalen Hintergrund gesetzt
+                field1.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field2.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field3.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field4.setBackgroundResource(R.drawable.code_verification_normal_background);
+
+
                 if (!field3.getText().toString().equals("")) {
                     field4.requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -519,21 +536,58 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                //TODO Code muss hier abgeglichen werden
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
-                    return;
-                }
-                mLastClickTime = SystemClock.elapsedRealtime();
-                ToastManager.showToast(RegisterActivity.this, "Blub", Toast.LENGTH_SHORT);
+                //Alle Felder werden auf den normalen Hintergrund gesetzt
+                field1.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field2.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field3.setBackgroundResource(R.drawable.code_verification_normal_background);
+                field4.setBackgroundResource(R.drawable.code_verification_normal_background);
 
-                String enteredCode = field1.getText().toString() + field2.getText().toString() + field3.getText().toString() + field4.getText().toString();
-                System.out.println("\n\n\n\n\n\n\n\n\nEnteredCode:" + enteredCode + "\n\n\n\n\n\n\n\n\nCode: " + code);
-                if (enteredCode.equals(code.toString())) {
-                    codeChecked = true;
-                    startActivity(new Intent(RegisterActivity.this, HomepageActivity.class));
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
 
+                if (!field4.getText().toString().equals("")) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+                    ToastManager.showToast(RegisterActivity.this, "Blub", Toast.LENGTH_SHORT);
+
+
+                    String enteredCode = field1.getText().toString() + field2.getText().toString() + field3.getText().toString() + field4.getText().toString();
+                    System.out.println("\n\n\n\n\n\n\n\n\nEnteredCode:" + enteredCode + "\n\n\n\n\n\n\n\n\nCode: " + code);
+
+                    if (enteredCode.equals(code.toString())) {
+                        //Richtigen Code eingegeben
+
+
+                        //Alle Felder auf grün setzen da erfolgreicher abgleich
+                        field1.setBackgroundResource(R.drawable.code_verification_success_background);
+                        field2.setBackgroundResource(R.drawable.code_verification_success_background);
+                        field3.setBackgroundResource(R.drawable.code_verification_success_background);
+                        field4.setBackgroundResource(R.drawable.code_verification_success_background);
+
+
+                        //Timer damit die Activity nicht sofort geändert wird
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(RegisterActivity.this, HomepageActivity.class));
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }, 1000);
+
+
+                    } else {
+                        //Falschen Code eingegeben
+                        ToastManager.showToast(RegisterActivity.this, "Dieser Code ist ungültig!", Toast.LENGTH_SHORT);
+
+                        //Alle Felder auf rot da flascher Code eingetragen
+                        field1.setBackgroundResource(R.drawable.code_verification_error_background);
+                        field2.setBackgroundResource(R.drawable.code_verification_error_background);
+                        field3.setBackgroundResource(R.drawable.code_verification_error_background);
+                        field4.setBackgroundResource(R.drawable.code_verification_error_background);
+                    }
 
                 }
             }
@@ -543,7 +597,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-        return true;
     }
 
 
