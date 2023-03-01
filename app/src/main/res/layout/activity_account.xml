@@ -23,12 +23,15 @@
 
 
     <ImageView
+        android:id="@+id/account_imageView_Button"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/circle"
-        android:src="@mipmap/account_icon" />
+        android:src="@mipmap/account_icon"
+        android:clickable="true"
+        android:contentDescription="ImageView" />
 
 
     <LinearLayout

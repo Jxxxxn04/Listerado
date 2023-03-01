@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         //If true set Activity to HomepageActivity
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
             //TODO Abfrage ob gespeicherte Daten immernoch in der Datenbank vorhanden sind
+
+
             startActivity(new Intent(this, HomepageActivity.class));
             finish();
 

@@ -215,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void createAccount() {
         RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-        String url = "http://bfi.bbs-me.org:2536/api/createUser.php";
+        String url = "http://bfi.bbs-me.org:2536/api/checkUserAvailable.php";
 
 
         // Variables of EditText to get the Entry-String
@@ -293,42 +293,20 @@ public class RegisterActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                    System.out.println("\n\n\n\n\n\n\n\n\n" + "blblblblblblblblblblaskaldjsjdjasidasd" + "\n\n\n\n\n\n\n\n\n");
-                                    if (Objects.equals(jsonStatus, "200")) {
+                                if(jsonObject.has("status")) {
+                                    if(jsonStatus.equals("200")) {
+                                        showVerificationDialog();
                                         layout_confirm.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_email.setBackgroundResource(R.drawable.success_field_for_text_input);
 
 
-                                        //TODO Wenn man die APP schließt überspringt man den Login obwohl man sich nicht verifiziert hat
-                                        //Ruft das Dialog-Fenster auf wo der Verifizierungscode generiert und abgefragt wird
-
-
-                                        ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_SHORT);
-
-
-                                        // Holen Sie die SharedPreferences-Instanz
-                                        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
-                                        // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        //TODO The ID has to be written in SharedPreferences
-                                        editor.putString("username", edUsername.getText().toString());
-                                        editor.putString("password", edPassword.getText().toString());
-                                        editor.putString("email", edEmail.getText().toString());
-                                        editor.putString("id", jsonID);
-                                        editor.apply();
-
-                                        ToastManager.showToast(RegisterActivity.this, jsonID, Toast.LENGTH_LONG);
-
                                     }
-
                                 }
 
 
-
-
+                            }
                         },
                         new Response.ErrorListener() {
                             @Override
@@ -548,14 +526,16 @@ public class RegisterActivity extends AppCompatActivity {
                         return;
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
-                    ToastManager.showToast(RegisterActivity.this, "Blub", Toast.LENGTH_SHORT);
-
 
                     String enteredCode = field1.getText().toString() + field2.getText().toString() + field3.getText().toString() + field4.getText().toString();
                     System.out.println("\n\n\n\n\n\n\n\n\nEnteredCode:" + enteredCode + "\n\n\n\n\n\n\n\n\nCode: " + code);
 
                     if (enteredCode.equals(code.toString())) {
                         //Richtigen Code eingegeben
+
+                        final String[] jsonStatus = new String[1];
+                        final String[] jsonMessage = new String[1];
+                        final String[] jsonID = new String[1];
 
 
                         //Alle Felder auf grün setzen da erfolgreicher abgleich
@@ -564,6 +544,87 @@ public class RegisterActivity extends AppCompatActivity {
                         field3.setBackgroundResource(R.drawable.code_verification_success_background);
                         field4.setBackgroundResource(R.drawable.code_verification_success_background);
 
+
+
+
+                        RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                        String url = "http://bfi.bbs-me.org:2536/api/createUser.php";
+
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        JSONObject jsonObject = null;
+                                        try {
+                                            jsonObject = new JSONObject(response);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        try {
+
+
+                                            if (jsonObject.has("status")) {
+                                                jsonStatus[0] = jsonObject.getString("status");
+                                            }
+                                            if (jsonObject.has("message")) {
+                                                jsonMessage[0] = jsonObject.getString("message");
+                                            }
+                                            if (jsonObject.has("id")) {
+                                                jsonID[0] = jsonObject.getString("id");
+                                            }
+
+
+                                        } catch (JSONException e) {
+                                            ToastManager.showToast(RegisterActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                            e.printStackTrace();
+
+                                        }
+
+                                        if(jsonStatus[0].equals("200")) {
+                                            ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
+
+                                            // Holen Sie die SharedPreferences-Instanz
+                                            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
+                                            // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                            editor.putString("username", edUsername.getText().toString());
+                                            editor.putString("password", edPassword.getText().toString());
+                                            editor.putString("email", edEmail.getText().toString());
+                                            editor.putString("id", jsonID[0]);
+                                            editor.apply();
+
+
+
+
+                                        }   else    {
+                                            ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
+                                        }
+
+
+
+                                    }
+
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        ToastManager.showToast(RegisterActivity.this, "Failed!", Toast.LENGTH_LONG);
+                                    }
+                                }
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("username", edUsername.getText().toString());
+                                params.put("email", edEmail.getText().toString());
+                                params.put("password", edPassword.getText().toString());
+                                params.put("password_confirm", edConfirm.getText().toString());
+                                return params;
+                            }
+                        };
+                        queue.add(postRequest);
 
                         //Timer damit die Activity nicht sofort geändert wird
                         Timer timer = new Timer();
@@ -576,6 +637,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 finish();
                             }
                         }, 1000);
+
+
+
 
 
                     } else {
