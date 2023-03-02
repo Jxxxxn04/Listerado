@@ -86,6 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
         editor.remove("username");
         editor.remove("password");
         editor.remove("email");
+        editor.remove("imageString");
+        editor.remove("id");
         editor.apply();
 
 
@@ -347,10 +349,7 @@ public class RegisterActivity extends AppCompatActivity {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
-                        System.out.println("Response: " + response);
-                        ToastManager.showToast(RegisterActivity.this, response, Toast.LENGTH_SHORT);
-                    }
+                    public void onResponse(String response) {}
                 },
                 new Response.ErrorListener() {
                     @Override

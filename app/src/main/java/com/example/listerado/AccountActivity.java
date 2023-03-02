@@ -5,9 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +27,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -39,7 +55,8 @@ public class AccountActivity extends AppCompatActivity {
     Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
     ImageView profileImageViewButton, navbar_profileImageView;
     int SELECT_PICTURE = 200;
-
+    Bitmap bitmap;
+    Drawable drawable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +75,7 @@ public class AccountActivity extends AppCompatActivity {
         deleteUserLayoutButton = findViewById(R.id.account_linearlayout_delete_user);
         changeUserPasswordLayoutButton = findViewById(R.id.change_password_layout_button);
         profileImageViewButton = findViewById(R.id.account_imageView_Button);
+        drawable = profileImageViewButton.getDrawable();
         navbar_profileImageView = findViewById(R.id.account_movebar_Konto_imageView);
         changeUserEmailLayoutButton = findViewById(R.id.change_email_layout_button);
         NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
@@ -70,10 +88,15 @@ public class AccountActivity extends AppCompatActivity {
         onClickedColorChange = Color.parseColor("#EEEEEE");
         username.setText(savedUsername);
         email.setText(savedEmail);
+        pictureChanger();
+        refreshImageView();
+
 
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
         switchToLoginActivity = new Intent(this, LoginActivity.class);
         switchToMyListsActivity = new Intent(this, MyListsActivity.class);
+
+
 
         //Navigation zur Homepage
         NAV_account_goToHomepageLayout.setOnClickListener(view -> {
@@ -101,6 +124,8 @@ public class AccountActivity extends AppCompatActivity {
             editor.remove("password");
             editor.remove("email");
             editor.remove("id");
+            editor.remove("imageString");
+
 
             // Änderungen werden gespeichert
             editor.apply();
@@ -180,6 +205,7 @@ public class AccountActivity extends AppCompatActivity {
                                     editor.remove("password");
                                     editor.remove("email");
                                     editor.remove("id");
+                                    editor.remove("imageString");
 
                                     // Änderungen werden gespeichert
                                     editor.apply();
@@ -425,6 +451,7 @@ public class AccountActivity extends AppCompatActivity {
             final String[] jsonStatus = new String[1];
             final String[] jsonMessage = new String[1];
 
+
             String savedID = sharedPreferences.getString("id", "");
             String savedPassword = sharedPreferences.getString("password", "");
 
@@ -486,39 +513,249 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     public void showImageManager() {
-        // create an instance of the
-        // intent of the type image
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
 
-        // pass the constant to compare it
-        // with the returned requestCode
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        ImagePicker.with(this)
+                .cropSquare()                            //Crop image(Optional), Check Customization for more option
+                .compress(1024)                    //Final image size will be less than 1 MB(Optional)
+                .maxResultSize(512, 512)    //Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
+
+
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && requestCode == ImagePicker.REQUEST_CODE) {
+            // Holen Sie sich die Uri des ausgewählten Bilds
+            Uri imageUri = data.getData();
 
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
-            if (requestCode == SELECT_PICTURE) {
-                // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    // update the preview image in the layout
-                    profileImageViewButton.setImageURI(selectedImageUri);
-                    navbar_profileImageView.setImageURI(selectedImageUri);
-                }
+            // 3. Schritt: Speichern des Bilds in einer Datei und als Bitmap
+            try {
+                // Konvertieren Sie die Uri in eine Bitmap
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                // Speichern Sie die Bitmap in einer Datei
+                File file = new File(getCacheDir(), "image.jpeg");
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.flush();
+                fos.close();
+
+                // 4. Schritt: Senden Sie das Bild an die API mittels Volley
+                sendImageToApi(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Fehler beim Speichern des Bilds", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+
+    public void sendImageToApi(File imageFile) {
+        // Konvertieren Sie das Bitmap in einen Base64-kodierten String
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        String savedID = sharedPreferences.getString("id", "");
+
+        // Erstellen Sie die Volley-Abfrage
+        RequestQueue requestQueue = Volley.newRequestQueue(AccountActivity.this);
+        String url = "http://bfi.bbs-me.org:2536/api/changeUserImage.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonMessage = new String[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if(jsonObject.has("status")) {
+                            if(jsonStatus[0].equals("200")) {
+                                ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                profileImageViewButton.setImageBitmap(bitmap);
+                                navbar_profileImageView.setImageBitmap(bitmap);
+
+                                editor.putString("imageString", encodedImage);
+                                editor.apply();
+                            }
+                        }   else    {
+                            ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", savedID);
+                params.put("image", encodedImage);
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+
+        MySingleton.getInstance(AccountActivity.this).addToRequestQueue(stringRequest);
+    }
+
+
+
+
+    public byte[] getFileDataFromDrawable(Context context, Uri uri) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            InputStream iStream = context.getContentResolver().openInputStream(uri);
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = iStream.read(bytes)) > 0) {
+                byteArrayOutputStream.write(bytes, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return byteArrayOutputStream.toByteArray();
+    }
+
+
+
+
+
+
+    public void refreshImageView() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        String imageString = sharedPreferences.getString("imageString", "");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        String savedID = sharedPreferences.getString("id", "");
+
+        // Erstellen Sie die Volley-Abfrage
+        RequestQueue requestQueue = Volley.newRequestQueue(AccountActivity.this);
+        String url = "http://bfi.bbs-me.org:2536/api/getUserImage.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonImage = new String[1];
+        final String[] jsonMessage = new String[1];
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("image")) {
+                                jsonImage[0] = jsonObject.getString("image");
+                            }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if(jsonObject.has("status")) {
+                            if(jsonStatus[0].equals("200")) {
+                                byte[] decodedString = Base64.decode(jsonImage[0], Base64.DEFAULT);
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                profileImageViewButton.setImageBitmap(decodedByte);
+                                navbar_profileImageView.setImageBitmap(decodedByte);
+
+                                editor.putString("imageString", jsonImage[0]);
+                                editor.apply();
+                            }
+                        }   else    {
+                            ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", savedID);
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+
+        MySingleton.getInstance(AccountActivity.this).addToRequestQueue(stringRequest);
+    }
+
+
+
+    public void pictureChanger() {
+        // Ressourcen-ID des Drawable-Objekts abrufen
+        int resId = drawable.getConstantState().hashCode();
+
+// Überprüfen, ob die Ressourcen-ID dem gesuchten mipmap entspricht
+        if (!(resId == R.mipmap.account_icon)) {
+            System.out.println("Nicht gleich\nresID: " +  resId + "\naccount_icon: " + R.mipmap.account_icon);
+        }   else    {
+            System.out.println("Gleich\nresID: " +  resId + "\naccount_icon: " + R.mipmap.account_icon);
+        }
+    }
+
+
 
     public void onBackPressed() {
         startActivity(new Intent(AccountActivity.this, HomepageActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
+
 }
