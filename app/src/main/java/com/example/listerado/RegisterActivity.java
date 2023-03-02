@@ -343,11 +343,13 @@ public class RegisterActivity extends AppCompatActivity {
         String requestEmail = edEmail.getText().toString();
 
         RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-        String url = "http://bfi.bbs-me.org:2536/api/sendVerificationCode.php";
+        String url = "http://dphost.ddns.net:1573/test/send_mail/sendVerificationCode.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        System.out.println("Response: " + response);
+                        ToastManager.showToast(RegisterActivity.this, response, Toast.LENGTH_SHORT);
                     }
                 },
                 new Response.ErrorListener() {
@@ -362,9 +364,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", requestEmail);
                 params.put("code", code.toString());
+                params.put("username", edUsername.getText().toString());
                 return params;
             }
         };
+        queue.add(postRequest);
 
 
         //Dialog Fenster wird erstellt
@@ -393,6 +397,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //TODO Muss entfernt werden wenn die App fertig ist
         builder.setNegativeButton(code.toString(), new DialogInterface.OnClickListener() {
 
 
