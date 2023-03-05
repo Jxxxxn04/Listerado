@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,7 +15,7 @@ import android.widget.LinearLayout;
 public class HomepageActivity extends AppCompatActivity {
 
     LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
-    ImageView appIcon;
+    ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
     SwipeRefreshLayout pullToRefresh;
 
@@ -27,6 +30,7 @@ public class HomepageActivity extends AppCompatActivity {
          NAV_homepage_goToMyLists = findViewById(R.id.homepage_navigation_goToMyList);
          appIcon = findViewById(R.id.appIcon);
          pullToRefresh = findViewById(R.id.pullToRefresh);
+         navbarProfileImageView = findViewById(R.id.homepage_navbar_ProfileImageView);
 
 
          //Set the Intents
@@ -65,5 +69,14 @@ public class HomepageActivity extends AppCompatActivity {
 
                 }
             });
+    }
+
+
+
+
+    public void refreshNavbarProfilePicture() {
+        byte[] decodedString = Base64.decode(MyGlobals.bitmapToString, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        navbarProfileImageView.setImageBitmap(decodedByte);
     }
 }

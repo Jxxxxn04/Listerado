@@ -3,11 +3,15 @@ package com.example.listerado;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ public class MyListsActivity extends AppCompatActivity {
 
     LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
     Intent switchToAccountIntent, switchToHomepageIntent;
+    ImageView navbar_ProfileImageView;
     private List<String> items;
 
     @SuppressLint("MissingInflatedId")
@@ -32,6 +37,7 @@ public class MyListsActivity extends AppCompatActivity {
 
         NAV_myList_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
         NAV_myList_goTomyAccountLayout= findViewById(R.id.myList_navigation_goToMyProfile);
+        navbar_ProfileImageView = findViewById(R.id.myLists_navbar_ProfilImageView);
 
 
 
@@ -103,6 +109,11 @@ public class MyListsActivity extends AppCompatActivity {
         finish();
     }
 
+    public void refreshNavbarProfilePicture() {
+        byte[] decodedString = Base64.decode(MyGlobals.bitmapToString, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        navbar_ProfileImageView.setImageBitmap(decodedByte);
+    }
 
 }
 

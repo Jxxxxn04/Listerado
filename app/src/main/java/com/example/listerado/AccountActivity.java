@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AccountActivity extends AppCompatActivity {
 
     Integer onClickedColorChange;
@@ -53,10 +55,10 @@ public class AccountActivity extends AppCompatActivity {
     LinearLayout changeUsernameLayoutButton, parentLayout, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout,
             deleteUserLayoutButton, changeUserPasswordLayoutButton, changeUserEmailLayoutButton;
     Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
-    ImageView profileImageViewButton, navbar_profileImageView;
+    CircleImageView profileImageViewButton, navbar_profileImageView;
     int SELECT_PICTURE = 200;
     Bitmap bitmap;
-    Drawable drawable;
+    File file;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,6 @@ public class AccountActivity extends AppCompatActivity {
         deleteUserLayoutButton = findViewById(R.id.account_linearlayout_delete_user);
         changeUserPasswordLayoutButton = findViewById(R.id.change_password_layout_button);
         profileImageViewButton = findViewById(R.id.account_imageView_Button);
-        drawable = profileImageViewButton.getDrawable();
         navbar_profileImageView = findViewById(R.id.account_movebar_Konto_imageView);
         changeUserEmailLayoutButton = findViewById(R.id.change_email_layout_button);
         NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
@@ -88,7 +89,6 @@ public class AccountActivity extends AppCompatActivity {
         onClickedColorChange = Color.parseColor("#EEEEEE");
         username.setText(savedUsername);
         email.setText(savedEmail);
-        pictureChanger();
         refreshImageView();
 
 
@@ -597,8 +597,9 @@ public class AccountActivity extends AppCompatActivity {
                                 profileImageViewButton.setImageBitmap(bitmap);
                                 navbar_profileImageView.setImageBitmap(bitmap);
 
-                                editor.putString("imageString", encodedImage);
-                                editor.apply();
+                                file = new File("profilePicture");
+                                BitmapManager saveProfilePicture = new BitmapManager();
+                                saveProfilePicture.saveBitmapToFile(bitmap, file);
                             }
                         }   else    {
                             ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
@@ -652,22 +653,6 @@ public class AccountActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        String imageString = sharedPreferences.getString("imageString", "");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         String savedID = sharedPreferences.getString("id", "");
 
         // Erstellen Sie die Volley-Abfrage
@@ -706,11 +691,10 @@ public class AccountActivity extends AppCompatActivity {
                             if(jsonStatus[0].equals("200")) {
                                 byte[] decodedString = Base64.decode(jsonImage[0], Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                MyGlobals.bitmapToString = jsonImage[0];
+                                MyGlobals.hasProfilePicture = true;
                                 profileImageViewButton.setImageBitmap(decodedByte);
                                 navbar_profileImageView.setImageBitmap(decodedByte);
-
-                                editor.putString("imageString", jsonImage[0]);
-                                editor.apply();
                             }
                         }   else    {
                             ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
@@ -738,17 +722,6 @@ public class AccountActivity extends AppCompatActivity {
 
 
 
-    public void pictureChanger() {
-        // Ressourcen-ID des Drawable-Objekts abrufen
-        int resId = drawable.getConstantState().hashCode();
-
-// Überprüfen, ob die Ressourcen-ID dem gesuchten mipmap entspricht
-        if (!(resId == R.mipmap.account_icon)) {
-            System.out.println("Nicht gleich\nresID: " +  resId + "\naccount_icon: " + R.mipmap.account_icon);
-        }   else    {
-            System.out.println("Gleich\nresID: " +  resId + "\naccount_icon: " + R.mipmap.account_icon);
-        }
-    }
 
 
 

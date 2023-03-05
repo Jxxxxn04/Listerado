@@ -489,11 +489,11 @@
                 android:gravity="bottom|center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView4"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/homepage_navbar_ProfileImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:srcCompat="@mipmap/account_icon" />
+                    android:src="@mipmap/account_icon" />
 
                 <TextView
                     android:id="@+id/textView4"
