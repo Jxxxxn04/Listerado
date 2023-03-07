@@ -144,10 +144,20 @@ public class ImageManager {
         System.out.println("\n\n\n\n\n\nsharedResponse: " + sharedResponse + "\nhasImage: " + hasImage + "\n\n\n\n\n\n");
 
         if (hasImage.equals("1")) {
-            byte[] decodedString = Base64.decode(sharedResponse, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-            navbarProfileImageView.setImageBitmap(decodedByte);
+            if(refreshBothImageViews) {
+                byte[] decodedString = Base64.decode(sharedResponse, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                navbarProfileImageView.setImageBitmap(decodedByte);
+                bigProfileImageView.setImageBitmap(decodedByte);
+            } else {
+                byte[] decodedString = Base64.decode(sharedResponse, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                navbarProfileImageView.setImageBitmap(decodedByte);
+            }
+
         }
 
     }
