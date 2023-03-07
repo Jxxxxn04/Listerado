@@ -38,6 +38,9 @@ public class MyListsActivity extends AppCompatActivity {
         NAV_myList_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
         NAV_myList_goTomyAccountLayout= findViewById(R.id.myList_navigation_goToMyProfile);
         navbar_ProfileImageView = findViewById(R.id.myLists_navbar_ProfilImageView);
+        ImageManager imageManager = new ImageManager(MyListsActivity.this, navbar_ProfileImageView);
+        imageManager.refreshImageViewFromSharedPreferences();
+        imageManager.refreshImage();
 
 
 
@@ -103,17 +106,13 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
+
     public void onBackPressed() {
         startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 
-    public void refreshNavbarProfilePicture() {
-        byte[] decodedString = Base64.decode(MyGlobals.bitmapToString, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        navbar_ProfileImageView.setImageBitmap(decodedByte);
-    }
 
 }
 

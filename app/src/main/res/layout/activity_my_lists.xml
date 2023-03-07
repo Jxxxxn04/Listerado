@@ -65,7 +65,7 @@
         android:elevation="12dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="27dp">
 
         <LinearLayout
             android:id="@+id/myList_navigation_goToMyProfile"
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:text="Homepage"
+                    android:text="Startseite"
                     android:textColor="#A6A6A6A6" />
             </LinearLayout>
         </LinearLayout>

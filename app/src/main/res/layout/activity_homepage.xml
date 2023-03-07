@@ -94,6 +94,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/homepage_category_obst"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -103,7 +104,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/Obst"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -117,6 +117,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/homepage_category_gemuese"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -126,7 +127,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/Gemüse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -140,6 +140,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/homepage_category_fleisch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -149,7 +150,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/Süßigkeiten"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -157,12 +157,13 @@
                         android:layout_marginEnd="7dp"
                         android:layout_marginBottom="7dp"
                         android:layout_weight="1"
-                        android:text="Süßigkeiten"
+                        android:text="Fleisch"
                         android:textColor="#000000"
                         android:textSize="18sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/homepage_category_fisch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -172,7 +173,29 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/Milchprodukte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_weight="1"
+                        android:text="Fisch"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/homepage_category_milchprodukte"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/weniger_rounded_rectangle"
+                    android:elevation="6dp"
+                    android:gravity="center">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -186,6 +209,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/homepage_category_sueßigkeiten"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
@@ -195,7 +219,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/McDonalds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -203,35 +226,13 @@
                         android:layout_marginEnd="7dp"
                         android:layout_marginBottom="7dp"
                         android:layout_weight="1"
-                        android:text="McDonalds"
+                        android:text="Süßigkeiten"
                         android:textColor="#000000"
                         android:textSize="18sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/Gebäck"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="7dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginBottom="7dp"
-                        android:layout_weight="1"
-                        android:text="Gebäck"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
+                    android:id="@+id/homepage_category_getraenke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -241,7 +242,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/Tierfutter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -249,7 +249,53 @@
                         android:layout_marginEnd="7dp"
                         android:layout_marginBottom="7dp"
                         android:layout_weight="1"
-                        android:text="Tierfutter"
+                        android:text="Getränke"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/homepage_category_gewuerze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/weniger_rounded_rectangle"
+                    android:elevation="6dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_weight="1"
+                        android:text="Gewürze"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/homepage_category_gebaeck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/weniger_rounded_rectangle"
+                    android:elevation="6dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_weight="1"
+                        android:text="Gebäck"
                         android:textColor="#000000"
                         android:textSize="18sp" />
                 </RelativeLayout>

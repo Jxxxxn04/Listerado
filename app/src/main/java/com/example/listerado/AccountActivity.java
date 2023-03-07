@@ -6,10 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -89,7 +84,9 @@ public class AccountActivity extends AppCompatActivity {
         onClickedColorChange = Color.parseColor("#EEEEEE");
         username.setText(savedUsername);
         email.setText(savedEmail);
-        refreshImageView();
+        ImageManager imageManager = new ImageManager(AccountActivity.this ,profileImageViewButton, navbar_profileImageView);
+        imageManager.refreshImageViewFromSharedPreferences();
+        imageManager.refreshImage();
 
 
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
@@ -111,7 +108,7 @@ public class AccountActivity extends AppCompatActivity {
             finish();
         });
 
-        profileImageViewButton.setOnClickListener(view -> showImageManager());
+        profileImageViewButton.setOnClickListener(view -> showImageSelector());
         changeUserPasswordLayoutButton.setOnClickListener(view -> showChangePasswordDialog());
         changeUserEmailLayoutButton.setOnClickListener(view -> showChangeEmailDialog());
 
@@ -124,7 +121,8 @@ public class AccountActivity extends AppCompatActivity {
             editor.remove("password");
             editor.remove("email");
             editor.remove("id");
-            editor.remove("imageString");
+            editor.remove("imageToString");
+            editor.remove("hasImage");
 
 
             // Änderungen werden gespeichert
@@ -140,7 +138,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void showDeleteUserDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.user_delete_template, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.template_user_delete, null);
         builder.setView(view);
 
         final EditText edPassword = view.findViewById(R.id.delete_user_edPassword);
@@ -250,7 +248,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void showChangeUsernameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.user_changeusername_template, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.template_user_changeusername, null);
         builder.setView(view);
 
         final EditText edNewUsername = view.findViewById(R.id.changeUsername_edNewUsername);
@@ -353,7 +351,7 @@ public class AccountActivity extends AppCompatActivity {
 
     public void showChangePasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.user_changepassword_template, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.template_user_changepassword, null);
         builder.setView(view);
 
         final EditText edOldPassword = view.findViewById(R.id.changePassword_edOldPassword);
@@ -432,7 +430,7 @@ public class AccountActivity extends AppCompatActivity {
     @SuppressLint("SuspiciousIndentation")
     public void showChangeEmailDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.user_changeemail_template, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.template_user_changeemail, null);
         builder.setView(view);
 
         EditText edNewEmail, edPassword;
@@ -512,7 +510,7 @@ public class AccountActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void showImageManager() {
+    public void showImageSelector() {
 
         ImagePicker.with(this)
                 .cropSquare()                            //Crop image(Optional), Check Customization for more option
@@ -596,10 +594,6 @@ public class AccountActivity extends AppCompatActivity {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 profileImageViewButton.setImageBitmap(bitmap);
                                 navbar_profileImageView.setImageBitmap(bitmap);
-
-                                file = new File("profilePicture");
-                                BitmapManager saveProfilePicture = new BitmapManager();
-                                saveProfilePicture.saveBitmapToFile(bitmap, file);
                             }
                         }   else    {
                             ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
@@ -649,76 +643,7 @@ public class AccountActivity extends AppCompatActivity {
 
 
 
-    public void refreshImageView() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        String savedID = sharedPreferences.getString("id", "");
-
-        // Erstellen Sie die Volley-Abfrage
-        RequestQueue requestQueue = Volley.newRequestQueue(AccountActivity.this);
-        String url = "http://bfi.bbs-me.org:2536/api/getUserImage.php";
-        final String[] jsonStatus = new String[1];
-        final String[] jsonImage = new String[1];
-        final String[] jsonMessage = new String[1];
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JSONObject jsonObject;
-                        try {
-                            jsonObject = new JSONObject(response);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            if (jsonObject.has("status")) {
-                                jsonStatus[0] = jsonObject.getString("status");
-                            }
-                            if (jsonObject.has("image")) {
-                                jsonImage[0] = jsonObject.getString("image");
-                            }
-                            if (jsonObject.has("message")) {
-                                jsonMessage[0] = jsonObject.getString("message");
-                            }
-                        } catch (JSONException e) {
-                            ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
-                            e.printStackTrace();
-                        }
-
-                        if(jsonObject.has("status")) {
-                            if(jsonStatus[0].equals("200")) {
-                                byte[] decodedString = Base64.decode(jsonImage[0], Base64.DEFAULT);
-                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                MyGlobals.bitmapToString = jsonImage[0];
-                                MyGlobals.hasProfilePicture = true;
-                                profileImageViewButton.setImageBitmap(decodedByte);
-                                navbar_profileImageView.setImageBitmap(decodedByte);
-                            }
-                        }   else    {
-                            ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG);
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("id", savedID);
-                return params;
-            }
-        };
-
-        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
-
-        MySingleton.getInstance(AccountActivity.this).addToRequestQueue(stringRequest);
-    }
 
 
 

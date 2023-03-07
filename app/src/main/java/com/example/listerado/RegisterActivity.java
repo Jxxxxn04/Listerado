@@ -35,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -372,7 +371,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Dialog Fenster wird erstellt
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.code_verification_template, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.template_code_verification, null);
         builder.setView(view);
 
         EditText field1, field2, field3, field4;
