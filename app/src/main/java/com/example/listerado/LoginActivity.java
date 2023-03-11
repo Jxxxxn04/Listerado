@@ -9,10 +9,7 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +21,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -39,14 +35,14 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String jsonUsername, jsonEmail, jsonStatus, jsonID;
+    String jsonUsername, jsonEmail, jsonStatus, jsonID, jsonHashedPassword;
     EditText edUsername, edPassword, popupSendText;
     Button btn;
     TextView tvSwitchtoRegister, tvPasswordForgot;
     LinearLayout layout_username, layout_password, parentLayout;
     ImageView showPasswordImage, popupSendImage, popupCancelImage;
     PopupWindow popupWindow;
-
+    SharedpreferencesManager sharedpreferncesManager;
     private long mLastClickTime = 0;
     private int currentImage = 0;
 
@@ -67,15 +63,13 @@ public class LoginActivity extends AppCompatActivity {
         showPasswordImage = findViewById(R.id.login_showPassword);
         showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
         parentLayout = findViewById(R.id.login_parent_linearlayout);
+        sharedpreferncesManager = new SharedpreferencesManager(LoginActivity.this);
 
 
 
 
         // Create SharedP references-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
-        // Create an Editor for saving Data in SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
 
@@ -139,6 +133,9 @@ public class LoginActivity extends AppCompatActivity {
                                             if (jsonObject.has("email")) {
                                                 jsonEmail = jsonObject.getString("email");
                                             }
+                                            if (jsonObject.has("hashed_password")) {
+                                                jsonHashedPassword = jsonObject.getString("hashed_password");
+                                            }
 
                                         } catch (JSONException e) {
                                             ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
@@ -165,14 +162,12 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
 
                                             //Write Username, Email, Password and ID in SharedPreferences File
-                                            editor.putString("username", jsonUsername);
-                                            editor.putString("email", jsonEmail);
-                                            editor.putString("password", edPassword.getText().toString());
-                                            editor.putString("id", jsonID);
-                                            //Save the file and apply changes
-                                            editor.apply();
-
-
+                                            sharedpreferncesManager.changeUsername(jsonUsername);
+                                            sharedpreferncesManager.changeEmail(jsonEmail);
+                                            sharedpreferncesManager.changePassword(edPassword.getText().toString());
+                                            sharedpreferncesManager.changeID(jsonID);
+                                            sharedpreferncesManager.changeHashedPassword(jsonHashedPassword);
+                                            //System.out.println("\n\n\n\n\n\nhashedPassword: " + jsonHashedPassword + "\n\n\n\n\n\n");
                                         } else {
                                             //Set the Background of all inputs to red
                                             ToastManager.showToast(LoginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
@@ -185,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        ToastManager.showToast(LoginActivity.this, "Failed", Toast.LENGTH_LONG);
+                                        ToastManager.showToast(LoginActivity.this, "Verbindung zwischen Api und App unterbrochen (loginUser)", Toast.LENGTH_LONG);
                                     }
                                 }
                         ) {

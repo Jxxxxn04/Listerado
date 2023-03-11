@@ -3,19 +3,20 @@ package com.example.listerado;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -26,8 +27,9 @@ public class MyListsActivity extends AppCompatActivity {
 
     LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
     Intent switchToAccountIntent, switchToHomepageIntent;
-    ImageView navbar_ProfileImageView;
-    private List<String> items;
+    ImageView navbar_ProfileImageView, addListImageView;
+    ListView listView;
+    protected ArrayList<String> items;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,6 +40,8 @@ public class MyListsActivity extends AppCompatActivity {
         NAV_myList_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
         NAV_myList_goTomyAccountLayout= findViewById(R.id.myList_navigation_goToMyProfile);
         navbar_ProfileImageView = findViewById(R.id.myLists_navbar_ProfilImageView);
+        addListImageView = findViewById(R.id.myLists_add_list_button);
+        listView = findViewById(R.id.myLists_listView);
         ImageManager imageManager = new ImageManager(MyListsActivity.this, navbar_ProfileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
@@ -64,6 +68,32 @@ public class MyListsActivity extends AppCompatActivity {
 
 
 
+        addListImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyListsActivity.this);
+                View blub = LayoutInflater.from(MyListsActivity.this).inflate(R.layout.template_simple_dialog_popup_window, null);
+                builder.setView(blub);
+
+                EditText editText = blub.findViewById(R.id.simplePopup_editTextField);
+
+                builder.setPositiveButton("Senden", (dialogInterface, i) -> {
+                    items.add(editText.getText().toString());
+
+                    ListView listView = findViewById(R.id.myLists_listView);
+                    MyListAdapter adapter = new MyListAdapter(MyListsActivity.this, items);
+                    listView.setAdapter(adapter);
+                });
+
+                builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         NAV_myList_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,29 +113,18 @@ public class MyListsActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-        // ArrayAdapter initialisieren und an ListView binden
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.my_lists_template, items) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = convertView;
-                if (view == null) {
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    view = inflater.inflate(R.layout.my_lists_template, parent, false);
-                }
-                TextView textview = (TextView) view.findViewById(R.id.listName);
-                textview.setText(items.get(position));
-                return view;
-            }
-        };
-        ListView listView = (ListView) findViewById(R.id.listView);
+        ListView listView = findViewById(R.id.myLists_listView);
+        MyListAdapter adapter = new MyListAdapter(this, items);
         listView.setAdapter(adapter);
+
+
+
     }
 
 
+    public ArrayList<String> getItems() {
+        return items;
+    }
 
     public void onBackPressed() {
         startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));

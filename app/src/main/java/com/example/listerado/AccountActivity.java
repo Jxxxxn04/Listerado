@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -54,19 +53,13 @@ public class AccountActivity extends AppCompatActivity {
     int SELECT_PICTURE = 200;
     Bitmap bitmap;
     File file;
+    SharedpreferencesManager sharedpreferncesManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        // Holen Sie die SharedPreferences-Instanz
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
-        // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        String savedUsername = sharedPreferences.getString("username", "");
-        String savedEmail = sharedPreferences.getString("email", "");
 
         changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
         deleteUserLayoutButton = findViewById(R.id.account_linearlayout_delete_user);
@@ -82,11 +75,13 @@ public class AccountActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logout_Button);
         logoutButton.bringToFront();
         onClickedColorChange = Color.parseColor("#EEEEEE");
-        username.setText(savedUsername);
-        email.setText(savedEmail);
+
         ImageManager imageManager = new ImageManager(AccountActivity.this ,profileImageViewButton, navbar_profileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
+        sharedpreferncesManager = new SharedpreferencesManager(AccountActivity.this);
+        username.setText(sharedpreferncesManager.getUsername());
+        email.setText(sharedpreferncesManager.getEmail());
 
 
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
@@ -117,16 +112,7 @@ public class AccountActivity extends AppCompatActivity {
             logoutButton.setBackgroundColor(onClickedColorChange);
 
             // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
-            editor.remove("username");
-            editor.remove("password");
-            editor.remove("email");
-            editor.remove("id");
-            editor.remove("imageToString");
-            editor.remove("hasImage");
-
-
-            // Änderungen werden gespeichert
-            editor.apply();
+            sharedpreferncesManager.clearSharedPreferences();
 
             startActivity(switchToLoginActivity);
             finish();
@@ -150,14 +136,9 @@ public class AccountActivity extends AppCompatActivity {
             } else {
                 Volley.newRequestQueue(AccountActivity.this);
                 String url = "http://bfi.bbs-me.org:2536/api/deleteUser.php";
-                // Holen Sie die SharedPreferences-Instanz
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                String savedID = sharedPreferences.getString("id", "");
-                String savedPassword = sharedPreferences.getString("password", "");
-
+                String savedID = sharedpreferncesManager.getId();
+                String savedPassword = sharedpreferncesManager.getPassword();
                 final String[] jsonMessage = new String[1];
                 final String[] jsonStatus = new String[1];
 
@@ -199,14 +180,7 @@ public class AccountActivity extends AppCompatActivity {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
 
                                     // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
-                                    editor.remove("username");
-                                    editor.remove("password");
-                                    editor.remove("email");
-                                    editor.remove("id");
-                                    editor.remove("imageString");
-
-                                    // Änderungen werden gespeichert
-                                    editor.apply();
+                                    sharedpreferncesManager.clearSharedPreferences();
 
                                     startActivity(new Intent(AccountActivity.this, LoginActivity.class));
                                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -217,14 +191,14 @@ public class AccountActivity extends AppCompatActivity {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 }
                             },
-                            error -> ToastManager.showToast(AccountActivity.this, "Failed", Toast.LENGTH_LONG)
+                            error -> ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (deleteUser)", Toast.LENGTH_LONG)
                     ) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-                            params.put("id", savedID);
+                            params.put("user_id", savedID);
                             params.put("password", edPassword.getText().toString());
-                            System.out.println("\nId: " + savedID + "\nPassword: " + edPassword.getText().toString());
+                            //System.out.println("\nId: " + savedID + "\nPassword: " + edPassword.getText().toString());
                             return params;
                         }
                     };
@@ -263,12 +237,8 @@ public class AccountActivity extends AppCompatActivity {
                 Volley.newRequestQueue(AccountActivity.this);
                 String url = "http://bfi.bbs-me.org:2536/api/changeUserName.php";
 
-                // Holen Sie die SharedPreferences-Instanz
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                String savedID = sharedPreferences.getString("id", "");
-                String savedPassword = sharedPreferences.getString("password", "");
+                String savedID = sharedpreferncesManager.getId();
+                String savedPassword = sharedpreferncesManager.getPassword();
 
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nid: " + savedID + "\n\n\n\n\n\n\n\n\n");
 
@@ -309,8 +279,7 @@ public class AccountActivity extends AppCompatActivity {
                                 if (jsonObject.has("status")) {
                                     if (jsonStatus[0].equals("200")) {
                                         //Benutzernamen erfolgreich geändert
-                                        editor.putString("username", edNewUsername.getText().toString());
-                                        editor.apply();
+                                        sharedpreferncesManager.changeUsername(edNewUsername.getText().toString());
                                         username.setText(edNewUsername.getText().toString());
                                         ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
 
@@ -320,12 +289,12 @@ public class AccountActivity extends AppCompatActivity {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 }
                             },
-                            error -> ToastManager.showToast(AccountActivity.this, "Failed", Toast.LENGTH_LONG)
+                            error -> ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (changeUsername)", Toast.LENGTH_LONG)
                     ) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-                            params.put("id", savedID);
+                            params.put("user_id", savedID);
                             params.put("password", edPassword.getText().toString());
                             params.put("new_username", edNewUsername.getText().toString());
                             System.out.println("\n\n\n\n\n\n\nid: " + savedID + "\npassword: " + edPassword.getText().toString() + "\nnew_username: " + edNewUsername.getText().toString());
@@ -362,16 +331,11 @@ public class AccountActivity extends AppCompatActivity {
             Volley.newRequestQueue(AccountActivity.this);
             String url = "http://bfi.bbs-me.org:2536/api/changeUserPassword.php";
 
-            // Holen Sie die SharedPreferences-Instanz
-            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
             final String[] jsonStatus = new String[1];
             final String[] jsonMessage = new String[1];
 
-            String savedID = sharedPreferences.getString("id", "");
-            String savedPassword = sharedPreferences.getString("password", "");
+            String savedID = sharedpreferncesManager.getId();
+            String savedPassword = sharedpreferncesManager.getPassword();
 
             if (!edOldPassword.getText().toString().equals(savedPassword)) {
                 ToastManager.showToast(AccountActivity.this, "Falsches Passwort", Toast.LENGTH_SHORT);
@@ -399,18 +363,17 @@ public class AccountActivity extends AppCompatActivity {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
 
-                                editor.putString("password", edNewPassword.getText().toString());
-                                editor.apply();
+                                sharedpreferncesManager.changePassword(edNewPassword.getText().toString());
                             } else {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                             }
                         },
-                        error -> ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG)
+                        error -> ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (changePassword)!", Toast.LENGTH_LONG)
                 ) {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        params.put("id", savedID);
+                        params.put("user_id", savedID);
                         params.put("password", edOldPassword.getText().toString());
                         params.put("new_password", edNewPassword.getText().toString());
                         params.put("new_password_confirm", edConfirm.getText().toString());
@@ -442,16 +405,12 @@ public class AccountActivity extends AppCompatActivity {
             Volley.newRequestQueue(AccountActivity.this);
             String url = "http://bfi.bbs-me.org:2536/api/changeUserEmail.php";
 
-            // Holen Sie die SharedPreferences-Instanz
-            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
             final String[] jsonStatus = new String[1];
             final String[] jsonMessage = new String[1];
 
 
-            String savedID = sharedPreferences.getString("id", "");
-            String savedPassword = sharedPreferences.getString("password", "");
+            String savedID = sharedpreferncesManager.getId();
+            String savedPassword = sharedpreferncesManager.getPassword();
 
             if (!edPassword.getText().toString().equals(savedPassword)) {
                 System.out.println(savedPassword);
@@ -481,20 +440,19 @@ public class AccountActivity extends AppCompatActivity {
                             if (jsonObject.has("status")) {
                                 if (jsonStatus[0].equals("200")) {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
-                                    editor.putString("email", edNewEmail.getText().toString());
+                                    sharedpreferncesManager.changeEmail(edNewEmail.getText().toString());
                                     email.setText(edNewEmail.getText().toString());
-                                    editor.apply();
                                 }
                             } else {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                             }
                         },
-                        error -> ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG)
+                        error -> ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (changeEmail)!", Toast.LENGTH_LONG)
                 ) {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        params.put("id", savedID);
+                        params.put("user_id", savedID);
                         params.put("password", edPassword.getText().toString());
                         params.put("new_email", edNewEmail.getText().toString());
                         return params;
@@ -557,10 +515,7 @@ public class AccountActivity extends AppCompatActivity {
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        String savedID = sharedPreferences.getString("id", "");
+        String savedID = sharedpreferncesManager.getId();
 
         // Erstellen Sie die Volley-Abfrage
         RequestQueue requestQueue = Volley.newRequestQueue(AccountActivity.this);
@@ -603,13 +558,14 @@ public class AccountActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(AccountActivity.this, "Failed!", Toast.LENGTH_LONG);
+                        ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (uploadImage)!", Toast.LENGTH_LONG);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", savedID);
+                params.put("user_id", savedID);
+                params.put("hashed_password", sharedpreferncesManager.getHashed_password());
                 params.put("image", encodedImage);
                 return params;
             }

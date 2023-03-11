@@ -1,7 +1,6 @@
 package com.example.listerado;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -25,9 +24,9 @@ public class ImageManager {
 
     ImageView bigProfileImageView, navbarProfileImageView;
     Context context;
-    SharedPreferences sharedPreferences;
     Boolean refreshBothImageViews, successOnRefresh;
     String jsonImage;
+    SharedpreferencesManager sharedpreferncesManager;
 
 
 
@@ -35,24 +34,20 @@ public class ImageManager {
         this.bigProfileImageView = bigProfileImageView;
         this.navbarProfileImageView = navbarProfileImageView;
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         refreshBothImageViews = true;
+        sharedpreferncesManager = new SharedpreferencesManager(context);
     }
 
     public ImageManager(Context context, ImageView navbarProfileImageView) {
         this.navbarProfileImageView = navbarProfileImageView;
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         refreshBothImageViews = false;
+        sharedpreferncesManager = new SharedpreferencesManager(context);
     }
 
 
+
     public void refreshImage() {
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //System.out.println("\n\n\n\n\n\nTEST\n\n\n\n\n\n");
-
-        String savedID = sharedPreferences.getString("id", "");
 
         // Erstellen Sie die Volley-Abfrage
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -87,13 +82,10 @@ public class ImageManager {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                editor.putString("hasImage", "1");
-                                editor.apply();
+                                sharedpreferncesManager.changeHasImage("1");
                                 successOnRefresh = true;
                                 byte[] decodedString = Base64.decode(jsonImage, Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                MyGlobals.bitmapToString = jsonImage;
-                                MyGlobals.hasProfilePicture = true;
                                 if (refreshBothImageViews) {
                                     bigProfileImageView.setImageBitmap(decodedByte);
                                     navbarProfileImageView.setImageBitmap(decodedByte);
@@ -103,13 +95,11 @@ public class ImageManager {
                                 //System.out.println("\n\n\n\n\n\nErfolgreich\n\n\n\n\n\n");
 
                                 //saves the image in a sharedpreferences
-                                editor.putString("imageToString", jsonImage);
-                                editor.apply();
+                                sharedpreferncesManager.changeImageToString(jsonImage);
                             }
 
                             if (jsonStatus[0].equals("201")) {
-                                editor.putString("hasImage", "0");
-                                editor.apply();
+                                sharedpreferncesManager.changeHasImage("0");
                             }
                         } else {
                             successOnRefresh = false;
@@ -121,30 +111,28 @@ public class ImageManager {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(context, "Failed!", Toast.LENGTH_LONG);
+                        ToastManager.showToast(context, "Verbindung zwischen Api und App unterbrochen (refreshImageView)!", Toast.LENGTH_LONG);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", savedID);
+                params.put("user_id", sharedpreferncesManager.getId());
+                //System.out.println("\n\n\n\n\n\nsavedID: " + savedID + "\n\n\n\n\n\n");
                 return params;
             }
         };
-
-        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
 
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public void refreshImageViewFromSharedPreferences() {
 
-        String hasImage = sharedPreferences.getString("hasImage", "Nichts Gespeichert");
-        String sharedResponse = sharedPreferences.getString("imageToString", "Nichts Gespeichert");
+        String hasImage = sharedpreferncesManager.getHasimage();
+        String sharedResponse =  sharedpreferncesManager.getImageToString();
         System.out.println("\n\n\n\n\n\nsharedResponse: " + sharedResponse + "\nhasImage: " + hasImage + "\n\n\n\n\n\n");
 
         if (hasImage.equals("1")) {
-
             if(refreshBothImageViews) {
                 byte[] decodedString = Base64.decode(sharedResponse, Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -157,8 +145,6 @@ public class ImageManager {
 
                 navbarProfileImageView.setImageBitmap(decodedByte);
             }
-
         }
-
     }
 }

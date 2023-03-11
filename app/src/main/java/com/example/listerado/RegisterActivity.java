@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Editable;
@@ -41,12 +40,13 @@ import java.util.TimerTask;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String jsonStatus, jsonMessage, jsonID;
+    String jsonStatus, jsonMessage, jsonID, jsonHashedPassword;
     EditText edUsername, edEmail, edPassword, edConfirm;
     Button btn;
     TextView tv;
     LinearLayout layout_username, layout_email, layout_password, layout_confirm;
     ImageView showPasswordImage;
+    SharedpreferencesManager sharedpreferncesManager;
     private int currentImage = 0;
     private long mLastClickTime = 0;
     @SuppressLint("MissingInflatedId")
@@ -67,34 +67,18 @@ public class RegisterActivity extends AppCompatActivity {
         layout_confirm = findViewById(R.id.register_linearlayout_confirm);
         showPasswordImage = findViewById(R.id.register_showPassword);
         showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
+        sharedpreferncesManager = new SharedpreferencesManager(RegisterActivity.this);
 
 
 
-
-
-
-        //edPassword.setInputType();
-
-
-        // Holen Sie die SharedPreferences-Instanz
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
-        // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.remove("username");
-        editor.remove("password");
-        editor.remove("email");
-        editor.remove("imageString");
-        editor.remove("id");
-        editor.apply();
+        //Alle Variablen werden aus der SharedPreferences Datei gelöscht
+        sharedpreferncesManager.clearSharedPreferences();
 
 
         // Change to Login-Page
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
@@ -246,14 +230,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 //Breaks up the JSON response into several variables
                                 try {
-
-                                    if (jsonObject.has("id")) {
-                                        jsonID = jsonObject.getString("id");
-                                    }
                                     if (jsonObject.has("status")) {
                                         jsonStatus = jsonObject.getString("status");
                                     }
-
                                     jsonMessage = jsonObject.getString("message");
 
 
@@ -283,6 +262,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             break;
                                         case "Ungültige Email Adresse":
                                         case "Email Adresse bereits vergeben":
+                                        case "Email Adresse enthält ungültige Zeichen":
                                             ToastManager.showToast(RegisterActivity.this, jsonMessage, Toast.LENGTH_LONG);
                                             layout_email.setBackgroundResource(R.drawable.error_field_for_text_input);
                                             break;
@@ -301,18 +281,14 @@ public class RegisterActivity extends AppCompatActivity {
                                         layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_email.setBackgroundResource(R.drawable.success_field_for_text_input);
-
-
                                     }
                                 }
-
-
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                ToastManager.showToast(RegisterActivity.this, "Failed!", Toast.LENGTH_LONG);
+                                ToastManager.showToast(RegisterActivity.this, "Verbindung zwischen Api und App unterbrochen (validationInputField)!", Toast.LENGTH_LONG);
                             }
                         }
                 ) {
@@ -353,7 +329,7 @@ public class RegisterActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(RegisterActivity.this, "Failed!", Toast.LENGTH_LONG);
+                        ToastManager.showToast(RegisterActivity.this, "Verbindung zwischen Api und App unterbrochen (codeVerification)!", Toast.LENGTH_LONG);
                     }
                 }
         ) {
@@ -539,6 +515,7 @@ public class RegisterActivity extends AppCompatActivity {
                         final String[] jsonStatus = new String[1];
                         final String[] jsonMessage = new String[1];
                         final String[] jsonID = new String[1];
+                        final String[] jsonHashedPassword = new String[1];
 
 
                         //Alle Felder auf grün setzen da erfolgreicher abgleich
@@ -572,8 +549,11 @@ public class RegisterActivity extends AppCompatActivity {
                                             if (jsonObject.has("message")) {
                                                 jsonMessage[0] = jsonObject.getString("message");
                                             }
-                                            if (jsonObject.has("id")) {
-                                                jsonID[0] = jsonObject.getString("id");
+                                            if (jsonObject.has("user_id")) {
+                                                jsonID[0] = jsonObject.getString("user_id");
+                                            }
+                                            if (jsonObject.has("hashed_password")) {
+                                                jsonHashedPassword[0] = jsonObject.getString("hashed_password");
                                             }
 
 
@@ -586,34 +566,22 @@ public class RegisterActivity extends AppCompatActivity {
                                         if(jsonStatus[0].equals("200")) {
                                             ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
 
-                                            // Holen Sie die SharedPreferences-Instanz
-                                            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
-                                            // Holen Sie einen Editor, um Daten in SharedPreferences zu schreiben
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                                            editor.putString("username", edUsername.getText().toString());
-                                            editor.putString("password", edPassword.getText().toString());
-                                            editor.putString("email", edEmail.getText().toString());
-                                            editor.putString("id", jsonID[0]);
-                                            editor.apply();
-
-
-
-
+                                            sharedpreferncesManager.changeUsername(edUsername.getText().toString());
+                                            sharedpreferncesManager.changePassword(edPassword.getText().toString());
+                                            sharedpreferncesManager.changeEmail(edEmail.getText().toString());
+                                            sharedpreferncesManager.changeID(jsonID[0]);
+                                            sharedpreferncesManager.changeHashedPassword(jsonHashedPassword[0]);
                                         }   else    {
                                             ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                                         }
-
-
-
                                     }
 
                                 },
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        ToastManager.showToast(RegisterActivity.this, "Failed!", Toast.LENGTH_LONG);
+                                        ToastManager.showToast(RegisterActivity.this, "Verbindung zwischen Api und App unterbrochen (createUser)!", Toast.LENGTH_LONG);
                                     }
                                 }
                         ) {
