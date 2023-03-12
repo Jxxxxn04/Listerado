@@ -72,28 +72,36 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         obst.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "1";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    obst.setBackgroundResource(R.drawable.category_background_obst);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     obst.setBackgroundResource(R.drawable.list_background);
+
+                    //TODO Neue Random Produkte werden angezeigt (idee)
+
                     isClicked = true;
                 }
+
             }
         });
 
 
         gemuese.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "2";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    gemuese.setBackgroundResource(R.drawable.category_background_gemuese);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     gemuese.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -101,13 +109,15 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         fleisch.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "3";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    fleisch.setBackgroundResource(R.drawable.category_background_fleisch);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     fleisch.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -115,13 +125,15 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         fisch.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "4";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    fisch.setBackgroundResource(R.drawable.category_background_fisch);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     fisch.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -129,13 +141,15 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         getraenke.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "7";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    getraenke.setBackgroundResource(R.drawable.category_background_getraenke);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     getraenke.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -143,13 +157,15 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         gewuerze.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "8";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    gewuerze.setBackgroundResource(R.drawable.category_background_gewuerze);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     gewuerze.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -157,13 +173,15 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         gebaeck.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "9";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    gebaeck.setBackgroundResource(R.drawable.category_background_gebaeck);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     gebaeck.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -171,27 +189,32 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
         milchprodukte.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "5";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    milchprodukte.setBackgroundResource(R.drawable.category_background_milchprodukte);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     milchprodukte.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
                 }
             }
         });
 
         suessigkeiten.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = true;
+            String id = "6";
+            Boolean isClicked = true;
             @Override
             public void onClick(View view) {
                 if (isClicked) {
-                    suessigkeiten.setBackgroundResource(R.drawable.category_background_suessigkeiten);
+                    handleSelection(view);
+                    refreshProductsByCategory(id);
                     isClicked = false;
-                }   else {
+                }   else    {
                     suessigkeiten.setBackgroundResource(R.drawable.list_background);
                     isClicked = true;
                 }
@@ -230,5 +253,97 @@ public class HomepageActivity extends AppCompatActivity {
 
                 }
             });
+    }
+
+
+
+    void handleSelection(View selectedView) {
+        View[] views = {obst, gemuese, fleisch, fisch, getraenke, gewuerze, gebaeck, milchprodukte, suessigkeiten};
+        for (View view : views) {
+            if (view == selectedView) {
+                view.setBackgroundResource(getBackgroundResId(view));
+            } else {
+                view.setBackgroundResource(R.drawable.list_background);
+            }
+        }
+    }
+
+    private int getBackgroundResId(View view) {
+        switch (view.getId()) {
+            case R.id.homepage_category_obst:
+                return R.drawable.category_background_obst;
+            case R.id.homepage_category_gemuese:
+                return R.drawable.category_background_gemuese;
+            case R.id.homepage_category_fleisch:
+                return R.drawable.category_background_fleisch;
+            case R.id.homepage_category_fisch:
+                return R.drawable.category_background_fisch;
+            case R.id.homepage_category_getraenke:
+                return R.drawable.category_background_getraenke;
+            case R.id.homepage_category_gewuerze:
+                return R.drawable.category_background_gewuerze;
+            case R.id.homepage_category_gebaeck:
+                return R.drawable.category_background_gebaeck;
+            case R.id.homepage_category_milchprodukte:
+                return R.drawable.category_background_milchprodukte;
+            case R.id.homepage_category_sueßigkeiten:
+                return R.drawable.category_background_suessigkeiten;
+            default:
+                return R.drawable.list_background;
+        }
+    }
+
+    public void refreshProductsByCategory(String category_id) {
+        String url = "http://bfi.bbs-me.org:2536/api/getProducts.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonMessage = new String[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(HomepageActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if(jsonObject.has("status")) {
+                            if(jsonStatus[0].equals("200")) {
+                                ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                            }
+                        }   else    {
+                            ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(HomepageActivity.this, "Verbindung zwischen Api und App unterbrochen (refreshProducts)!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("category_id", category_id);
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+        MySingleton.getInstance(HomepageActivity.this).addToRequestQueue(stringRequest);
     }
 }

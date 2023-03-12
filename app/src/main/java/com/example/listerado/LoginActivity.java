@@ -86,8 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         //If true set Activity to HomepageActivity
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
             //TODO Abfrage ob gespeicherte Daten immernoch in der Datenbank vorhanden sind
-
-
             startActivity(new Intent(this, HomepageActivity.class));
             finish();
 
@@ -121,8 +119,8 @@ public class LoginActivity extends AppCompatActivity {
                                         try {
                                             JSONObject jsonObject = new JSONObject(response);
 
-                                            if(jsonObject.has("id")) {
-                                                jsonID = jsonObject.getString("id");
+                                            if(jsonObject.has("user_id")) {
+                                                jsonID = jsonObject.getString("user_id");
                                             }
                                             if (jsonObject.has("status")) {
                                                 jsonStatus = jsonObject.getString("status");
@@ -189,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Map<String, String> params = new HashMap<String, String>();
                                 params.put("name", edUsername.getText().toString());
                                 params.put("password", edPassword.getText().toString());
+                                System.out.println("\n\n\n\n\n\n\n\npassword: "+ edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
                                 return params;
                             }
                         };
