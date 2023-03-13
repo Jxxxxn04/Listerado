@@ -35,6 +35,7 @@ public class HomepageActivity extends AppCompatActivity {
     SwipeRefreshLayout pullToRefresh;
     RelativeLayout obst, gemuese, fleisch, fisch, milchprodukte, suessigkeiten, getraenke, gewuerze, gebaeck;
     ListView listView;
+    String selectedCategory;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,6 +64,8 @@ public class HomepageActivity extends AppCompatActivity {
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         items = new ArrayList<>();
+        refreshProductsByCategory("none");
+        selectedCategory = "none";
 
 
         //Set the Intents
@@ -76,6 +79,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "1";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -83,13 +87,10 @@ public class HomepageActivity extends AppCompatActivity {
                     clearListArray();
                 } else {
                     obst.setBackgroundResource(R.drawable.list_background);
-
-                    //TODO Neue Random Produkte werden angezeigt (idee)
-
+                    refreshProductsByCategory("none");
                     isClicked = true;
                     clearListArray();
                 }
-
             }
         });
 
@@ -100,6 +101,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "2";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -120,6 +122,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "3";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -140,6 +143,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "4";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -160,6 +164,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "7";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -180,6 +185,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "8";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -199,6 +205,7 @@ public class HomepageActivity extends AppCompatActivity {
             Boolean isClicked = true;
             @Override
             public void onClick(View view) {
+                selectedCategory = "9";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -219,6 +226,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "5";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -239,6 +247,7 @@ public class HomepageActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                selectedCategory = "6";
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
@@ -279,9 +288,9 @@ public class HomepageActivity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                clearListArray();
+                reloadProductsByRefresh();
                 pullToRefresh.setRefreshing(false);
-
             }
         });
     }
@@ -323,6 +332,38 @@ public class HomepageActivity extends AppCompatActivity {
         }
     }
 
+    public void reloadProductsByRefresh() {
+        switch (selectedCategory) {
+            case "1":
+                clearListArray();
+                refreshProductsByCategory("1");
+            case "2":
+                clearListArray();
+                refreshProductsByCategory("2");
+            case "3":
+                clearListArray();
+                refreshProductsByCategory("3");
+            case "4":
+                clearListArray();
+                refreshProductsByCategory("4");
+            case "5":
+                clearListArray();
+                refreshProductsByCategory("5");
+            case "6":
+                clearListArray();
+                refreshProductsByCategory("6");
+            case "7":
+                clearListArray();
+                refreshProductsByCategory("7");
+            case "8":
+                clearListArray();
+                refreshProductsByCategory("8");
+            default:
+                clearListArray();
+                refreshProductsByCategory("none");
+        }
+    }
+
     public void refreshProductsByCategory(String category_id) {
         String url = "http://bfi.bbs-me.org:2536/api/getProducts.php";
         final String[] jsonStatus = new String[1];
@@ -351,7 +392,6 @@ public class HomepageActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
                                 JSONArray jsonArray = null;
