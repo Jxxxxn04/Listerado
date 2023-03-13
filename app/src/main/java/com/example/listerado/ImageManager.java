@@ -29,7 +29,6 @@ public class ImageManager {
     SharedpreferencesManager sharedpreferncesManager;
 
 
-
     public ImageManager(Context context, ImageView bigProfileImageView, ImageView navbarProfileImageView) {
         this.bigProfileImageView = bigProfileImageView;
         this.navbarProfileImageView = navbarProfileImageView;
@@ -44,7 +43,6 @@ public class ImageManager {
         refreshBothImageViews = false;
         sharedpreferncesManager = new SharedpreferencesManager(context);
     }
-
 
 
     public void refreshImage() {
@@ -89,7 +87,7 @@ public class ImageManager {
                                 if (refreshBothImageViews) {
                                     bigProfileImageView.setImageBitmap(decodedByte);
                                     navbarProfileImageView.setImageBitmap(decodedByte);
-                                }   else {
+                                } else {
                                     navbarProfileImageView.setImageBitmap(decodedByte);
                                 }
                                 //System.out.println("\n\n\n\n\n\nErfolgreich\n\n\n\n\n\n");
@@ -129,11 +127,11 @@ public class ImageManager {
     public void refreshImageViewFromSharedPreferences() {
 
         String hasImage = sharedpreferncesManager.getHasimage();
-        String sharedResponse =  sharedpreferncesManager.getImageToString();
-        System.out.println("\n\n\n\n\n\nsharedResponse: " + sharedResponse + "\nhasImage: " + hasImage + "\n\n\n\n\n\n");
+        String sharedResponse = sharedpreferncesManager.getImageToString();
+        //System.out.println("\n\n\n\n\n\nsharedResponse: " + sharedResponse + "\nhasImage: " + hasImage + "\n\n\n\n\n\n");
 
         if (hasImage.equals("1")) {
-            if(refreshBothImageViews) {
+            if (refreshBothImageViews) {
                 byte[] decodedString = Base64.decode(sharedResponse, Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 

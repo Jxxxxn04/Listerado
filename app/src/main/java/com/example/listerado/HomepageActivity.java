@@ -2,10 +2,8 @@ package com.example.listerado;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,11 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,16 +24,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HomepageActivity extends AppCompatActivity {
 
+    ArrayList<String> items;
     LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
     ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
     SwipeRefreshLayout pullToRefresh;
     RelativeLayout obst, gemuese, fleisch, fisch, milchprodukte, suessigkeiten, getraenke, gewuerze, gebaeck;
+    ListView listView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +46,7 @@ public class HomepageActivity extends AppCompatActivity {
         //Initialize the needed UI elements from the xml file
         NAV_homepage_goToMyProfileLayout = findViewById(R.id.homepage_navigation_goToMyProfile);
         NAV_homepage_goToMyLists = findViewById(R.id.homepage_navigation_goToMyList);
+        listView = findViewById(R.id.homepage_listview);
         appIcon = findViewById(R.id.appIcon);
         pullToRefresh = findViewById(R.id.pullToRefresh);
         navbarProfileImageView = findViewById(R.id.homepage_navbar_ProfileImageView);
@@ -64,6 +62,7 @@ public class HomepageActivity extends AppCompatActivity {
         ImageManager imageManager = new ImageManager(HomepageActivity.this, navbarProfileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
+        items = new ArrayList<>();
 
 
         //Set the Intents
@@ -72,20 +71,23 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         obst.setOnClickListener(new View.OnClickListener() {
-            String id = "1";
+            final String id = "1";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     obst.setBackgroundResource(R.drawable.list_background);
 
                     //TODO Neue Random Produkte werden angezeigt (idee)
 
                     isClicked = true;
+                    clearListArray();
                 }
 
             }
@@ -93,87 +95,107 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         gemuese.setOnClickListener(new View.OnClickListener() {
-            String id = "2";
+            final String id = "2";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     gemuese.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         fleisch.setOnClickListener(new View.OnClickListener() {
-            String id = "3";
+            final String id = "3";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     fleisch.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         fisch.setOnClickListener(new View.OnClickListener() {
-            String id = "4";
+            final String id = "4";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     fisch.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         getraenke.setOnClickListener(new View.OnClickListener() {
-            String id = "7";
+            final String id = "7";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     getraenke.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         gewuerze.setOnClickListener(new View.OnClickListener() {
-            String id = "8";
+            final String id = "8";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     gewuerze.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         gebaeck.setOnClickListener(new View.OnClickListener() {
-            String id = "9";
+            final String id = "9";
             Boolean isClicked = true;
             @Override
             public void onClick(View view) {
@@ -181,80 +203,88 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     gebaeck.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         milchprodukte.setOnClickListener(new View.OnClickListener() {
-            String id = "5";
+            final String id = "5";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     milchprodukte.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
         suessigkeiten.setOnClickListener(new View.OnClickListener() {
-            String id = "6";
+            final String id = "6";
             Boolean isClicked = true;
+
             @Override
             public void onClick(View view) {
                 if (isClicked) {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                }   else    {
+                    clearListArray();
+                } else {
                     suessigkeiten.setBackgroundResource(R.drawable.list_background);
+                    refreshProductsByCategory("none");
                     isClicked = true;
+                    clearListArray();
                 }
             }
         });
 
 
-
         //Switch Activity to accountActivity
-            NAV_homepage_goToMyProfileLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(switchToAccountIntent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
-                }
-            });
+        NAV_homepage_goToMyProfileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(switchToAccountIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+        });
 
-            //Switch Activity to homepageActivity
-            NAV_homepage_goToMyLists.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(switchToMyListsIntent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
-                }
-            });
+        //Switch Activity to homepageActivity
+        NAV_homepage_goToMyLists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(switchToMyListsIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+        });
 
 
-            //Refresh the Featured Products
-            pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
+        //Refresh the Featured Products
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
-                    pullToRefresh.setRefreshing(false);
+                pullToRefresh.setRefreshing(false);
 
-                }
-            });
+            }
+        });
     }
-
 
 
     void handleSelection(View selectedView) {
@@ -319,12 +349,28 @@ public class HomepageActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        if(jsonObject.has("status")) {
-                            if(jsonStatus[0].equals("200")) {
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+
+                                JSONArray jsonArray = null;
+                                try {
+                                    jsonArray = jsonObject.getJSONArray("products");
+                                    int length = jsonArray.length();
+
+                                    for (int i = 0; i < length; i++) {
+                                        JSONObject listObject = jsonArray.getJSONObject(i);
+                                        String newProduct = listObject.getString("product_name");
+                                        //listArray[i][1] = listname;
+                                        items.add(newProduct);
+                                        refreshAdapter();
+                                    }
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                        }   else    {
+                        } else {
                             ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                         }
                     }
@@ -339,11 +385,22 @@ public class HomepageActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("category_id", category_id);
+                params.put("amount", "5");
                 return params;
             }
         };
 
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
         MySingleton.getInstance(HomepageActivity.this).addToRequestQueue(stringRequest);
+    }
+
+
+    public void refreshAdapter() {
+        HomepageAdapter adapter = new HomepageAdapter(this, items);
+        listView.setAdapter(adapter);
+    }
+
+    public void clearListArray() {
+        items.clear();
     }
 }

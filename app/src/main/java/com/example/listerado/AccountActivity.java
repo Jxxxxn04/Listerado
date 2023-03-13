@@ -1,5 +1,7 @@
 package com.example.listerado;
 
+import static com.google.gson.internal.$Gson$Types.arrayOf;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,11 +56,11 @@ public class AccountActivity extends AppCompatActivity {
     Bitmap bitmap;
     File file;
     SharedpreferencesManager sharedpreferncesManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
 
 
         changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
@@ -76,7 +78,7 @@ public class AccountActivity extends AppCompatActivity {
         logoutButton.bringToFront();
         onClickedColorChange = Color.parseColor("#EEEEEE");
 
-        ImageManager imageManager = new ImageManager(AccountActivity.this ,profileImageViewButton, navbar_profileImageView);
+        ImageManager imageManager = new ImageManager(AccountActivity.this, profileImageViewButton, navbar_profileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         sharedpreferncesManager = new SharedpreferencesManager(AccountActivity.this);
@@ -87,7 +89,6 @@ public class AccountActivity extends AppCompatActivity {
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
         switchToLoginActivity = new Intent(this, LoginActivity.class);
         switchToMyListsActivity = new Intent(this, MyListsActivity.class);
-
 
 
         //Navigation zur Homepage
@@ -473,7 +474,7 @@ public class AccountActivity extends AppCompatActivity {
         ImagePicker.with(this)
                 .cropSquare()                            //Crop image(Optional), Check Customization for more option
                 .compress(1024)                    //Final image size will be less than 1 MB(Optional)
-                .maxResultSize(512, 512)    //Final image resolution will be less than 1080 x 1080(Optional)
+                .maxResultSize(512, 512)        //Final image resolution will be less than 1080 x 1080(Optional)
                 .start();
 
 
@@ -507,14 +508,12 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
-
     public void sendImageToApi(File imageFile) {
         // Konvertieren Sie das Bitmap in einen Base64-kodierten String
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
         String savedID = sharedpreferncesManager.getId();
 
         // Erstellen Sie die Volley-Abfrage
@@ -543,14 +542,13 @@ public class AccountActivity extends AppCompatActivity {
                             ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
                         }
-
-                        if(jsonObject.has("status")) {
-                            if(jsonStatus[0].equals("200")) {
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                                 profileImageViewButton.setImageBitmap(bitmap);
                                 navbar_profileImageView.setImageBitmap(bitmap);
                             }
-                        }   else    {
+                        } else {
                             ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
                         }
                     }
@@ -570,14 +568,9 @@ public class AccountActivity extends AppCompatActivity {
                 return params;
             }
         };
-
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
-
         MySingleton.getInstance(AccountActivity.this).addToRequestQueue(stringRequest);
     }
-
-
-
 
     public byte[] getFileDataFromDrawable(Context context, Uri uri) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -594,22 +587,9 @@ public class AccountActivity extends AppCompatActivity {
         return byteArrayOutputStream.toByteArray();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public void onBackPressed() {
         startActivity(new Intent(AccountActivity.this, HomepageActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
-
 }

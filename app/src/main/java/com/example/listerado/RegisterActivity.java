@@ -1,8 +1,5 @@
 package com.example.listerado;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     SharedpreferencesManager sharedpreferncesManager;
     private int currentImage = 0;
     private long mLastClickTime = 0;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
         showPasswordImage = findViewById(R.id.register_showPassword);
         showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
         sharedpreferncesManager = new SharedpreferencesManager(RegisterActivity.this);
-
 
 
         //Alle Variablen werden aus der SharedPreferences Datei gelöscht
@@ -274,8 +274,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                if(jsonObject.has("status")) {
-                                    if(jsonStatus.equals("200")) {
+                                if (jsonObject.has("status")) {
+                                    if (jsonStatus.equals("200")) {
                                         showVerificationDialog();
                                         layout_confirm.setBackgroundResource(R.drawable.success_field_for_text_input);
                                         layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
@@ -324,7 +324,8 @@ public class RegisterActivity extends AppCompatActivity {
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {}
+                    public void onResponse(String response) {
+                    }
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -525,8 +526,6 @@ public class RegisterActivity extends AppCompatActivity {
                         field4.setBackgroundResource(R.drawable.code_verification_success_background);
 
 
-
-
                         RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                         String url = "http://bfi.bbs-me.org:2536/api/createUser.php";
 
@@ -563,7 +562,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         }
 
-                                        if(jsonStatus[0].equals("200")) {
+                                        if (jsonStatus[0].equals("200")) {
                                             ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
 
 
@@ -572,7 +571,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             sharedpreferncesManager.changeEmail(edEmail.getText().toString());
                                             sharedpreferncesManager.changeID(jsonID[0]);
                                             sharedpreferncesManager.changeHashedPassword(jsonHashedPassword[0]);
-                                        }   else    {
+                                        } else {
                                             ToastManager.showToast(RegisterActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                                         }
                                     }
@@ -608,9 +607,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 finish();
                             }
                         }, 1000);
-
-
-
 
 
                     } else {

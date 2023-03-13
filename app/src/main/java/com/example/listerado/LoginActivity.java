@@ -66,11 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         sharedpreferncesManager = new SharedpreferencesManager(LoginActivity.this);
 
 
-
-
         // Create SharedP references-Instanz
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
 
 
         //Switch Activity to RegisterActivity
@@ -81,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
         //Check if SharedPrefernces file contains Username, Password and Email
         //If true set Activity to HomepageActivity
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
@@ -89,113 +85,112 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, HomepageActivity.class));
             finish();
 
-        //If false load LoginActivity
+            //If false load LoginActivity
         } else {
-                btn.setOnClickListener(view -> {
+            btn.setOnClickListener(view -> {
 
 
-                    Volley.newRequestQueue(LoginActivity.this);
-                    String url = "http://bfi.bbs-me.org:2536/api/loginUser.php";
+                Volley.newRequestQueue(LoginActivity.this);
+                String url = "http://bfi.bbs-me.org:2536/api/loginUser.php";
 
 
-                    // Variables of EditText to get the Entry-String
-                    String username = edUsername.getText().toString();
-                    String password = edPassword.getText().toString();
+                // Variables of EditText to get the Entry-String
+                String username = edUsername.getText().toString();
+                String password = edPassword.getText().toString();
 
 
+                //Checks if Input Fields are empty
+                if (username.length() == 0 || password.length() == 0) {
+                    ToastManager.showToast(LoginActivity.this, "Bitte, fülle alle Felder aus!", Toast.LENGTH_SHORT);
+                } else {
 
-                    //Checks if Input Fields are empty
-                    if (username.length() == 0 || password.length() == 0) {
-                        ToastManager.showToast(LoginActivity.this, "Bitte, fülle alle Felder aus!", Toast.LENGTH_SHORT);
-                    } else {
+                    //Post request
+                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                        //Post request
-                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
+                                    //Breaks up the JSON response into several variables
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response);
 
-                                        //Breaks up the JSON response into several variables
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(response);
-
-                                            if(jsonObject.has("user_id")) {
-                                                jsonID = jsonObject.getString("user_id");
-                                            }
-                                            if (jsonObject.has("status")) {
-                                                jsonStatus = jsonObject.getString("status");
-                                            }
-                                            if (jsonObject.has("username")) {
-                                                jsonUsername = jsonObject.getString("username");
-                                            }
-                                            if (jsonObject.has("email")) {
-                                                jsonEmail = jsonObject.getString("email");
-                                            }
-                                            if (jsonObject.has("hashed_password")) {
-                                                jsonHashedPassword = jsonObject.getString("hashed_password");
-                                            }
-
-                                        } catch (JSONException e) {
-                                            ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
-                                            e.printStackTrace();
+                                        if (jsonObject.has("user_id")) {
+                                            jsonID = jsonObject.getString("user_id");
+                                        }
+                                        if (jsonObject.has("status")) {
+                                            jsonStatus = jsonObject.getString("status");
+                                        }
+                                        if (jsonObject.has("username")) {
+                                            jsonUsername = jsonObject.getString("username");
+                                        }
+                                        if (jsonObject.has("email")) {
+                                            jsonEmail = jsonObject.getString("email");
+                                        }
+                                        if (jsonObject.has("hashed_password")) {
+                                            jsonHashedPassword = jsonObject.getString("hashed_password");
                                         }
 
-
-                                        //System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
-
-
-                                        //Checks whether the Login was Successful or not
-                                        if(Objects.equals(jsonStatus, "200")) {
-                                            //Does that one cant spam the Login Button
-                                            if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
-                                                return;
-                                            }
-                                            mLastClickTime = SystemClock.elapsedRealtime();
-
-                                            ToastManager.showToast(LoginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
-                                            layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
-                                            layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
-
-                                            startActivity(new Intent(LoginActivity.this, HomepageActivity.class));
-                                            finish();
-
-                                            //Write Username, Email, Password and ID in SharedPreferences File
-                                            sharedpreferncesManager.changeUsername(jsonUsername);
-                                            sharedpreferncesManager.changeEmail(jsonEmail);
-                                            sharedpreferncesManager.changePassword(edPassword.getText().toString());
-                                            sharedpreferncesManager.changeID(jsonID);
-                                            sharedpreferncesManager.changeHashedPassword(jsonHashedPassword);
-                                            //System.out.println("\n\n\n\n\n\nhashedPassword: " + jsonHashedPassword + "\n\n\n\n\n\n");
-                                        } else {
-                                            //Set the Background of all inputs to red
-                                            ToastManager.showToast(LoginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
-                                            layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                            layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
-                                        }
+                                    } catch (JSONException e) {
+                                        ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                                        e.printStackTrace();
                                     }
 
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        ToastManager.showToast(LoginActivity.this, "Verbindung zwischen Api und App unterbrochen (loginUser)", Toast.LENGTH_LONG);
+
+                                    //System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
+
+
+                                    //Checks whether the Login was Successful or not
+                                    if (Objects.equals(jsonStatus, "200")) {
+                                        //Does that one cant spam the Login Button
+                                        if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
+                                            return;
+                                        }
+                                        mLastClickTime = SystemClock.elapsedRealtime();
+
+                                        ToastManager.showToast(LoginActivity.this, "Erfolgreich eingeloggt!", Toast.LENGTH_SHORT);
+                                        layout_password.setBackgroundResource(R.drawable.success_field_for_text_input);
+                                        layout_username.setBackgroundResource(R.drawable.success_field_for_text_input);
+
+                                        startActivity(new Intent(LoginActivity.this, HomepageActivity.class));
+                                        finish();
+
+                                        //Write Username, Email, Password and ID in SharedPreferences File
+                                        sharedpreferncesManager.changeUsername(jsonUsername);
+                                        sharedpreferncesManager.changeEmail(jsonEmail);
+                                        sharedpreferncesManager.changePassword(edPassword.getText().toString());
+                                        sharedpreferncesManager.changeID(jsonID);
+                                        sharedpreferncesManager.changeHashedPassword(jsonHashedPassword);
+                                        //System.out.println("\n\n\n\n\n\nhashedPassword: " + jsonHashedPassword + "\n\n\n\n\n\n");
+                                    } else {
+                                        //Set the Background of all inputs to red
+                                        ToastManager.showToast(LoginActivity.this, "Benutzername oder Passwort stimmen nicht!", Toast.LENGTH_SHORT);
+                                        layout_password.setBackgroundResource(R.drawable.error_field_for_text_input);
+                                        layout_username.setBackgroundResource(R.drawable.error_field_for_text_input);
                                     }
                                 }
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("name", edUsername.getText().toString());
-                                params.put("password", edPassword.getText().toString());
-                                System.out.println("\n\n\n\n\n\n\n\npassword: "+ edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
-                                return params;
+
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    ToastManager.showToast(LoginActivity.this, "Verbindung zwischen Api und App unterbrochen (loginUser)", Toast.LENGTH_LONG);
+                                }
                             }
-                        };
-                        //queue.add(postRequest);
-                        MySingleton.getInstance(LoginActivity.this).addToRequestQueue(postRequest);
-                    }
-                });
-            }
+                    ) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("name", edUsername.getText().toString());
+                            params.put("password", edPassword.getText().toString());
+                            System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
+                            return params;
+                        }
+                    };
+                    //queue.add(postRequest);
+                    MySingleton.getInstance(LoginActivity.this).addToRequestQueue(postRequest);
+                }
+            });
+        }
 
 
         //Changes the Background of all Inputs to normal if text is changed
@@ -242,11 +237,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Passwort wird versteckt
-                if(currentImage == 0) {
+                if (currentImage == 0) {
                     showPasswordImage.setImageResource(R.mipmap.icon_show_password);
                     currentImage = 1;
                     edPassword.setTransformationMethod(null);
-                }   else    {
+                } else {
                     //Passwort wird angezeigt
                     showPasswordImage.setImageResource(R.mipmap.icon_hide_password);
                     currentImage = 0;
@@ -294,7 +289,6 @@ public class LoginActivity extends AppCompatActivity {
         });*/
 
 
-
-        }
+    }
 }
 

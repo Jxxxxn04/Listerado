@@ -14,11 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
 public class JsonRequestTask extends AsyncTask<String, Void, JSONObject> {
 
-    private VolleyResponseListener listener;
-    private RequestQueue requestQueue;
+    private final VolleyResponseListener listener;
+    private final RequestQueue requestQueue;
 
     public JsonRequestTask(Context context, VolleyResponseListener listener) {
         this.listener = listener;

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF"
     android:elevation="23dp"
     android:orientation="vertical">
@@ -311,204 +312,18 @@
             >
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ListView
+                android:id="@+id/homepage_listview"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:dividerHeight="10.0sp"
                 android:gravity="center"
                 android:orientation="vertical"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
+                tools:listitem="template_homepage_items">
 
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 1"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center"
-                        android:layout_marginEnd="10dp">
-
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon"
-                            />
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
-
-                    <TextView
-                        android:id="@+id/textView55"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 2"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/imageView55"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
-
-                    <TextView
-                        android:id="@+id/textView56"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 3"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/imageView56"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
-
-                    <TextView
-                        android:id="@+id/textView57"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 4"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/imageView57"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/weniger_rounded_rectangle"
-                    android:elevation="6dp"
-                    android:gravity="left|center">
-
-
-                    <TextView
-                        android:id="@+id/textView32323"
-                        android:layout_width="282dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="left"
-                        android:text="Produkt 5"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
-
-                    <RelativeLayout
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/rectangle_for_add_product"
-                        android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/imageView33232"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@mipmap/add_icon" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-            </LinearLayout>
+            </ListView>
 
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
