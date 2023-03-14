@@ -27,18 +27,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 
-public class MyListsActivity extends AppCompatActivity {
+public class MyListsActivity extends AppCompatActivity implements MyListAdapter.ListListener {
 
-    protected ArrayList<String> items, id;
+    protected ArrayList<ListItem> items;
     LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
     Intent switchToAccountIntent, switchToHomepageIntent;
     ImageView navbar_ProfileImageView, addListImageView;
     ListView listView;
     SharedpreferencesManager sharedpreferencesManager;
     String[][] listArray;
+    MyListAdapter adapter;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -56,41 +57,25 @@ public class MyListsActivity extends AppCompatActivity {
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         sharedpreferencesManager = new SharedpreferencesManager(MyListsActivity.this);
+        getUserLists();
 
         switchToAccountIntent = new Intent(this, AccountActivity.class);
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
 
         // Datenquelle für die Liste
         items = new ArrayList<>();
-        id = new ArrayList<>();
-        getAllListsFromUser();
-        reloadAdapter();
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                deleteListFromUser(parent.getPositionForView(view));
-
-                //Toast.makeText(getApplicationContext(), "Position: " + itemPosition, Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         addListImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MyListsActivity.this);
                 View blub = LayoutInflater.from(MyListsActivity.this).inflate(R.layout.template_simple_dialog_popup_window, null);
                 builder.setView(blub);
 
                 EditText editText = blub.findViewById(R.id.simplePopup_editTextField);
 
-                builder.setPositiveButton("Senden", (dialogInterface, i) -> {
-                    items.add(editText.getText().toString());
-                    addListToUser(editText.getText().toString());
-                    reloadAdapter();
+                builder.setPositiveButton("Erstellen", (dialogInterface, i) -> {
+                    createList(editText.getText().toString());
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -101,8 +86,15 @@ public class MyListsActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastManager.showToast(MyListsActivity.this, items.get(position).getId(), 0);
 
-
+                //TODO getUsername() is null
+                //ToastManager.showToast(MyListsActivity.this, items.get(position).getUsername(), 0);
+            }
+        });
 
         NAV_myList_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,111 +116,12 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
-    public Boolean openConfirmDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MyListsActivity.this);
-        AtomicReference<Boolean> isConfirmed = new AtomicReference<>(false);
-        builder.setPositiveButton("Bestätigen", (dialogInterface, i) -> {
-                isConfirmed.set(true);
-        });
-
-        builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
-            dialogInterface.dismiss();
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-
-        return isConfirmed.get();
-    }
-
-    public void onBackPressed() {
-        startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        finish();
-    }
-
-    public void getAllListsFromUser() {
-        String url = "http://bfi.bbs-me.org:2536/api/getUserLists.php";
-        final String[] jsonStatus = new String[1];
-        final String[] jsonMessage = new String[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JSONObject jsonObject;
-                        try {
-                            jsonObject = new JSONObject(response);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            if (jsonObject.has("status")) {
-                                jsonStatus[0] = jsonObject.getString("status");
-                            }
-                            if (jsonObject.has("message")) {
-                                jsonMessage[0] = jsonObject.getString("message");
-                            }
-                        } catch (JSONException e) {
-                            ToastManager.showToast(MyListsActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
-                            e.printStackTrace();
-                        }
-
-                        if (jsonObject.has("status")) {
-                            if (jsonStatus[0].equals("200")) {
-                                System.out.println("\n\n\n\n\n\nsucess: \n" + jsonObject + "\n\n\n\n\n\n\n");
-                                ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                                JSONArray jsonArray = null;
-                                try {
-                                    jsonArray = jsonObject.getJSONArray("lists");
-                                    int length = jsonArray.length();
-                                    listArray = new String[length][2];
-
-                                    for (int i = 0; i < length; i++) {
-                                        JSONObject listObject = jsonArray.getJSONObject(i);
-                                        String list_id = listObject.getString("list_id");
-                                        String listname = listObject.getString("listname");
-                                        //listArray[i][0] = list_id;
-                                        id.add(list_id);
-                                        //listArray[i][1] = listname;
-                                        items.add(listname);
-                                        reloadAdapter();
-                                    }
-                                } catch (JSONException e) {
-                                    throw new RuntimeException(e);
-                                }
-
-                            }
-                        } else {
-                            ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                            System.out.println("\n\n\n\n\n\nfailure: \n" + jsonObject + "\n\n\n\n\n\n\n");
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(MyListsActivity.this, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("user_id", sharedpreferencesManager.getId());
-                params.put("hashed_password", sharedpreferencesManager.getHashed_password());
-                return params;
-            }
-        };
-
-        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
-        MySingleton.getInstance(MyListsActivity.this).addToRequestQueue(stringRequest);
-    }
-
-    public void addListToUser(String listName) {
+    public String createList(String listName) {
         String url = "http://bfi.bbs-me.org:2536/api/createList.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
         final String[] jsonList_id = new String[1];
+        final String[] jsonListUsername = new String[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -249,6 +142,9 @@ public class MyListsActivity extends AppCompatActivity {
                             if (jsonObject.has("list_id")) {
                                 jsonList_id[0] = jsonObject.getString("list_id");
                             }
+                            if (jsonObject.has("username")) {
+                                jsonListUsername[0] = jsonObject.getString("username");
+                            }
                         } catch (JSONException e) {
                             ToastManager.showToast(MyListsActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
@@ -256,7 +152,10 @@ public class MyListsActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
+                                //Liste wird in Array gespeichert damit sie angezeigt werden kann
+                                items.add(new ListItem(listName, jsonList_id[0], jsonListUsername[0]));
                                 ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                reloadAllLists();
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                             }
                         } else {
@@ -283,19 +182,18 @@ public class MyListsActivity extends AppCompatActivity {
 
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
         MySingleton.getInstance(MyListsActivity.this).addToRequestQueue(stringRequest);
+
+
+        return jsonList_id[0];
     }
 
 
-    public void reloadAdapter() {
-        MyListAdapter adapter = new MyListAdapter(this, items, id);
-        listView.setAdapter(adapter);
-    }
 
-    public void deleteListFromUser(Integer positionOfItemInListView) {
-        String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
+
+    public void getUserLists() {
+        String url = "http://bfi.bbs-me.org:2536/api/getUserLists.php";
         final String[] jsonStatus = new String[1];
-        final String[] jsonMessage = new String[1];
-        final String[] jsonList_id = new String[1];
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -310,12 +208,6 @@ public class MyListsActivity extends AppCompatActivity {
                             if (jsonObject.has("status")) {
                                 jsonStatus[0] = jsonObject.getString("status");
                             }
-                            if (jsonObject.has("message")) {
-                                jsonMessage[0] = jsonObject.getString("message");
-                            }
-                            if (jsonObject.has("list_id")) {
-                                jsonList_id[0] = jsonObject.getString("list_id");
-                            }
                         } catch (JSONException e) {
                             ToastManager.showToast(MyListsActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
@@ -323,13 +215,29 @@ public class MyListsActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
-                                getAllListsFromUser();
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("lists");
+                                    int length = jsonArray.length();
+
+                                    for (int i = 0; i < length; i++) {
+                                        JSONObject listObject = jsonArray.getJSONObject(i);
+                                        String list_id = listObject.getString("list_id");
+                                        String listname = listObject.getString("listname");
+                                        String username = listObject.getString("username");
+                                        items.add(new ListItem(listname, list_id, username));
+                                    }
+                                    reloadAllLists();
+
+
+                                    System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                ToastManager.showToast(MyListsActivity.this, "Etwas ist schiefgelaufen!", Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
                             }
-                        } else {
-                            ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                            System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
                         }
                     }
                 },
@@ -342,7 +250,6 @@ public class MyListsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("list_id", listArray[positionOfItemInListView][0]); //TODO list id
                 params.put("user_id", sharedpreferencesManager.getId());
                 params.put("hashed_password", sharedpreferencesManager.getHashed_password());
                 return params;
@@ -352,6 +259,32 @@ public class MyListsActivity extends AppCompatActivity {
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
         MySingleton.getInstance(MyListsActivity.this).addToRequestQueue(stringRequest);
     }
+
+
+
+    //Refreshes the ListView with all Lists
+    public void reloadAllLists() {
+
+        // Create the adapter
+        MyListAdapter adapter = new MyListAdapter(this, items, new MyListsActivity());
+        listView.setAdapter(adapter);
+    }
+    @Override
+    public void onListDeleted() {
+        
+    }
+
+
+
+
+
+
+    public void onBackPressed() {
+        startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
+    }
+
 
 
 }

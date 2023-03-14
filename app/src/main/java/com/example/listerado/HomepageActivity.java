@@ -337,30 +337,39 @@ public class HomepageActivity extends AppCompatActivity {
             case "1":
                 clearListArray();
                 refreshProductsByCategory("1");
+                break;
             case "2":
                 clearListArray();
                 refreshProductsByCategory("2");
+                break;
             case "3":
                 clearListArray();
                 refreshProductsByCategory("3");
+                break;
             case "4":
                 clearListArray();
                 refreshProductsByCategory("4");
+                break;
             case "5":
                 clearListArray();
                 refreshProductsByCategory("5");
+                break;
             case "6":
                 clearListArray();
                 refreshProductsByCategory("6");
+                break;
             case "7":
                 clearListArray();
                 refreshProductsByCategory("7");
+                break;
             case "8":
                 clearListArray();
                 refreshProductsByCategory("8");
+                break;
             default:
                 clearListArray();
                 refreshProductsByCategory("none");
+                break;
         }
     }
 
@@ -392,7 +401,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
                                 JSONArray jsonArray = null;
                                 try {
@@ -402,7 +411,6 @@ public class HomepageActivity extends AppCompatActivity {
                                     for (int i = 0; i < length; i++) {
                                         JSONObject listObject = jsonArray.getJSONObject(i);
                                         String newProduct = listObject.getString("product_name");
-                                        //listArray[i][1] = listname;
                                         items.add(newProduct);
                                         refreshAdapter();
                                     }

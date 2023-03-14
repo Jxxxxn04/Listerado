@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.Request;
@@ -21,105 +19,54 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MyListAdapter extends ArrayAdapter<String> {
+public class MyListAdapter extends ArrayAdapter<ListItem> {
     Context context;
     SharedpreferencesManager sharedpreferencesManager;
+    ListListener listListener;
 
-    public MyListAdapter(Context context, ArrayList<String> items, ArrayList<String> id) {
+    public MyListAdapter(Context context, List<ListItem> items, ListListener listListener) {
         super(context, 0, items);
         this.context = context;
         sharedpreferencesManager = new SharedpreferencesManager(context);
+        this.listListener = listListener;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Inflate the view if it doesn't exist
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_my_lists, parent, false);
         }
 
-        String item = getItem(position);
+        ImageView settings, addUserToList, delete;
+        settings = convertView.findViewById(R.id.configure_list);
+        addUserToList = convertView.findViewById(R.id.add_user_to_list);
+        delete = convertView.findViewById(R.id.delete_list);
+
+        // Get the item at the current position
+        ListItem item = getItem(position);
+
+        // Set the text of the TextView in the view
+        TextView listName = convertView.findViewById(R.id.listName);
+        TextView listIsFrom = convertView.findViewById(R.id.list_isFromUser);
+        listName.setText(item.getText());
+        listIsFrom.setText(item.getUsername());
 
 
-
-
-
-        TextView textView = convertView.findViewById(R.id.listName);
-        textView.setText(item);
-
-        ImageView deleteButton = convertView.findViewById(R.id.delete_list);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        //Delete List
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 System.out.println("\n\n\n\n\n\n\nposition: " + position + "\n\n\n\n\n\n\n");
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                AtomicReference<Boolean> isConfirmed = new AtomicReference<>(false);
                 builder.setPositiveButton("Bestätigen", (dialogInterface, i) -> {
-                    String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
-                    final String[] jsonStatus = new String[1];
-                    final String[] jsonMessage = new String[1];
-                    final String[] jsonList_id = new String[1];
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    JSONObject jsonObject;
-                                    try {
-                                        jsonObject = new JSONObject(response);
-                                    } catch (JSONException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    try {
-                                        if (jsonObject.has("status")) {
-                                            jsonStatus[0] = jsonObject.getString("status");
-                                        }
-                                        if (jsonObject.has("message")) {
-                                            jsonMessage[0] = jsonObject.getString("message");
-                                        }
-                                        if (jsonObject.has("list_id")) {
-                                            jsonList_id[0] = jsonObject.getString("list_id");
-                                        }
-                                    } catch (JSONException e) {
-                                        ToastManager.showToast(context, "Failed to parse server response!", Toast.LENGTH_SHORT);
-                                        e.printStackTrace();
-                                    }
-
-                                    if (jsonObject.has("status")) {
-                                        if (jsonStatus[0].equals("200")) {
-                                            ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
-                                            remove(item);
-                                            notifyDataSetChanged();
-                                            //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
-                                        }
-                                    } else {
-                                        ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
-                                        System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    ToastManager.showToast(context, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
-                                }
-                            }) {
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<>();
-                            params.put("list_id", ""); //TODO list id
-                            params.put("user_id", sharedpreferencesManager.getId());
-                            params.put("hashed_password", sharedpreferencesManager.getHashed_password());
-                            return params;
-                        }
-                    };
-
-                    // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
-                    MySingleton.getInstance(context).addToRequestQueue(stringRequest);
+                    deleteList(item.getId());
+                    listListener.onListDeleted();
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -130,6 +77,85 @@ public class MyListAdapter extends ArrayAdapter<String> {
                 dialog.show();
             }
         });
+
+
         return convertView;
+    }
+
+
+
+
+
+
+
+    void deleteList(String listId) {
+        String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonMessage = new String[1];
+        final String[] jsonList_id = new String[1];
+        final String[] jsonListUsername = new String[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+                            if (jsonObject.has("list_id")) {
+                                jsonList_id[0] = jsonObject.getString("list_id");
+                            }
+                            if (jsonObject.has("username")) {
+                                jsonListUsername[0] = jsonObject.getString("username");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(context, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
+                                //Liste wird in Array gespeichert damit sie angezeigt werden kann
+                                //items.add(new ListItem(listName, jsonList_id[0], jsonListUsername[0]));
+                                ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                            }
+                        } else {
+                            ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
+                            //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(context, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("list_id", listId);
+                params.put("user_id", sharedpreferencesManager.getId());
+                params.put("hashed_password", sharedpreferencesManager.getHashed_password());
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+
+    public interface ListListener {
+        void onListDeleted();
     }
 }
