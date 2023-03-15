@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MyListsActivity extends AppCompatActivity implements MyListAdapter.ListListener {
+public class MyListsActivity extends AppCompatActivity {
 
     protected ArrayList<ListItem> items;
     LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
@@ -37,8 +37,6 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
     ImageView navbar_ProfileImageView, addListImageView;
     ListView listView;
     SharedpreferencesManager sharedpreferencesManager;
-    String[][] listArray;
-    MyListAdapter adapter;
 
 
 
@@ -59,6 +57,7 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
         sharedpreferencesManager = new SharedpreferencesManager(MyListsActivity.this);
         getUserLists();
 
+
         switchToAccountIntent = new Intent(this, AccountActivity.class);
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);
 
@@ -76,6 +75,7 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
 
                 builder.setPositiveButton("Erstellen", (dialogInterface, i) -> {
                     createList(editText.getText().toString());
+                    //TODO getUsername() is null
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -91,7 +91,9 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ToastManager.showToast(MyListsActivity.this, items.get(position).getId(), 0);
 
-                //TODO getUsername() is null
+                System.out.println("\n\n\n\n" + items + "\n\n\n\n");
+
+
                 //ToastManager.showToast(MyListsActivity.this, items.get(position).getUsername(), 0);
             }
         });
@@ -153,14 +155,14 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
                                 //Liste wird in Array gespeichert damit sie angezeigt werden kann
-                                items.add(new ListItem(listName, jsonList_id[0], jsonListUsername[0]));
-                                ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                                reloadAllLists();
-                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                items.add(new ListItem(listName, jsonList_id[0], sharedpreferencesManager.getUsername()));
+                                ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
+                                reloadListView();
+                                //System.out.println("\n\n\n\n\n\nmessage: " + jsonMessage[0] + "\njsonListUsername: " + jsonListUsername[0] + "\nid: " + jsonList_id[0] + "\nJsonObject: " + jsonObject + "\n\n\n\n\n");
+                            }   else {
+                                ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
+                                //System.out.println("\n\n\n\n\n\nmessage: " + jsonMessage[0] + "\n\n\n\n\n\n");
                             }
-                        } else {
-                            ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
-                            //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
                         }
                     }
                 },
@@ -226,10 +228,10 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
                                         String listname = listObject.getString("listname");
                                         String username = listObject.getString("username");
                                         items.add(new ListItem(listname, list_id, username));
+
+
                                     }
-                                    reloadAllLists();
-
-
+                                    reloadListView();
                                     System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
@@ -263,17 +265,12 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
 
 
     //Refreshes the ListView with all Lists
-    public void reloadAllLists() {
+    public void reloadListView() {
 
         // Create the adapter
-        MyListAdapter adapter = new MyListAdapter(this, items, new MyListsActivity());
+        MyListAdapter adapter = new MyListAdapter(this, items);
         listView.setAdapter(adapter);
     }
-    @Override
-    public void onListDeleted() {
-        
-    }
-
 
 
 
@@ -284,6 +281,7 @@ public class MyListsActivity extends AppCompatActivity implements MyListAdapter.
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
+
 
 
 

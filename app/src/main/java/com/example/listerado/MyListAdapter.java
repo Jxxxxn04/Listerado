@@ -27,13 +27,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MyListAdapter extends ArrayAdapter<ListItem> {
     Context context;
     SharedpreferencesManager sharedpreferencesManager;
-    ListListener listListener;
 
-    public MyListAdapter(Context context, List<ListItem> items, ListListener listListener) {
+    public MyListAdapter(Context context, List<ListItem> items) {
         super(context, 0, items);
         this.context = context;
         sharedpreferencesManager = new SharedpreferencesManager(context);
-        this.listListener = listListener;
     }
 
     @Override
@@ -51,6 +49,8 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
         // Get the item at the current position
         ListItem item = getItem(position);
 
+
+
         // Set the text of the TextView in the view
         TextView listName = convertView.findViewById(R.id.listName);
         TextView listIsFrom = convertView.findViewById(R.id.list_isFromUser);
@@ -65,8 +65,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
                 System.out.println("\n\n\n\n\n\n\nposition: " + position + "\n\n\n\n\n\n\n");
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setPositiveButton("Bestätigen", (dialogInterface, i) -> {
-                    deleteList(item.getId());
-                    listListener.onListDeleted();
+                    deleteList(item.getId(), position);
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -78,7 +77,6 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
             }
         });
 
-
         return convertView;
     }
 
@@ -88,7 +86,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
 
 
 
-    void deleteList(String listId) {
+    void deleteList(String listId, Integer position) {
         String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
@@ -124,10 +122,9 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                //Liste wird in Array gespeichert damit sie angezeigt werden kann
-                                //items.add(new ListItem(listName, jsonList_id[0], jsonListUsername[0]));
                                 ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                notifyDataSetChanged();
                             }
                         } else {
                             ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
@@ -153,9 +150,5 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
 
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
-    }
-
-    public interface ListListener {
-        void onListDeleted();
     }
 }
