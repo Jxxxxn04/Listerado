@@ -1,7 +1,5 @@
 package com.example.listerado;
 
-import static com.google.gson.internal.$Gson$Types.arrayOf;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -84,6 +82,9 @@ public class AccountActivity extends AppCompatActivity {
         sharedpreferncesManager = new SharedpreferencesManager(AccountActivity.this);
         username.setText(sharedpreferncesManager.getUsername());
         email.setText(sharedpreferncesManager.getEmail());
+
+
+        //TODO abfrage ob sich username oder email geändert hat
 
 
         switchToHomepageIntent = new Intent(this, HomepageActivity.class);

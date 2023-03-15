@@ -22,13 +22,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class MyListAdapter extends ArrayAdapter<ListItem> {
+public class MyListAdapter extends ArrayAdapter<ListItemLists> {
     Context context;
     SharedpreferencesManager sharedpreferencesManager;
 
-    public MyListAdapter(Context context, List<ListItem> items) {
+    public MyListAdapter(Context context, List<ListItemLists> items) {
         super(context, 0, items);
         this.context = context;
         sharedpreferencesManager = new SharedpreferencesManager(context);
@@ -47,8 +46,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
         delete = convertView.findViewById(R.id.delete_list);
 
         // Get the item at the current position
-        ListItem item = getItem(position);
-
+        ListItemLists item = getItem(position);
 
 
         // Set the text of the TextView in the view
@@ -62,7 +60,6 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("\n\n\n\n\n\n\nposition: " + position + "\n\n\n\n\n\n\n");
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setPositiveButton("Bestätigen", (dialogInterface, i) -> {
                     deleteList(item.getId(), position);
@@ -81,12 +78,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
     }
 
 
-
-
-
-
-
-    void deleteList(String listId, Integer position) {
+    void deleteList(String listId, int position) {
         String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
@@ -124,6 +116,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                MyListsActivity.delteFromList(position);
                                 notifyDataSetChanged();
                             }
                         } else {

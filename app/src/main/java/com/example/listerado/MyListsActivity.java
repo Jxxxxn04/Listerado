@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class MyListsActivity extends AppCompatActivity {
 
-    protected ArrayList<ListItem> items;
+    protected static ArrayList<ListItemLists> items;
     LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
     Intent switchToAccountIntent, switchToHomepageIntent;
     ImageView navbar_ProfileImageView, addListImageView;
@@ -56,6 +56,7 @@ public class MyListsActivity extends AppCompatActivity {
         imageManager.refreshImage();
         sharedpreferencesManager = new SharedpreferencesManager(MyListsActivity.this);
         getUserLists();
+
 
 
         switchToAccountIntent = new Intent(this, AccountActivity.class);
@@ -155,7 +156,7 @@ public class MyListsActivity extends AppCompatActivity {
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
                                 //Liste wird in Array gespeichert damit sie angezeigt werden kann
-                                items.add(new ListItem(listName, jsonList_id[0], sharedpreferencesManager.getUsername()));
+                                items.add(new ListItemLists(listName, jsonList_id[0], sharedpreferencesManager.getUsername()));
                                 ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                                 reloadListView();
                                 //System.out.println("\n\n\n\n\n\nmessage: " + jsonMessage[0] + "\njsonListUsername: " + jsonListUsername[0] + "\nid: " + jsonList_id[0] + "\nJsonObject: " + jsonObject + "\n\n\n\n\n");
@@ -227,7 +228,7 @@ public class MyListsActivity extends AppCompatActivity {
                                         String list_id = listObject.getString("list_id");
                                         String listname = listObject.getString("listname");
                                         String username = listObject.getString("username");
-                                        items.add(new ListItem(listname, list_id, username));
+                                        items.add(new ListItemLists(listname, list_id, username));
 
 
                                     }
@@ -273,9 +274,6 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
-
-
-
     public void onBackPressed() {
         startActivity(new Intent(MyListsActivity.this, HomepageActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -283,6 +281,11 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
+    public static void delteFromList(int position) {
+        //System.out.println("\n\n\n\n\n\nVorher: " + items + "\n\n\n\n\n\nposition: " + position);
+        items.remove(position);
+        //System.out.println("\n\n\n\n\n\nNachher: " + items + "\n\n\n\n\n\n");
+    }
 
 
 }
