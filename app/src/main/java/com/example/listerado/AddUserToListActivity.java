@@ -34,6 +34,7 @@ public class AddUserToListActivity extends AppCompatActivity {
     EditText inputText;
     ArrayList<ListItemAddUser> items;
     ListView listView;
+    AddUserToListAdapter adapter;
 
 
     @Override
@@ -52,6 +53,7 @@ public class AddUserToListActivity extends AppCompatActivity {
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         items = new ArrayList<>();
+        createAdapter();
 
         //Navigation zur Homepage
         goToHomepage.setOnClickListener(view -> {
@@ -75,14 +77,18 @@ public class AddUserToListActivity extends AppCompatActivity {
         inputText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String searchText = charSequence.toString().trim();
+                if (!searchText.isEmpty()) {
+                    getUser(searchText);
+                } else {
+                    items.clear();
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                items.clear();
-                getUser(inputText.getText().toString());
-                reloadListView();
+
             }
 
             @Override
@@ -94,6 +100,8 @@ public class AddUserToListActivity extends AppCompatActivity {
 
 
     public void getUser(String inputText) {
+        items.clear();
+        adapter.notifyDataSetChanged();
         String url = "http://bfi.bbs-me.org:2536/api/searchUsers.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
@@ -132,9 +140,8 @@ public class AddUserToListActivity extends AppCompatActivity {
                                         String username = listObject.getString("username");
                                         String image = listObject.getString("image");
                                         items.add(new ListItemAddUser(user_id, username, image));
-
-
                                     }
+                                    System.out.println("\n\n\n\n\n\nArray: " + items);
                                     System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
@@ -166,9 +173,9 @@ public class AddUserToListActivity extends AppCompatActivity {
     }
 
 
-    public void reloadListView() {
+    public void createAdapter() {
         // Create the adapter
-        AddUserToListAdapter adapter = new AddUserToListAdapter(this, items);
+        adapter = new AddUserToListAdapter(this, items);
         listView.setAdapter(adapter);
     }
 

@@ -1,6 +1,8 @@
 package com.example.listerado;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,14 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
         listName.setText(item.getText());
         listIsFrom.setText(item.getUsername());
 
+        addUserToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, AddUserToListActivity.class));
+                ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                ((Activity) context).finish();
+            }
+        });
 
         //Delete List
         delete.setOnClickListener(new View.OnClickListener() {
