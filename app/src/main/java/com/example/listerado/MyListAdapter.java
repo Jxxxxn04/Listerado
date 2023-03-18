@@ -126,7 +126,7 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
-                                MyListsActivity.delteFromList(position);
+                                MyListsActivity.deleteFromList(position);
                                 notifyDataSetChanged();
                             }
                         } else {

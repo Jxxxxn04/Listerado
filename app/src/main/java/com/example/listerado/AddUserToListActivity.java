@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,18 +78,22 @@ public class AddUserToListActivity extends AppCompatActivity {
         inputText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String searchText = charSequence.toString().trim();
-                if (!searchText.isEmpty()) {
-                    getUser(searchText);
-                } else {
-                    items.clear();
-                }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String searchText = charSequence.toString().trim();
+                if (!searchText.isEmpty()) {
+                    clearItems();
+                    getUser(searchText);
+                    System.out.println(searchText);
 
+                } else {
+                    items.clear();
+                }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -100,7 +105,6 @@ public class AddUserToListActivity extends AppCompatActivity {
 
 
     public void getUser(String inputText) {
-        items.clear();
         adapter.notifyDataSetChanged();
         String url = "http://bfi.bbs-me.org:2536/api/searchUsers.php";
         final String[] jsonStatus = new String[1];
@@ -141,6 +145,7 @@ public class AddUserToListActivity extends AppCompatActivity {
                                         String image = listObject.getString("image");
                                         items.add(new ListItemAddUser(user_id, username, image));
                                     }
+                                    adapter.notifyDataSetChanged();
                                     System.out.println("\n\n\n\n\n\nArray: " + items);
                                     System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
@@ -177,6 +182,10 @@ public class AddUserToListActivity extends AppCompatActivity {
         // Create the adapter
         adapter = new AddUserToListAdapter(this, items);
         listView.setAdapter(adapter);
+    }
+
+    public void clearItems() {
+        items.clear();
     }
 
     public void onBackPressed() {

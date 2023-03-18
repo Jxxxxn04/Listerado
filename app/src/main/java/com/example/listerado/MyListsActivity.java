@@ -281,7 +281,7 @@ public class MyListsActivity extends AppCompatActivity {
     }
 
 
-    public static void delteFromList(int position) {
+    public static void deleteFromList(int position) {
         //System.out.println("\n\n\n\n\n\nVorher: " + items + "\n\n\n\n\n\nposition: " + position);
         items.remove(position);
         //System.out.println("\n\n\n\n\n\nNachher: " + items + "\n\n\n\n\n\n");
