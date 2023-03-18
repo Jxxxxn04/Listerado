@@ -16,9 +16,10 @@ public class SharedpreferencesManager {
         editor.remove("username");
         editor.remove("password");
         editor.remove("email");
-        editor.remove("imageString");
+        editor.remove("imageToString");
         editor.remove("id");
         editor.remove("hashed_password");
+        editor.remove("hasImage");
         editor.apply();
     }
 

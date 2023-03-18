@@ -77,6 +77,14 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
+        tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                finish();
+            }
+        });
+
 
         //Check if SharedPrefernces file contains Username, Password and Email
         //If true set Activity to HomepageActivity
@@ -249,46 +257,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        //Popup Window (sucks)
-
-        /*tvPasswordForgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) LoginActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                ViewGroup parent = findViewById(android.R.id.content);
-                View customView = layoutInflater.inflate(R.layout.forgot_password_popup, parent, false);
-
-                popupCancelImage = customView.findViewById(R.id.popup_cancel);
-                popupSendImage = customView.findViewById(R.id.popup_send);
-                popupSendText = customView.findViewById(R.id.popup_ed_email);
-
-
-
-                popupWindow = new PopupWindow(customView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                popupWindow.showAtLocation(parentLayout, Gravity.CENTER, 0,0);
-
-                popupCancelImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                    }
-                });
-
-                popupSendImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ToastManager.showToast(LoginActivity.this, "Nix wurde gesendet! :3", Toast.LENGTH_SHORT);
-                        //TODO popupSendText ist die Email bei welcher das Passwort zurückgesetzt werden soll, muss noch implementiert werden
-                    }
-                });
-
-
-            }
-        });*/
-
-
     }
 }
 

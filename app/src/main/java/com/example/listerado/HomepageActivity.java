@@ -307,6 +307,7 @@ public class HomepageActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     private int getBackgroundResId(View view) {
         switch (view.getId()) {
             case R.id.homepage_category_obst:
