@@ -1,18 +1,19 @@
 package com.example.listerado;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.Request;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,13 +29,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyListAdapter extends ArrayAdapter<ListItemLists> {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class ListAdapter extends ArrayAdapter<ListItemProduct> {
+
     Context context;
+    String listId;
     SharedpreferencesManager sharedpreferencesManager;
 
-    public MyListAdapter(Context context, List<ListItemLists> items) {
+    public ListAdapter(@NonNull Context context, List<ListItemProduct> items, String listID) {
         super(context, 0, items);
         this.context = context;
+        this.listId = listID;
         sharedpreferencesManager = new SharedpreferencesManager(context);
     }
 
@@ -41,42 +48,25 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Inflate the view if it doesn't exist
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_my_lists, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_products_in_list, parent, false);
         }
 
-        LinearLayout linearLayout;
-        linearLayout = convertView.findViewById(R.id.my_lists_linearLayout);
-        ImageView settings, addUserToList, delete;
-        settings = convertView.findViewById(R.id.configure_list);
-        addUserToList = convertView.findViewById(R.id.add_user_to_list);
-        delete = convertView.findViewById(R.id.delete_list);
+        ImageView imageView;
+        imageView = convertView.findViewById(R.id.template_list_imageview);
+        TextView textView;
+        textView = convertView.findViewById(R.id.template_list_textView);
 
         // Get the item at the current position
-        ListItemLists item = getItem(position);
+        ListItemProduct item = getItem(position);
 
+        textView.setText(item.getProduct_name());
 
-        // Set the text of the TextView in the view
-        TextView listName = convertView.findViewById(R.id.listName);
-        TextView listIsFrom = convertView.findViewById(R.id.list_isFromUser);
-        listName.setText(item.getText());
-        listIsFrom.setText(item.getUsername());
-
-        addUserToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, AddUserToListActivity.class));
-                ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                ((Activity) context).finish();
-            }
-        });
-
-        //Delete List
-        delete.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setPositiveButton("Bestätigen", (dialogInterface, i) -> {
-                    deleteList(item.getId(), position);
+                    deleteProductFromList(item.getProduct_id(), position);
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -88,28 +78,16 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
             }
         });
 
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent listActivity = new Intent(context, ListActivity.class);
-                Bundle b = new Bundle();
-                b.putString("id", item.getId()); //Your id
-                listActivity.putExtras(b);
-                context.startActivity(listActivity);
-                ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
         return convertView;
     }
 
 
-    void deleteList(String listId, int position) {
-        String url = "http://bfi.bbs-me.org:2536/api/deleteList.php";
+    public void deleteProductFromList(String product_id, int position) {
+        String url = "http://bfi.bbs-me.org:2536/api/removeListProduct.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
-        final String[] jsonList_id = new String[1];
-        final String[] jsonListUsername = new String[1];
+        final String[] jsonListName = new String[1];
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -127,12 +105,7 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
                             if (jsonObject.has("message")) {
                                 jsonMessage[0] = jsonObject.getString("message");
                             }
-                            if (jsonObject.has("list_id")) {
-                                jsonList_id[0] = jsonObject.getString("list_id");
-                            }
-                            if (jsonObject.has("username")) {
-                                jsonListUsername[0] = jsonObject.getString("username");
-                            }
+
                         } catch (JSONException e) {
                             ToastManager.showToast(context, "Failed to parse server response!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
@@ -142,7 +115,7 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
-                                MyListsActivity.deleteFromList(position);
+                                ListActivity.deleteFromList(position);
                                 notifyDataSetChanged();
                             }
                         } else {
@@ -154,13 +127,14 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastManager.showToast(context, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
+                        ToastManager.showToast(context, "Verbindung zwischen Api und App unterbrochen (getUserListProducts)!", Toast.LENGTH_LONG);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("list_id", listId);
+                params.put("product_id", product_id);
                 params.put("user_id", sharedpreferencesManager.getId());
                 params.put("hashed_password", sharedpreferencesManager.getHashed_password());
                 return params;
@@ -170,4 +144,5 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
         // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
         MySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
+
 }

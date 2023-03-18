@@ -146,8 +146,8 @@ public class AddUserToListActivity extends AppCompatActivity {
                                         items.add(new ListItemAddUser(user_id, username, image));
                                     }
                                     adapter.notifyDataSetChanged();
-                                    System.out.println("\n\n\n\n\n\nArray: " + items);
-                                    System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\nArray: " + items);
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }

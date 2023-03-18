@@ -8,29 +8,44 @@
     android:orientation="vertical">
 
     <TextView
-        android:gravity="center"
+        android:id="@+id/list_listName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
         android:textColor="#000"
-        android:text="Listname"
         android:textSize="40sp"
-        android:layout_marginTop="30dp" />
+        tools:text="listname" />
 
 
 
-    <ListView
-        android:id="@+id/addUserToList_listView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/list_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="630dp"
-        android:dividerHeight="30.0sp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        tools:listitem="@layout/template_add_user_to_list"
-        android:paddingStart="20dp"
-        android:paddingTop="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp" />
+        >
+
+        <ListView
+            android:id="@+id/list_listView"
+            android:layout_width="match_parent"
+            android:layout_height="610dp"
+            android:dividerHeight="10.0sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            tools:listitem="@layout/template_products_in_list"
+            android:paddingStart="20dp"
+            android:paddingTop="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
+
+
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
     <LinearLayout
@@ -42,7 +57,7 @@
         android:layout_marginTop="27dp">
 
         <LinearLayout
-            android:id="@+id/addUserToList_navigation_goToMyProfile"
+            android:id="@+id/list_navigation_goToMyProfile"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -54,7 +69,7 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/addUserToList_navbar_ProfilImageView"
+                    android:id="@+id/list_navbar_ProfilImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@mipmap/account_icon" />
@@ -71,7 +86,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/addUserToList_navigation_goToHomepage"
+            android:id="@+id/list_navigation_goToHomepage"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -100,7 +115,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/addUserToList_navigation_goToMyList"
+            android:id="@+id/list_navigation_goToMyList"
             android:layout_width="136dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"

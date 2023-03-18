@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:id="@+id/homepage_items_linearlayout"
+    android:layout_width="370dp"
     android:layout_height="80dp"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="7dp"
@@ -8,8 +9,7 @@
     android:layout_marginBottom="7dp"
     android:background="@drawable/weniger_rounded_rectangle"
     android:elevation="6dp"
-    android:gravity="left|center"
-    android:layout_gravity="center"
+    android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 

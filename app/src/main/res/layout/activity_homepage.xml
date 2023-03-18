@@ -307,8 +307,9 @@
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/pullToRefresh"
-            android:layout_width="403dp"
-            android:layout_height="509dp">
+            android:layout_width="400dp"
+            android:layout_height="510dp"
+            android:layout_gravity="center">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -321,15 +322,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:dividerHeight="10.0sp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
                     android:orientation="vertical"
-                    tools:listitem="template_homepage_items"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp" />
+                    tools:listitem="@layout/template_homepage_items"
+                    android:paddingTop="0dp"/>
 
             </FrameLayout>
 

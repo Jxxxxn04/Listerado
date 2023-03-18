@@ -1,11 +1,13 @@
 package com.example.listerado;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,12 @@ public class HomepageAdapter extends ArrayAdapter<String> {
 
         String item = getItem(position);
 
+       // convertView.setForegroundGravity(Gravity.CENTER);
+
+        LinearLayout linearLayout = convertView.findViewById(R.id.homepage_items_linearlayout);
+
+        //linearLayout.setGravity(Gravity.CENTER);
+        //System.out.println("gravity: " + linearLayout.getGravity());
         TextView textView = convertView.findViewById(R.id.homepage_textView);
         textView.setText(item);
 
