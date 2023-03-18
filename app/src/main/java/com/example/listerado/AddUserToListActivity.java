@@ -53,8 +53,17 @@ public class AddUserToListActivity extends AppCompatActivity {
         imageManager = new ImageManager(this, navbarImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
+
+        //Loads the id of the list
+        Bundle b = getIntent().getExtras();
+        String id = b.getString("list_id");
+
         items = new ArrayList<>();
-        createAdapter();
+        createAdapter(id);
+
+
+
+
 
         //Navigation zur Homepage
         goToHomepage.setOnClickListener(view -> {
@@ -178,9 +187,9 @@ public class AddUserToListActivity extends AppCompatActivity {
     }
 
 
-    public void createAdapter() {
+    public void createAdapter(String listID) {
         // Create the adapter
-        adapter = new AddUserToListAdapter(this, items);
+        adapter = new AddUserToListAdapter(this, items, listID);
         listView.setAdapter(adapter);
     }
 

@@ -28,7 +28,8 @@ import java.util.Map;
 
 public class HomepageActivity extends AppCompatActivity {
 
-    ArrayList<String> items;
+    ArrayList<ListItemHomepage> products;
+    ArrayList<ListItemLists> lists;
     LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
     ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
@@ -36,6 +37,9 @@ public class HomepageActivity extends AppCompatActivity {
     RelativeLayout obst, gemuese, fleisch, fisch, milchprodukte, suessigkeiten, getraenke, gewuerze, gebaeck;
     ListView listView;
     String selectedCategory;
+    HomepageAdapter adapter;
+    MyListAdapter listAdapter;
+    SharedpreferencesManager sharedpreferencesManager;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -61,11 +65,15 @@ public class HomepageActivity extends AppCompatActivity {
         gewuerze = findViewById(R.id.homepage_category_gewuerze);
         gebaeck = findViewById(R.id.homepage_category_gebaeck);
         ImageManager imageManager = new ImageManager(HomepageActivity.this, navbarProfileImageView);
+        sharedpreferencesManager = new SharedpreferencesManager(HomepageActivity.this);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
-        items = new ArrayList<>();
+        products = new ArrayList<>();
+        lists = new ArrayList<>();
         refreshProductsByCategory("none");
         selectedCategory = "none";
+        createProductsAdapter();
+        createListsAdapter();
 
 
         //Set the Intents
@@ -402,19 +410,23 @@ public class HomepageActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
-                                JSONArray jsonArray = null;
                                 try {
-                                    jsonArray = jsonObject.getJSONArray("products");
+                                    JSONArray jsonArray = jsonObject.getJSONArray("products");
                                     int length = jsonArray.length();
 
                                     for (int i = 0; i < length; i++) {
                                         JSONObject listObject = jsonArray.getJSONObject(i);
-                                        String newProduct = listObject.getString("product_name");
-                                        items.add(newProduct);
-                                        refreshAdapter();
+                                        String product_id = listObject.getString("product_id");
+                                        String product_name = listObject.getString("product_name");
+                                        String categoryID = listObject.getString("category_id");
+                                        String category_name = listObject.getString("category_name");
+                                        products.add(new ListItemHomepage(product_id, product_name, categoryID, category_name));
                                     }
+                                    adapter.notifyDataSetChanged();
+                                    //System.out.println("\n\n\n\n\n\nArray: " + items);
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -443,13 +455,88 @@ public class HomepageActivity extends AppCompatActivity {
         MySingleton.getInstance(HomepageActivity.this).addToRequestQueue(stringRequest);
     }
 
+    public void getUserLists() {
+        String url = "http://bfi.bbs-me.org:2536/api/getUserLists.php";
+        final String[] jsonStatus = new String[1];
 
-    public void refreshAdapter() {
-        HomepageAdapter adapter = new HomepageAdapter(this, items);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(HomepageActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("lists");
+                                    int length = jsonArray.length();
+
+                                    for (int i = 0; i < length; i++) {
+                                        JSONObject listObject = jsonArray.getJSONObject(i);
+                                        String list_id = listObject.getString("list_id");
+                                        String listname = listObject.getString("listname");
+                                        String username = listObject.getString("username");
+                                        lists.add(new ListItemLists(listname, list_id, username));
+
+
+                                    }
+                                    listAdapter.notifyDataSetChanged();
+                                    System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                ToastManager.showToast(HomepageActivity.this, "Etwas ist schiefgelaufen!", Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(HomepageActivity.this, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", sharedpreferencesManager.getId());
+                params.put("hashed_password", sharedpreferencesManager.getHashed_password());
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+        MySingleton.getInstance(HomepageActivity.this).addToRequestQueue(stringRequest);
+    }
+
+
+    public void createProductsAdapter() {
+        adapter = new HomepageAdapter(this, products);
         listView.setAdapter(adapter);
     }
 
+    public void createListsAdapter() {
+        listAdapter = new MyListAdapter(this, lists);
+        listView.setAdapter(listAdapter);
+    }
+
     public void clearListArray() {
-        items.clear();
+        products.clear();
     }
 }

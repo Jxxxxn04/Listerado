@@ -64,7 +64,11 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
         addUserToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, AddUserToListActivity.class));
+                Intent addUserActivity = new Intent(context, AddUserToListActivity.class);
+                Bundle b = new Bundle();
+                b.putString("list_id", item.getId());
+                addUserActivity.putExtras(b);
+                context.startActivity(addUserActivity);
                 ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 ((Activity) context).finish();
             }

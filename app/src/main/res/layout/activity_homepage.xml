@@ -105,16 +105,20 @@
                     android:gravity="center">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
                         android:layout_marginTop="7dp"
                         android:layout_marginEnd="7dp"
                         android:layout_marginBottom="7dp"
-                        android:layout_weight="1"
                         android:text="Obst"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:maxLines="2"
+                        android:autoSizeMinTextSize="5sp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeStepGranularity="1sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -305,30 +309,45 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/pullToRefresh"
-            android:layout_width="400dp"
-            android:layout_height="510dp"
-            android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:layout_width="match_parent"
+            <ListView
+                android:id="@+id/homepage_lists_listview"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
+                tools:listitem="@layout/template_homepage_lists"/>
 
-                <ListView
-                    android:id="@+id/homepage_listview"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/pullToRefresh"
+                android:layout_width="400dp"
+                android:layout_height="510dp"
+                android:layout_gravity="center">
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:dividerHeight="10.0sp"
-                    android:orientation="vertical"
-                    tools:listitem="@layout/template_homepage_items"
-                    android:paddingTop="0dp"/>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
 
-            </FrameLayout>
+                    <ListView
+                        android:id="@+id/homepage_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:dividerHeight="10.0sp"
+                        android:orientation="vertical"
+                        tools:listitem="@layout/template_homepage_items"
+                        android:paddingTop="0dp"/>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </FrameLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </LinearLayout>
+
+
 
     </LinearLayout>
 

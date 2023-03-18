@@ -29,12 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class HomepageAdapter extends ArrayAdapter<String> {
+public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
 
     Context context;
     SharedpreferencesManager sharedpreferencesManager;
 
-    public HomepageAdapter(Context context, ArrayList<String> items) {
+    public HomepageAdapter(Context context, ArrayList<ListItemHomepage> items) {
         super(context, 0, items);
         this.context = context;
         sharedpreferencesManager = new SharedpreferencesManager(context);
@@ -51,7 +51,7 @@ public class HomepageAdapter extends ArrayAdapter<String> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_homepage_items, parent, false);
         }
 
-        String item = getItem(position);
+        ListItemHomepage item = getItem(position);
 
        // convertView.setForegroundGravity(Gravity.CENTER);
 
@@ -60,7 +60,7 @@ public class HomepageAdapter extends ArrayAdapter<String> {
         //linearLayout.setGravity(Gravity.CENTER);
         //System.out.println("gravity: " + linearLayout.getGravity());
         TextView textView = convertView.findViewById(R.id.homepage_textView);
-        textView.setText(item);
+        textView.setText(item.getProduct_name());
 
         RelativeLayout add_item_button = convertView.findViewById(R.id.add_item_button);
         add_item_button.setOnClickListener(new View.OnClickListener() {

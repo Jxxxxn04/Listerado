@@ -97,6 +97,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 finish();
 
+                            }   else {
+                                ToastManager.showToast(ResetPasswordActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
                             }
                         } else {
                             ToastManager.showToast(ResetPasswordActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);

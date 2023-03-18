@@ -94,7 +94,9 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 clearItems();
-                getProductsFromList(id);
+                if(items != null) {
+                    getProductsFromList(id);
+                }
                 pullToRefresh.setRefreshing(false);
             }
         });
