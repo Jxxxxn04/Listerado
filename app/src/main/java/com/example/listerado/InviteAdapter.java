@@ -98,6 +98,9 @@ public class InviteAdapter extends ArrayAdapter<ListItemInvites> {
                             if (jsonObject.has("status")) {
                                 jsonStatus[0] = jsonObject.getString("status");
                             }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
 
 
                         } catch (JSONException e) {
