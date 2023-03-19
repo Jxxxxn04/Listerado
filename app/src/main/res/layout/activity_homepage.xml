@@ -317,7 +317,9 @@
                 android:id="@+id/homepage_lists_listview"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/template_homepage_lists"/>
+                tools:listitem="@layout/template_homepage_lists"
+                android:paddingTop="10dp"
+                android:dividerHeight="5.0sp"/>
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/pullToRefresh"

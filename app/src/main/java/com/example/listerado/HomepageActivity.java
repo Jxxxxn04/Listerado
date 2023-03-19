@@ -1,6 +1,7 @@
 package com.example.listerado;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,15 +31,16 @@ public class HomepageActivity extends AppCompatActivity {
 
     ArrayList<ListItemHomepage> products;
     ArrayList<ListItemLists> lists;
+    static ArrayList<String> selectedLists;
     LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
     ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
     SwipeRefreshLayout pullToRefresh;
     RelativeLayout obst, gemuese, fleisch, fisch, milchprodukte, suessigkeiten, getraenke, gewuerze, gebaeck;
-    ListView listView;
+    ListView listView, listsListView;
     String selectedCategory;
     HomepageAdapter adapter;
-    MyListAdapter listAdapter;
+    HomepageListAdapter listAdapter;
     SharedpreferencesManager sharedpreferencesManager;
 
     @SuppressLint("MissingInflatedId")
@@ -52,6 +54,7 @@ public class HomepageActivity extends AppCompatActivity {
         NAV_homepage_goToMyProfileLayout = findViewById(R.id.homepage_navigation_goToMyProfile);
         NAV_homepage_goToMyLists = findViewById(R.id.homepage_navigation_goToMyList);
         listView = findViewById(R.id.homepage_listview);
+        listsListView = findViewById(R.id.homepage_lists_listview);
         appIcon = findViewById(R.id.appIcon);
         pullToRefresh = findViewById(R.id.pullToRefresh);
         navbarProfileImageView = findViewById(R.id.homepage_navbar_ProfileImageView);
@@ -70,10 +73,13 @@ public class HomepageActivity extends AppCompatActivity {
         imageManager.refreshImage();
         products = new ArrayList<>();
         lists = new ArrayList<>();
-        refreshProductsByCategory("none");
-        selectedCategory = "none";
+        selectedLists = new ArrayList<>();
         createProductsAdapter();
         createListsAdapter();
+        refreshProductsByCategory("none");
+        selectedCategory = "none";
+        getUserLists();
+
 
 
         //Set the Intents
@@ -92,12 +98,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     obst.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -114,12 +120,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     gemuese.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -135,12 +141,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     fleisch.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -156,12 +162,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     fisch.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -177,12 +183,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     getraenke.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -198,12 +204,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     gewuerze.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -218,12 +224,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     gebaeck.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -239,12 +245,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     milchprodukte.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -260,12 +266,12 @@ public class HomepageActivity extends AppCompatActivity {
                     handleSelection(view);
                     refreshProductsByCategory(id);
                     isClicked = false;
-                    clearListArray();
+                    clearProductsArray();
                 } else {
                     suessigkeiten.setBackgroundResource(R.drawable.list_background);
                     refreshProductsByCategory("none");
                     isClicked = true;
-                    clearListArray();
+                    clearProductsArray();
                 }
             }
         });
@@ -296,7 +302,7 @@ public class HomepageActivity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                clearListArray();
+                clearProductsArray();
                 reloadProductsByRefresh();
                 pullToRefresh.setRefreshing(false);
             }
@@ -344,39 +350,39 @@ public class HomepageActivity extends AppCompatActivity {
     public void reloadProductsByRefresh() {
         switch (selectedCategory) {
             case "1":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("1");
                 break;
             case "2":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("2");
                 break;
             case "3":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("3");
                 break;
             case "4":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("4");
                 break;
             case "5":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("5");
                 break;
             case "6":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("6");
                 break;
             case "7":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("7");
                 break;
             case "8":
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("8");
                 break;
             default:
-                clearListArray();
+                clearProductsArray();
                 refreshProductsByCategory("none");
                 break;
         }
@@ -532,11 +538,34 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
     public void createListsAdapter() {
-        listAdapter = new MyListAdapter(this, lists);
-        listView.setAdapter(listAdapter);
+        listAdapter = new HomepageListAdapter(this, lists);
+        listsListView.setAdapter(listAdapter);
     }
 
-    public void clearListArray() {
+    public void clearProductsArray() {
         products.clear();
+    }
+
+    public static void addSelectedList(String listID) {
+        selectedLists.add(listID);
+    }
+
+    public static void removeListFromSelectedList(Context context, String listID) {
+        // Suchen nach einem Element mit dem Wert "Apfel"
+        int index = selectedLists.indexOf(listID);
+
+        // Entfernen des Elements, wenn es gefunden wird
+        if(index != -1) {
+            selectedLists.remove(index);
+            ToastManager.showToast(context, listID + ", erfolgreich entwählt", 0);
+            System.out.println(selectedLists);
+        }   else {
+            ToastManager.showToast(context, "Angeklickte Liste wurde nicht gefunden", 0);
+            System.out.println(selectedLists);
+        }
+    }
+
+    public static ArrayList<String> getSelectedLists() {
+        return selectedLists;
     }
 }
