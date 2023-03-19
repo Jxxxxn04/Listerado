@@ -78,6 +78,11 @@
             android:screenOrientation="portrait"
             android:exported="true" />
 
+        <activity
+            android:name=".InviteActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
     </application>
 
 </manifest>

@@ -89,7 +89,7 @@ public class AddUserToListAdapter extends ArrayAdapter<ListItemAddUser> {
 
 
     public void inviteUserToList(String listID, String memberID) {
-        String url = "http://bfi.bbs-me.org:2536/api/addUserToList.php";
+        String url = "http://bfi.bbs-me.org:2536/api/inviteUserToList.php";
         final String[] jsonStatus = new String[1];
         final String[] jsonMessage = new String[1];
         final String[] jsonListName = new String[1];
@@ -122,6 +122,9 @@ public class AddUserToListAdapter extends ArrayAdapter<ListItemAddUser> {
                                 ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
                                 //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
+                            }   else {
+                                ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
                             }
                         } else {
                             ToastManager.showToast(context, jsonMessage[0], Toast.LENGTH_SHORT);

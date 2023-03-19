@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,15 +50,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
 
     Integer onClickedColorChange;
-    TextView username, email, logoutButton;
+    TextView username, email, logoutButton, invitesTextView;
     LinearLayout changeUsernameLayoutButton, parentLayout, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout,
             deleteUserLayoutButton, changeUserPasswordLayoutButton, changeUserEmailLayoutButton;
     Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
     CircleImageView profileImageViewButton, navbar_profileImageView;
-    int SELECT_PICTURE = 200;
+    ImageView invitesImageView;
     Bitmap bitmap;
     File file;
-    SharedpreferencesManager sharedpreferncesManager;
+    SharedpreferencesManager sharedpreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class AccountActivity extends AppCompatActivity {
         changeUserPasswordLayoutButton = findViewById(R.id.change_password_layout_button);
         profileImageViewButton = findViewById(R.id.account_imageView_Button);
         navbar_profileImageView = findViewById(R.id.account_movebar_Konto_imageView);
+        invitesImageView = findViewById(R.id.has_invites_imageview);
         changeUserEmailLayoutButton = findViewById(R.id.change_email_layout_button);
         NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
         NAV_account_goTomyListLayout = findViewById(R.id.account_navigation_goToMyList);
@@ -76,14 +80,18 @@ public class AccountActivity extends AppCompatActivity {
         email = findViewById(R.id.myAccount_email);
         logoutButton = findViewById(R.id.logout_Button);
         logoutButton.bringToFront();
+        invitesTextView = findViewById(R.id.has_invites_textview);
         onClickedColorChange = Color.parseColor("#EEEEEE");
-
         ImageManager imageManager = new ImageManager(AccountActivity.this, profileImageViewButton, navbar_profileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
-        sharedpreferncesManager = new SharedpreferencesManager(AccountActivity.this);
-        username.setText(sharedpreferncesManager.getUsername());
-        email.setText(sharedpreferncesManager.getEmail());
+        sharedpreferencesManager = new SharedpreferencesManager(AccountActivity.this);
+        getUserInvites();
+
+        username.setText(sharedpreferencesManager.getUsername());
+        email.setText(sharedpreferencesManager.getEmail());
+
+
 
         //Checks if Smartphone has Internet
         if (!isInternetConnected()) {
@@ -124,10 +132,20 @@ public class AccountActivity extends AppCompatActivity {
             logoutButton.setBackgroundColor(onClickedColorChange);
 
             // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
-            sharedpreferncesManager.clearSharedPreferences();
+            sharedpreferencesManager.clearSharedPreferences();
 
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             startActivity(switchToLoginActivity);
             finish();
+        });
+
+        invitesImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AccountActivity.this, InviteActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
         });
 
         deleteUserLayoutButton.setOnClickListener(view -> showDeleteUserDialog());
@@ -149,8 +167,8 @@ public class AccountActivity extends AppCompatActivity {
                 Volley.newRequestQueue(AccountActivity.this);
                 String url = "http://bfi.bbs-me.org:2536/api/deleteUser.php";
 
-                String savedID = sharedpreferncesManager.getId();
-                String savedPassword = sharedpreferncesManager.getPassword();
+                String savedID = sharedpreferencesManager.getId();
+                String savedPassword = sharedpreferencesManager.getPassword();
                 final String[] jsonMessage = new String[1];
                 final String[] jsonStatus = new String[1];
 
@@ -192,7 +210,7 @@ public class AccountActivity extends AppCompatActivity {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
 
                                     // Benutzername, Passwort und Email werden aus der SharedPreferences gelöscht
-                                    sharedpreferncesManager.clearSharedPreferences();
+                                    sharedpreferencesManager.clearSharedPreferences();
 
                                     startActivity(new Intent(AccountActivity.this, LoginActivity.class));
                                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -249,8 +267,8 @@ public class AccountActivity extends AppCompatActivity {
                 Volley.newRequestQueue(AccountActivity.this);
                 String url = "http://bfi.bbs-me.org:2536/api/changeUserName.php";
 
-                String savedID = sharedpreferncesManager.getId();
-                String savedPassword = sharedpreferncesManager.getPassword();
+                String savedID = sharedpreferencesManager.getId();
+                String savedPassword = sharedpreferencesManager.getPassword();
 
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nid: " + savedID + "\n\n\n\n\n\n\n\n\n");
 
@@ -291,7 +309,7 @@ public class AccountActivity extends AppCompatActivity {
                                 if (jsonObject.has("status")) {
                                     if (jsonStatus[0].equals("200")) {
                                         //Benutzernamen erfolgreich geändert
-                                        sharedpreferncesManager.changeUsername(edNewUsername.getText().toString());
+                                        sharedpreferencesManager.changeUsername(edNewUsername.getText().toString());
                                         username.setText(edNewUsername.getText().toString());
                                         ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
 
@@ -345,9 +363,10 @@ public class AccountActivity extends AppCompatActivity {
 
             final String[] jsonStatus = new String[1];
             final String[] jsonMessage = new String[1];
+            final String[] jsonHashedPassword = new String[1];
 
-            String savedID = sharedpreferncesManager.getId();
-            String savedPassword = sharedpreferncesManager.getPassword();
+            String savedID = sharedpreferencesManager.getId();
+            String savedPassword = sharedpreferencesManager.getPassword();
 
             if (!edOldPassword.getText().toString().equals(savedPassword)) {
                 ToastManager.showToast(AccountActivity.this, "Falsches Passwort", Toast.LENGTH_SHORT);
@@ -367,6 +386,9 @@ public class AccountActivity extends AppCompatActivity {
                                 if (jsonObject.has("message")) {
                                     jsonMessage[0] = jsonObject.getString("message");
                                 }
+                                if (jsonObject.has("hashed_password")) {
+                                    jsonHashedPassword[0] = jsonObject.getString("hashed_password");
+                                }
                             } catch (JSONException e) {
                                 ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                                 e.printStackTrace();
@@ -375,7 +397,9 @@ public class AccountActivity extends AppCompatActivity {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
 
-                                sharedpreferncesManager.changePassword(edNewPassword.getText().toString());
+                                sharedpreferencesManager.changePassword(edNewPassword.getText().toString());
+                                sharedpreferencesManager.changeHashedPassword(jsonHashedPassword[0]);
+
                             } else {
                                 ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                             }
@@ -421,8 +445,8 @@ public class AccountActivity extends AppCompatActivity {
             final String[] jsonMessage = new String[1];
 
 
-            String savedID = sharedpreferncesManager.getId();
-            String savedPassword = sharedpreferncesManager.getPassword();
+            String savedID = sharedpreferencesManager.getId();
+            String savedPassword = sharedpreferencesManager.getPassword();
 
             if (!edPassword.getText().toString().equals(savedPassword)) {
                 System.out.println(savedPassword);
@@ -452,7 +476,7 @@ public class AccountActivity extends AppCompatActivity {
                             if (jsonObject.has("status")) {
                                 if (jsonStatus[0].equals("200")) {
                                     ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
-                                    sharedpreferncesManager.changeEmail(edNewEmail.getText().toString());
+                                    sharedpreferencesManager.changeEmail(edNewEmail.getText().toString());
                                     email.setText(edNewEmail.getText().toString());
                                 }
                             } else {
@@ -525,7 +549,7 @@ public class AccountActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        String savedID = sharedpreferncesManager.getId();
+        String savedID = sharedpreferencesManager.getId();
 
         // Erstellen Sie die Volley-Abfrage
         RequestQueue requestQueue = Volley.newRequestQueue(AccountActivity.this);
@@ -574,7 +598,7 @@ public class AccountActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id", savedID);
-                params.put("hashed_password", sharedpreferncesManager.getHashed_password());
+                params.put("hashed_password", sharedpreferencesManager.getHashed_password());
                 params.put("image", encodedImage);
                 return params;
             }
@@ -596,6 +620,87 @@ public class AccountActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public void getUserInvites() {
+        String url = "http://bfi.bbs-me.org:2536/api/getUserListInvites.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonMessage = new String[1];
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+
+
+                        } catch (JSONException e) {
+                            ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+
+                                try {
+
+                                    ArrayList<String> arrayList = new ArrayList<>();
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("invites");
+                                    int length = jsonArray.length();
+
+                                    for (int i = 0; i < length; i++) {
+                                        JSONObject listObject = jsonArray.getJSONObject(i);
+                                        String list_id = listObject.getString("list_id");
+                                        arrayList.add(list_id);
+                                    }
+
+                                    invitesTextView.setText(String.valueOf(arrayList.size()));
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+
+
+
+                            }   else  {
+                                ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
+                            }
+                        } else {
+                            ToastManager.showToast(AccountActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                            //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(AccountActivity.this, "Verbindung zwischen Api und App unterbrochen (getUserInvites)!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", sharedpreferencesManager.getId());
+                params.put("hashed_password", sharedpreferencesManager.getHashed_password());
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+        MySingleton.getInstance(AccountActivity.this).addToRequestQueue(stringRequest);
     }
 
     public void onBackPressed() {
