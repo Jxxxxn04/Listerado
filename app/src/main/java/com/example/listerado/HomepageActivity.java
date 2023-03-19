@@ -3,6 +3,8 @@ package com.example.listerado;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -79,6 +81,14 @@ public class HomepageActivity extends AppCompatActivity {
         refreshProductsByCategory("none");
         selectedCategory = "none";
         getUserLists();
+
+        //Checks if Smartphone has Internet
+        if (!isInternetConnected()) {
+            Intent intent = new Intent(this, NoInternetActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
+        }
 
 
 
@@ -567,5 +577,12 @@ public class HomepageActivity extends AppCompatActivity {
 
     public static ArrayList<String> getSelectedLists() {
         return selectedLists;
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

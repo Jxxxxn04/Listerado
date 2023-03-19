@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Editable;
@@ -74,12 +76,21 @@ public class RegisterActivity extends AppCompatActivity {
         //Alle Variablen werden aus der SharedPreferences Datei gelöscht
         sharedpreferncesManager.clearSharedPreferences();
 
+        //Checks if Smartphone has Internet
+        if (!isInternetConnected()) {
+            Intent intent = new Intent(this, NoInternetActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
+        }
+
 
         // Change to Login-Page
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
         });
@@ -642,8 +653,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 
 
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }
