@@ -41,7 +41,7 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Inflate the view if it doesn't exist
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_my_lists, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_lists, parent, false);
         }
 
         LinearLayout linearLayout;
@@ -89,6 +89,13 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastManager.showToast(context, "Blub", 0);
             }
         });
 

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class AddUserToListActivity extends AppCompatActivity {
     ArrayList<ListItemAddUser> items;
     ListView listView;
     AddUserToListAdapter adapter;
+    NotificationManager notificationManager;
+    TextView textView;
 
 
     @Override
@@ -46,10 +49,13 @@ public class AddUserToListActivity extends AppCompatActivity {
         goToHomepage = findViewById(R.id.addUserToList_navigation_goToHomepage);
         goToMyLists = findViewById(R.id.addUserToList_navigation_goToMyList);
         goToMyAccount = findViewById(R.id.addUserToList_navigation_goToMyProfile);
-        navbarImageView = findViewById(R.id.addUserToList_navbar_ProfilImageView);
+        navbarImageView = findViewById(R.id.addUserToList_movebar_Konto_imageView);
+        textView = findViewById(R.id.invite_textview_2);
         inputText = findViewById(R.id.addUserLists_inputText);
         listView = findViewById(R.id.addUserToList_listView);
         sharedpreferencesManager = new SharedpreferencesManager(this);
+        notificationManager = new NotificationManager(AddUserToListActivity.this, textView);
+        notificationManager.getUserInvites();
         imageManager = new ImageManager(this, navbarImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();

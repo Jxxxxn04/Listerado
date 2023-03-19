@@ -45,18 +45,17 @@ public class InviteActivity extends AppCompatActivity {
         goToHomepage = findViewById(R.id.invite_navigation_goToHomepage);
         goToMyLists = findViewById(R.id.invite_navigation_goToMyList);
         goToMyAccount = findViewById(R.id.invite_navigation_goToMyProfile);
-        navbarImageView = findViewById(R.id.invites_navbar_ProfilImageView);
+        navbarImageView = findViewById(R.id.invites_movebar_Konto_imageView);
         listView = findViewById(R.id.invites_listView);
-        textView = findViewById(R.id.invites_textView);
+        textView = findViewById(R.id.invite_textview_2);
         swipeRefreshLayout = findViewById(R.id.invite_refreshlayout);
         sharedpreferencesManager = new SharedpreferencesManager(InviteActivity.this);
         imageManager = new ImageManager(this, navbarImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         items = new ArrayList<>();
-        createAdapter();
         getInvites();
-
+        createAdapter();
 
 
 
@@ -119,7 +118,7 @@ public class InviteActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
                                 try {
                                     JSONArray jsonArray = jsonObject.getJSONArray("invites");
@@ -133,9 +132,9 @@ public class InviteActivity extends AppCompatActivity {
                                         String owner_username = listObject.getString("owner_username");
                                         items.add(new ListItemInvites(list_id, listname, owner_id, owner_username));
                                     }
-                                    checkItems();
 
-                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                    adapter.notifyDataSetChanged();
+                                    //System.out.println("\n\n\n\n\n\n" + items + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -174,20 +173,12 @@ public class InviteActivity extends AppCompatActivity {
 
     public void createAdapter() {
         // Create the adapter
+        System.out.println("Liste: " + items);
         adapter = new InviteAdapter(this, items);
         listView.setAdapter(adapter);
     }
 
-    public void checkItems() {
-        adapter.notifyDataSetChanged();
-        if (items.isEmpty()) {
-            listView.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-        }
-    }
+
 
     public static void deleteItemFromItems(int position) {
         items.remove(position);

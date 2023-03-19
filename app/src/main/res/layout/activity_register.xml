@@ -22,7 +22,7 @@
             android:id="@+id/imageView52"
             android:layout_width="100dp"
             android:layout_height="120dp"
-            app:srcCompat="@mipmap/app_icon_mipmap_white_background"
+            app:srcCompat="@drawable/app_logo"
             android:contentDescription="TODO" />
 
         <TextView

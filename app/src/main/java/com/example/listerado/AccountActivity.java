@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
 
     Integer onClickedColorChange;
-    TextView username, email, logoutButton, invitesTextView;
+    TextView username, email, logoutButton, invitesTextView, invitesTextView2;
     LinearLayout changeUsernameLayoutButton, parentLayout, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout,
             deleteUserLayoutButton, changeUserPasswordLayoutButton, changeUserEmailLayoutButton;
     Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
@@ -59,6 +59,7 @@ public class AccountActivity extends AppCompatActivity {
     Bitmap bitmap;
     File file;
     SharedpreferencesManager sharedpreferencesManager;
+    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +82,15 @@ public class AccountActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logout_Button);
         logoutButton.bringToFront();
         invitesTextView = findViewById(R.id.has_invites_textview);
+        invitesTextView2 = findViewById(R.id.invite_textview_2);
         onClickedColorChange = Color.parseColor("#EEEEEE");
         ImageManager imageManager = new ImageManager(AccountActivity.this, profileImageViewButton, navbar_profileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
+        notificationManager = new NotificationManager(AccountActivity.this, invitesTextView, invitesTextView2);
+        notificationManager.getUserInvites();
+
         sharedpreferencesManager = new SharedpreferencesManager(AccountActivity.this);
-        getUserInvites();
 
         username.setText(sharedpreferencesManager.getUsername());
         email.setText(sharedpreferencesManager.getEmail());
@@ -665,7 +669,16 @@ public class AccountActivity extends AppCompatActivity {
                                         arrayList.add(list_id);
                                     }
 
+
                                     invitesTextView.setText(String.valueOf(arrayList.size()));
+
+                                    if (arrayList.size() > 0) {
+                                        invitesTextView2.setVisibility(View.VISIBLE);
+                                        invitesTextView2.setText(String.valueOf(arrayList.size()));
+                                    }   else {
+                                        invitesTextView2.setVisibility(View.GONE);
+                                    }
+
                                     //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);

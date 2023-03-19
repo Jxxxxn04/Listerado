@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -40,6 +41,8 @@ public class MyListsActivity extends AppCompatActivity {
     ImageView navbar_ProfileImageView, addListImageView;
     ListView listView;
     SharedpreferencesManager sharedpreferencesManager;
+    TextView textView;
+    NotificationManager notificationManager;
 
 
 
@@ -51,13 +54,16 @@ public class MyListsActivity extends AppCompatActivity {
 
         NAV_myList_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
         NAV_myList_goTomyAccountLayout = findViewById(R.id.myList_navigation_goToMyProfile);
-        navbar_ProfileImageView = findViewById(R.id.myLists_navbar_ProfilImageView);
+        navbar_ProfileImageView = findViewById(R.id.myLists_movebar_Konto_imageView);
         addListImageView = findViewById(R.id.myLists_add_list_button);
         listView = findViewById(R.id.myLists_listView);
+        textView = findViewById(R.id.invite_textview_2);
         ImageManager imageManager = new ImageManager(MyListsActivity.this, navbar_ProfileImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         sharedpreferencesManager = new SharedpreferencesManager(MyListsActivity.this);
+        notificationManager = new NotificationManager(this, textView);
+        notificationManager.getUserInvites();
         getUserLists();
 
 

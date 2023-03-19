@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,8 @@ public class HomepageActivity extends AppCompatActivity {
     HomepageAdapter adapter;
     HomepageListAdapter listAdapter;
     SharedpreferencesManager sharedpreferencesManager;
+    NotificationManager notificationManager;
+    TextView textView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,7 +62,8 @@ public class HomepageActivity extends AppCompatActivity {
         listsListView = findViewById(R.id.homepage_lists_listview);
         appIcon = findViewById(R.id.appIcon);
         pullToRefresh = findViewById(R.id.pullToRefresh);
-        navbarProfileImageView = findViewById(R.id.homepage_navbar_ProfileImageView);
+        navbarProfileImageView = findViewById(R.id.homepage_movebar_Konto_imageView);
+        textView = findViewById(R.id.invite_textview_2);
         obst = findViewById(R.id.homepage_category_obst);
         gemuese = findViewById(R.id.homepage_category_gemuese);
         fleisch = findViewById(R.id.homepage_category_fleisch);
@@ -71,6 +75,8 @@ public class HomepageActivity extends AppCompatActivity {
         gebaeck = findViewById(R.id.homepage_category_gebaeck);
         ImageManager imageManager = new ImageManager(HomepageActivity.this, navbarProfileImageView);
         sharedpreferencesManager = new SharedpreferencesManager(HomepageActivity.this);
+        notificationManager = new NotificationManager(HomepageActivity.this, textView);
+        notificationManager.getUserInvites();
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         products = new ArrayList<>();

@@ -34,7 +34,7 @@
                 android:id="@+id/has_invites_imageview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/has_invites_icon"/>
+                android:src="@drawable/list_icon"/>
             
             <TextView
                 android:id="@+id/has_invites_textview"
@@ -225,7 +225,7 @@
         android:elevation="12dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="43dp">
 
         <LinearLayout
             android:id="@+id/account_navigation_goToMyProfile"
@@ -237,16 +237,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="bottom|center"
+                android:gravity="center"
                 android:orientation="vertical">
 
 
 
                 <FrameLayout
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginStart="40dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/account_movebar_Konto_imageView"
@@ -256,7 +256,8 @@
 
 
                     <TextView
-                        android:id="@+id/blub"
+                        android:visibility="gone"
+                        android:id="@+id/invite_textview_2"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:text="0"

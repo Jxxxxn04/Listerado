@@ -29,14 +29,14 @@ public class ListActivity extends AppCompatActivity {
 
     SharedpreferencesManager sharedpreferencesManager;
     static ArrayList<ListItemProduct> items;
-    TextView listName;
+    TextView listName, textView;
     LinearLayout goToHomepage, toToMyLists, goToMyAccount;
     ImageManager imageManager;
     CircleImageView navbarImageView;
     ListView listView;
     ListAdapter adapter;
     SwipeRefreshLayout pullToRefresh;
-
+    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,11 @@ public class ListActivity extends AppCompatActivity {
         goToHomepage = findViewById(R.id.list_navigation_goToHomepage);
         goToMyAccount = findViewById(R.id.list_navigation_goToMyProfile);
         toToMyLists = findViewById(R.id.list_navigation_goToMyList);
-        navbarImageView = findViewById(R.id.list_navbar_ProfilImageView);
+        navbarImageView = findViewById(R.id.list_movebar_Konto_imageView);
         pullToRefresh = findViewById(R.id.list_refreshLayout);
         listView = findViewById(R.id.list_listView);
+        textView = findViewById(R.id.invite_textview_2);
+        notificationManager = new NotificationManager(this, textView);
         imageManager = new ImageManager(this, navbarImageView);
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
