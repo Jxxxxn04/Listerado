@@ -573,11 +573,11 @@ public class HomepageActivity extends AppCompatActivity {
         // Entfernen des Elements, wenn es gefunden wird
         if(index != -1) {
             selectedLists.remove(index);
-            ToastManager.showToast(context, listID + ", erfolgreich entwählt", 0);
-            System.out.println(selectedLists);
+            //ToastManager.showToast(context, listID + ", erfolgreich entwählt", 0);
+            //System.out.println(selectedLists);
         }   else {
             ToastManager.showToast(context, "Angeklickte Liste wurde nicht gefunden", 0);
-            System.out.println(selectedLists);
+            //System.out.println(selectedLists);
         }
     }
 

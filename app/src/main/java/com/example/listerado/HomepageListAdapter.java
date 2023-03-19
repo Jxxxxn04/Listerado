@@ -56,8 +56,6 @@ public class HomepageListAdapter extends ArrayAdapter<ListItemLists> {
             @Override
             public void onClick(View view) {
 
-
-
                 if (isClicked) {
                     isClicked = false;
                     relativeLayout.setBackgroundResource(R.drawable.homepage_lists_clicked_background);

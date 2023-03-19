@@ -66,7 +66,7 @@ public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastManager.showToast(context, HomepageActivity.getSelectedLists().toString(), 0);
+                //ToastManager.showToast(context, HomepageActivity.getSelectedLists().toString(), 0);
 
                 ArrayList<String> selectedLists = new ArrayList<>();
                 selectedLists = HomepageActivity.getSelectedLists();

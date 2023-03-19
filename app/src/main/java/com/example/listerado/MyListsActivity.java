@@ -93,7 +93,6 @@ public class MyListsActivity extends AppCompatActivity {
 
                 builder.setPositiveButton("Erstellen", (dialogInterface, i) -> {
                     createList(editText.getText().toString());
-                    //TODO getUsername() is null
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
@@ -250,7 +249,7 @@ public class MyListsActivity extends AppCompatActivity {
 
                                     }
                                     reloadListView();
-                                    System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }

@@ -61,6 +61,7 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
         listName.setText(item.getText());
         listIsFrom.setText(item.getUsername());
 
+
         addUserToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
