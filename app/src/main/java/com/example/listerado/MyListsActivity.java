@@ -103,17 +103,6 @@ public class MyListsActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastManager.showToast(MyListsActivity.this, items.get(position).getId(), 0);
-
-                System.out.println("\n\n\n\n" + items + "\n\n\n\n");
-
-
-                //ToastManager.showToast(MyListsActivity.this, items.get(position).getUsername(), 0);
-            }
-        });
 
         NAV_myList_goToHomepageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +153,9 @@ public class MyListsActivity extends AppCompatActivity {
                             if (jsonObject.has("username")) {
                                 jsonListUsername[0] = jsonObject.getString("username");
                             }
+
+                            // TODO : owner_id eintragen in Items
+
                         } catch (JSONException e) {
                             ToastManager.showToast(MyListsActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                             e.printStackTrace();
@@ -171,8 +163,9 @@ public class MyListsActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
+
                                 //Liste wird in Array gespeichert damit sie angezeigt werden kann
-                                items.add(new ListItemLists(listName, jsonList_id[0], sharedpreferencesManager.getUsername()));
+                                items.add(new ListItemLists(listName, jsonList_id[0], sharedpreferencesManager.getUsername(), sharedpreferencesManager.getId()));
                                 ToastManager.showToast(MyListsActivity.this, jsonMessage[0], Toast.LENGTH_LONG);
                                 reloadListView();
                                 //System.out.println("\n\n\n\n\n\nmessage: " + jsonMessage[0] + "\njsonListUsername: " + jsonListUsername[0] + "\nid: " + jsonList_id[0] + "\nJsonObject: " + jsonObject + "\n\n\n\n\n");
@@ -234,6 +227,7 @@ public class MyListsActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
+                                System.out.println(jsonObject);
                                 try {
 
                                     JSONArray jsonArray = jsonObject.getJSONArray("lists");
@@ -243,8 +237,9 @@ public class MyListsActivity extends AppCompatActivity {
                                         JSONObject listObject = jsonArray.getJSONObject(i);
                                         String list_id = listObject.getString("list_id");
                                         String listname = listObject.getString("listname");
-                                        String username = listObject.getString("username");
-                                        items.add(new ListItemLists(listname, list_id, username));
+                                        String ownername = listObject.getString("username");
+                                        //String owner_id = listObject.getString("user_id");
+                                        items.add(new ListItemLists(listname, list_id, ownername, "0"));
 
 
                                     }

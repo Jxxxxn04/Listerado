@@ -59,7 +59,8 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
         TextView listName = convertView.findViewById(R.id.listName);
         TextView listIsFrom = convertView.findViewById(R.id.list_isFromUser);
         listName.setText(item.getText());
-        listIsFrom.setText(item.getUsername());
+        listIsFrom.setText(item.getOwner_username());
+
 
 
         addUserToList.setOnClickListener(new View.OnClickListener() {

@@ -65,6 +65,10 @@ public class NotificationManager {
                                 jsonStatus[0] = jsonObject.getString("status");
                             }
 
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+
 
                         } catch (JSONException e) {
                             ToastManager.showToast(context, "Failed to parse server response!", Toast.LENGTH_SHORT);

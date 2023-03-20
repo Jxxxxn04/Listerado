@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,7 +49,7 @@ public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_homepage_items, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_homepage_item, parent, false);
         }
 
         ListItemHomepage item = getItem(position);
@@ -62,7 +63,7 @@ public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
         TextView textView = convertView.findViewById(R.id.homepage_textView);
         textView.setText(item.getProduct_name());
 
-        RelativeLayout add_item_button = convertView.findViewById(R.id.add_item_button);
+        Button add_item_button = convertView.findViewById(R.id.add_item_button);
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -14,13 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,6 +104,8 @@ public class HomepageActivity extends AppCompatActivity {
         //Set the Intents
         switchToAccountIntent = new Intent(this, AccountActivity.class);
         switchToMyListsIntent = new Intent(this, MyListsActivity.class);
+
+
 
 
         obst.setOnClickListener(new View.OnClickListener() {
@@ -511,8 +516,10 @@ public class HomepageActivity extends AppCompatActivity {
                                         JSONObject listObject = jsonArray.getJSONObject(i);
                                         String list_id = listObject.getString("list_id");
                                         String listname = listObject.getString("listname");
-                                        String username = listObject.getString("username");
-                                        lists.add(new ListItemLists(listname, list_id, username));
+                                        String owner_username = listObject.getString("username");
+                                        //TODO : user_id hat probleme
+                                        //String owner_id = listObject.getString("user_id");
+                                        lists.add(new ListItemLists(listname, list_id, owner_username, "0"));
 
 
                                     }

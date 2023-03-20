@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:id="@+id/my_lists_linearLayout"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_for_login"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/homepage_textView"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            tools:text="Produktname"
+            android:textColor="#000"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeStepGranularity="1sp"
+            android:breakStrategy="balanced"
+            android:gravity="center|start"
+            android:layout_marginStart="20dp"/>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/background_template_homepage_items"
+            android:layout_gravity="center">
+
+
+            <Button
+                android:id="@+id/add_item_button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@mipmap/add_icon"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
