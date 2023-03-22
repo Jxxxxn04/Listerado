@@ -1,15 +1,19 @@
 package com.example.listerado;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,18 +54,22 @@ public class ListAdapter extends ArrayAdapter<ListItemProduct> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Inflate the view if it doesn't exist
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_products_in_list, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_list_products, parent, false);
         }
 
-        ImageView imageView;
+        ImageView imageView, little_info_icon;
         imageView = convertView.findViewById(R.id.template_list_imageview);
-        TextView textView;
+        little_info_icon = convertView.findViewById(R.id.little_info_icon);
+        TextView textView, fromUser;
         textView = convertView.findViewById(R.id.template_list_textView);
+        fromUser = convertView.findViewById(R.id.template_list_username);
+
 
         // Get the item at the current position
         ListItemProduct item = getItem(position);
 
         textView.setText(item.getProduct_name());
+        fromUser.setText(item.getUsername());
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +85,41 @@ public class ListAdapter extends ArrayAdapter<ListItemProduct> {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        little_info_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ListActivity.setParentAlpha((float) 0.3);
+
+                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                assert inflater != null;
+                View popupView = inflater.inflate(R.layout.template_popup_product_info, parent, false);
+
+                PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                ImageView product_info_exit;
+                product_info_exit = popupView.findViewById(R.id.product_info_exit);
+                TextView product_info_product_name, product_info_username, product_info_created_at;
+                product_info_product_name = popupView.findViewById(R.id.product_info_product_name);
+                product_info_username = popupView.findViewById(R.id.product_info_username);
+                product_info_created_at = popupView.findViewById(R.id.product_info_created_at);
+
+
+                product_info_product_name.setText(item.getProduct_name());
+                product_info_username.setText(item.getUsername());
+                product_info_created_at.setText(item.getAdded_date());
+
+                product_info_exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupWindow.dismiss();
+                        ListActivity.setParentAlpha((float) 1.0);
+                    }
+                });
             }
         });
 

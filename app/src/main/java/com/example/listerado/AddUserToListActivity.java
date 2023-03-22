@@ -101,7 +101,7 @@ public class AddUserToListActivity extends AppCompatActivity {
                 String searchText = charSequence.toString().trim();
                 if (!searchText.isEmpty()) {
                     clearItems();
-                    getUser(searchText);
+                    getUser(searchText, id);
                     System.out.println(searchText);
 
                 } else {
@@ -119,11 +119,10 @@ public class AddUserToListActivity extends AppCompatActivity {
     }
 
 
-    public void getUser(String inputText) {
+    public void getUser(String inputText, String list_ID) {
         adapter.notifyDataSetChanged();
         String url = "http://bfi.bbs-me.org:2536/api/searchUsers.php";
         final String[] jsonStatus = new String[1];
-        final String[] jsonMessage = new String[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -166,6 +165,9 @@ public class AddUserToListActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
+
+                            }   else {
+                                ToastManager.showToast(AddUserToListActivity.this, "Blub", Toast.LENGTH_SHORT);
                             }
                         } else {
                             ToastManager.showToast(AddUserToListActivity.this, "Fehler aufgetreten", Toast.LENGTH_SHORT);
@@ -182,6 +184,7 @@ public class AddUserToListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("list_id", list_ID);
                 params.put("user_id", sharedpreferencesManager.getId());
                 params.put("search", inputText);
                 return params;

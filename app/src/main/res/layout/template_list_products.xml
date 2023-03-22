@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:id="@+id/my_lists_linearLayout"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_for_login"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/template_list_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:maxWidth="200dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    tools:text="Produktname"
+                    android:textColor="#000"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeStepGranularity="1sp"
+                    android:gravity="center|start"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageView
+                    android:id="@+id/little_info_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@mipmap/little_info_icon"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+                <TextView
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:text="Hinzugefügt von: "
+                    android:textColor="#b2b2b2"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:autoSizeMinTextSize="8sp"
+                    android:autoSizeMaxTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeStepGranularity="1sp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center|start"/>
+
+
+
+                <TextView
+                    android:id="@+id/template_list_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="Benutzername"
+                    android:textColor="#b2b2b2"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:autoSizeMinTextSize="8sp"
+                    android:autoSizeMaxTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeStepGranularity="1sp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/add_item_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/mylists_background_delete_list"
+            android:layout_gravity="center">
+
+
+            <ImageView
+                android:id="@+id/template_list_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/deletelist"/>
+
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

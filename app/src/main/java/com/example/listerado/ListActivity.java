@@ -1,5 +1,6 @@
 package com.example.listerado;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -30,7 +31,11 @@ public class ListActivity extends AppCompatActivity {
     SharedpreferencesManager sharedpreferencesManager;
     static ArrayList<ListItemProduct> items;
     TextView listName, textView;
-    LinearLayout goToHomepage, toToMyLists, goToMyAccount;
+    LinearLayout goToHomepage;
+    LinearLayout toToMyLists;
+    LinearLayout goToMyAccount;
+    @SuppressLint("StaticFieldLeak")
+    static LinearLayout parentLayout;
     ImageManager imageManager;
     CircleImageView navbarImageView;
     ListView listView;
@@ -45,6 +50,7 @@ public class ListActivity extends AppCompatActivity {
 
         sharedpreferencesManager = new SharedpreferencesManager(ListActivity.this);
         listName = findViewById(R.id.list_listName);
+        parentLayout = findViewById(R.id.list_parent_layout);
         goToHomepage = findViewById(R.id.list_navigation_goToHomepage);
         goToMyAccount = findViewById(R.id.list_navigation_goToMyProfile);
         toToMyLists = findViewById(R.id.list_navigation_goToMyList);
@@ -212,6 +218,11 @@ public class ListActivity extends AppCompatActivity {
         startActivity(new Intent(this, MyListsActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
+    }
+
+
+    public static void setParentAlpha(float lightLevel) {
+        parentLayout.setAlpha(lightLevel);
     }
 
 }

@@ -152,7 +152,10 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
 
             // Set the text of the TextView in the view
             TextView listName = convertView.findViewById(R.id.listName);
-            RelativeLayout leaveList = convertView.findViewById(R.id.leave_list);
+            RelativeLayout leaveList;
+            leaveList = convertView.findViewById(R.id.leave_list);
+            LinearLayout linearLayout;
+            linearLayout = convertView.findViewById(R.id.my_lists_linearLayout);
             TextView listIsFrom = convertView.findViewById(R.id.list_isFromUser);
             listName.setText(item.getText());
             listIsFrom.setText(item.getOwner_username());
@@ -173,6 +176,18 @@ public class MyListAdapter extends ArrayAdapter<ListItemLists> {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                }
+            });
+
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent listActivity = new Intent(context, ListActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("id", item.getId()); //Your id
+                    listActivity.putExtras(b);
+                    context.startActivity(listActivity);
+                    ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
         }

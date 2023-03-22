@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:id="@+id/my_lists_linearLayout"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:background="@drawable/rectangle_for_login"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/product_info_product_name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            tools:text="Produktname"
+            android:textColor="#000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeStepGranularity="1sp"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp" />
+
+
+        <ImageView
+            android:id="@+id/product_info_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/exit_image"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle=""
+            android:textSize="20sp"
+            android:text="Hinzugefügt von:"
+            android:textColor="#000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeStepGranularity="1sp"
+            android:gravity="center|start"
+            android:layout_marginStart="20dp" />
+
+        <TextView
+            android:id="@+id/product_info_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle=""
+            android:textSize="20sp"
+            tools:text="benutzername"
+            android:textColor="#000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeStepGranularity="1sp"
+            android:gravity="center" />
+
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle=""
+                android:textSize="20sp"
+                android:text="Hinzugefügt am: "
+                android:textColor="#000"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeStepGranularity="1sp"
+                android:gravity="center|start"
+                android:layout_marginStart="20dp" />
+
+            <TextView
+                android:id="@+id/product_info_created_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle=""
+                android:textSize="20sp"
+                tools:text="datum"
+                android:textColor="#000"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeStepGranularity="1sp"
+                android:gravity="center" />
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

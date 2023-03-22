@@ -18,7 +18,7 @@
             android:textSize="18sp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMinTextSize="6sp"
             android:autoSizeMaxTextSize="18sp"
             android:autoSizeTextType="uniform"
             android:autoSizeStepGranularity="1sp"

@@ -54,12 +54,8 @@ public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
 
         ListItemHomepage item = getItem(position);
 
-       // convertView.setForegroundGravity(Gravity.CENTER);
 
-        LinearLayout linearLayout = convertView.findViewById(R.id.homepage_items_linearlayout);
 
-        //linearLayout.setGravity(Gravity.CENTER);
-        //System.out.println("gravity: " + linearLayout.getGravity());
         TextView textView = convertView.findViewById(R.id.homepage_textView);
         textView.setText(item.getProduct_name());
 
