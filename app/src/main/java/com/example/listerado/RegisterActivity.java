@@ -224,7 +224,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (username.length() == 0 || email.length() == 0 || password.length() == 0 || confirm.length() == 0) {
             ToastManager.showToast(RegisterActivity.this, "Bitte, fülle alle Felder aus!", Toast.LENGTH_SHORT);
         } else {
-            //TODO Validation of Email
             if (password.compareTo(confirm) == 0) {
 
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,

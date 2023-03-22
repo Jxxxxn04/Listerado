@@ -238,8 +238,8 @@ public class MyListsActivity extends AppCompatActivity {
                                         String list_id = listObject.getString("list_id");
                                         String listname = listObject.getString("listname");
                                         String ownername = listObject.getString("username");
-                                        //String owner_id = listObject.getString("user_id");
-                                        items.add(new ListItemLists(listname, list_id, ownername, "0"));
+                                        String owner_id = listObject.getString("user_id");
+                                        items.add(new ListItemLists(listname, list_id, ownername, owner_id));
 
 
                                     }
@@ -296,6 +296,12 @@ public class MyListsActivity extends AppCompatActivity {
         //System.out.println("\n\n\n\n\n\nVorher: " + items + "\n\n\n\n\n\nposition: " + position);
         items.remove(position);
         //System.out.println("\n\n\n\n\n\nNachher: " + items + "\n\n\n\n\n\n");
+    }
+
+    public static void reloadLists(int position, String newName, String listID, String ownerName, String ownerID) {
+        ListItemLists item = new ListItemLists(newName, listID, ownerName, ownerID);
+        items.remove(position);
+        items.add(position, item);
     }
 
 

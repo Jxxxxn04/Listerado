@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -38,7 +43,8 @@ public class HomepageActivity extends AppCompatActivity {
     ArrayList<ListItemHomepage> products;
     ArrayList<ListItemLists> lists;
     static ArrayList<String> selectedLists;
-    LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
+    DrawerLayout drawerLayout;
+    LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists, homepage_button;
     ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
     SwipeRefreshLayout pullToRefresh;
@@ -50,7 +56,7 @@ public class HomepageActivity extends AppCompatActivity {
     SharedpreferencesManager sharedpreferencesManager;
     NotificationManager notificationManager;
     TextView textView;
-
+    EditText searchItem;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,9 @@ public class HomepageActivity extends AppCompatActivity {
         //Initialize the needed UI elements from the xml file
         NAV_homepage_goToMyProfileLayout = findViewById(R.id.homepage_navigation_goToMyProfile);
         NAV_homepage_goToMyLists = findViewById(R.id.homepage_navigation_goToMyList);
+        drawerLayout = findViewById(R.id.drawerlayout);
         listView = findViewById(R.id.homepage_listview);
+        searchItem = findViewById(R.id.searchItems);
         listsListView = findViewById(R.id.homepage_lists_listview);
         appIcon = findViewById(R.id.appIcon);
         pullToRefresh = findViewById(R.id.pullToRefresh);
@@ -106,7 +114,12 @@ public class HomepageActivity extends AppCompatActivity {
         switchToMyListsIntent = new Intent(this, MyListsActivity.class);
 
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 
         obst.setOnClickListener(new View.OnClickListener() {
             final String id = "1";
@@ -328,6 +341,33 @@ public class HomepageActivity extends AppCompatActivity {
                 pullToRefresh.setRefreshing(false);
             }
         });
+
+        searchItem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = charSequence.toString();
+
+                if (text.length() > 2) {
+                    clearProductsArray();
+                    searchItem(text);
+                } else {
+                    refreshProductsByCategory("none");
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
     }
 
 
@@ -517,9 +557,8 @@ public class HomepageActivity extends AppCompatActivity {
                                         String list_id = listObject.getString("list_id");
                                         String listname = listObject.getString("listname");
                                         String owner_username = listObject.getString("username");
-                                        //TODO : user_id hat probleme
-                                        //String owner_id = listObject.getString("user_id");
-                                        lists.add(new ListItemLists(listname, list_id, owner_username, "0"));
+                                        String owner_id = listObject.getString("user_id");
+                                        lists.add(new ListItemLists(listname, list_id, owner_username, owner_id));
 
 
                                     }
@@ -597,5 +636,88 @@ public class HomepageActivity extends AppCompatActivity {
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void searchItem(String search) {
+        String url = "http://bfi.bbs-me.org:2536/api/searchProducts.php";
+        final String[] jsonStatus = new String[1];
+        final String[] jsonMessage = new String[1];
+        final String[] jsonList_id = new String[1];
+        final String[] jsonListUsername = new String[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            if (jsonObject.has("status")) {
+                                jsonStatus[0] = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("message")) {
+                                jsonMessage[0] = jsonObject.getString("message");
+                            }
+                            if (jsonObject.has("list_id")) {
+                                jsonList_id[0] = jsonObject.getString("list_id");
+                            }
+                            if (jsonObject.has("username")) {
+                                jsonListUsername[0] = jsonObject.getString("username");
+                            }
+                        } catch (JSONException e) {
+                            ToastManager.showToast(HomepageActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+                        if (jsonObject.has("status")) {
+                            if (jsonStatus[0].equals("200")) {
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+
+                                try {
+                                    JSONArray jsonArray = jsonObject.getJSONArray("products");
+                                    int length = jsonArray.length();
+
+                                    for (int i = 0; i < length; i++) {
+                                        JSONObject listObject = jsonArray.getJSONObject(i);
+                                        String product_id = listObject.getString("product_id");
+                                        String product_name = listObject.getString("product_name");
+                                        String categoryID = listObject.getString("category_id");
+                                        String category_name = listObject.getString("category_name");
+                                        products.add(new ListItemHomepage(product_id, product_name, categoryID, category_name));
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                    //System.out.println("\n\n\n\n\n\nArray: " + items);
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                            }
+                        } else {
+                            ToastManager.showToast(HomepageActivity.this, jsonMessage[0], Toast.LENGTH_SHORT);
+                            //System.out.println("\n\n\n\n\n\n" + jsonMessage[0] + "\n\n\n\n\n\n");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(HomepageActivity.this, "Verbindung zwischen Api und App unterbrochen (getUserLists)!", Toast.LENGTH_LONG);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("category_id", "none");
+                params.put("search", search);
+                return params;
+            }
+        };
+
+        // Fügen Sie die Volley-Abfrage zur Warteschlange hinzu
+        MySingleton.getInstance(HomepageActivity.this).addToRequestQueue(stringRequest);
     }
 }

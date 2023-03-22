@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
+<androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/drawerlayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -348,8 +348,7 @@
                             android:dividerHeight="10.0sp"
                             android:orientation="vertical"
                             tools:listitem="@layout/template_homepage_item"
-                            android:paddingTop="10dp"
-                            android:paddingStart="dp"/>
+                            android:paddingTop="10dp"/>
 
                     </FrameLayout>
 
@@ -422,7 +421,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/homepage_navigation_goToHomepage"
+                android:id="@+id/blub"
                 android:layout_width="136dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -494,5 +493,5 @@
         tools:listitem="@layout/template_homepage_lists"/>
 
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 

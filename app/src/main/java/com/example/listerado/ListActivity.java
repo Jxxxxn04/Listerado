@@ -142,7 +142,7 @@ public class ListActivity extends AppCompatActivity {
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
                                 ToastManager.showToast(ListActivity.this, "Produkte erfolgreich geladen", Toast.LENGTH_SHORT);
-                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 listName.setText(jsonListName[0]);
                                 try {
 
@@ -151,13 +151,13 @@ public class ListActivity extends AppCompatActivity {
 
                                     for (int i = 0; i < length; i++) {
                                         JSONObject listObject = jsonArray.getJSONObject(i);
-                                        String list_id = listObject.getString("list_id");
+                                        //String list_id = listObject.getString("list_id");
                                         String product_id = listObject.getString("product_id");
                                         String username = listObject.getString("username");
                                         String added_date = listObject.getString("added_date");
                                         String product_name = listObject.getString("product_name");
                                         String category_name = listObject.getString("category_name");
-                                        items.add(new ListItemProduct(list_id, product_id, username, added_date, product_name, category_name));
+                                        items.add(new ListItemProduct("", product_id, username, added_date, product_name, category_name));
                                     }
                                     adapter.notifyDataSetChanged();
                                     //System.out.println("\n\n\n\n\n\nArray: " + items);

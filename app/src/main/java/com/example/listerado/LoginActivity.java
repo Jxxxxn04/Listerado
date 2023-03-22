@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedpreferencesManager sharedpreferncesManager;
     private long mLastClickTime = 0;
     private int currentImage = 0;
+    Integer savedDataIsCorrect = 0;
 
 
     @SuppressLint("MissingInflatedId")
@@ -101,6 +102,9 @@ public class LoginActivity extends AppCompatActivity {
             //If true set Activity to HomepageActivity
             if (sharedPreferences.contains("username") && sharedPreferences.contains("password") && sharedPreferences.contains("email")) {
                 //TODO Abfrage ob gespeicherte Daten immernoch in der Datenbank vorhanden sind
+
+
+
                 startActivity(new Intent(this, HomepageActivity.class));
                 finish();
 
@@ -282,6 +286,70 @@ public class LoginActivity extends AppCompatActivity {
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    private void checkLogin(String usernameOrEmail, String password) {
+        String url = "http://bfi.bbs-me.org:2536/api/login.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        //Breaks up the JSON response into several variables
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.has("user_id")) {
+                                jsonID = jsonObject.getString("user_id");
+                            }
+                            if (jsonObject.has("status")) {
+                                jsonStatus = jsonObject.getString("status");
+                            }
+                            if (jsonObject.has("username")) {
+                                jsonUsername = jsonObject.getString("username");
+                            }
+                            if (jsonObject.has("email")) {
+                                jsonEmail = jsonObject.getString("email");
+                            }
+                            if (jsonObject.has("hashed_password")) {
+                                jsonHashedPassword = jsonObject.getString("hashed_password");
+                            }
+
+                        } catch (JSONException e) {
+                            ToastManager.showToast(LoginActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
+                            e.printStackTrace();
+                        }
+
+
+                        //System.out.println("\n\n\n\n\n\n\n\n"+ jsonStatus+ "\n\n\n\n\n\n\n\n\n");
+
+
+                        //Checks whether the Login was Successful or not
+                        if (Objects.equals(jsonStatus, "200")) {
+
+                        }
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastManager.showToast(LoginActivity.this, "Verbindung zwischen Api und App unterbrochen (loginUser)", Toast.LENGTH_LONG);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("name", usernameOrEmail);
+                params.put("password", sharedpreferncesManager.getPassword());
+                System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
+                return params;
+            }
+        };
+        //queue.add(postRequest);
+        MySingleton.getInstance(LoginActivity.this).addToRequestQueue(postRequest);
     }
 }
 

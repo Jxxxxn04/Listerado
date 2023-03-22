@@ -44,25 +44,53 @@
 
 
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/configure_list"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:src="@mipmap/icon_settings"/>
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/mylists_background_add_user_to_list">
 
-            <ImageView
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/rename"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/add_user_to_list"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="45dp"
                 android:layout_marginEnd="45dp"
-                android:src="@mipmap/icon_add_user" />
+                android:background="@drawable/mylists_background_add_user_to_list">
 
-            <ImageView
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/adduserlist"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/delete_list"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:src="@mipmap/icon_trashcan"/>
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/mylists_background_delete_list">
+
+                <ImageView
+                    android:id="@+id/leave_delete_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/deletelist"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
