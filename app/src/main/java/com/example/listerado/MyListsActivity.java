@@ -1,6 +1,7 @@
 package com.example.listerado;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -96,7 +97,6 @@ public class MyListsActivity extends AppCompatActivity {
                 });
 
                 builder.setNegativeButton("Abbrechen", (dialogInterface, i) -> {
-                    dialogInterface.dismiss();
                 });
 
                 AlertDialog dialog = builder.create();

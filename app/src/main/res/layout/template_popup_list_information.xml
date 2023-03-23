@@ -8,8 +8,8 @@
     <LinearLayout
         android:id="@+id/my_lists_linearLayout"
         android:layout_gravity="center"
-        android:layout_width="350dp"
-        android:layout_height="200dp"
+        android:layout_width="370dp"
+        android:layout_height="500dp"
         android:background="@drawable/rectangle_for_login"
         android:orientation="vertical">
 
@@ -24,13 +24,13 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="20sp"
-            tools:text="Produktname"
+            android:textSize="27sp"
+            tools:text="Listenname"
             android:textColor="#000"
             android:maxLines="1"
             android:ellipsize="end"
             android:autoSizeMinTextSize="10sp"
-            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMaxTextSize="27sp"
             android:autoSizeTextType="uniform"
             android:autoSizeStepGranularity="1sp"
             android:gravity="center"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/exit_image_2"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="13dp"
             android:layout_marginStart="20dp"/>
 
 
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:textStyle=""
             android:textSize="20sp"
-            android:text="Hinzugefügt von:"
+            android:text="Erstellt von:"
             android:textColor="#000"
             android:maxLines="1"
             android:ellipsize="end"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle=""
                 android:textSize="20sp"
-                android:text="Hinzugefügt am: "
+                android:text="Erstellt am: "
                 android:textColor="#000"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -136,6 +136,18 @@
 
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:elevation="6dp"
+            android:background="#e8e8e8"
+            android:layout_marginTop="10dp"/>
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
 

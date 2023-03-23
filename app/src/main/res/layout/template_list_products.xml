@@ -62,10 +62,10 @@
 
 
                 <TextView
-                    android:layout_width="240dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="15sp"
-                    android:text="Hinzugefügt von: "
+                    android:text="Kategorie: "
                     android:textColor="#b2b2b2"
                     android:maxLines="2"
                     android:ellipsize="end"
@@ -79,12 +79,12 @@
 
 
                 <TextView
-                    android:id="@+id/template_list_username"
+                    android:id="@+id/template_list_category_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    tools:text="Benutzername"
+                    tools:text="Kategorienname"
                     android:textColor="#b2b2b2"
                     android:maxLines="2"
                     android:ellipsize="end"
@@ -92,7 +92,8 @@
                     android:autoSizeMaxTextSize="15sp"
                     android:autoSizeTextType="uniform"
                     android:autoSizeStepGranularity="1sp"
-                    android:gravity="center"/>
+                    android:gravity="center|start"
+                    android:layout_marginStart="5dp"/>
 
             </LinearLayout>
 

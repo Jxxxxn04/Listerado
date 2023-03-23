@@ -3,6 +3,8 @@ package com.example.listerado;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class ListActivity extends AppCompatActivity {
     static LinearLayout parentLayout;
     ImageManager imageManager;
     CircleImageView navbarImageView;
+    ImageView list_info_image;
     ListView listView;
     ListAdapter adapter;
     SwipeRefreshLayout pullToRefresh;
@@ -50,6 +53,7 @@ public class ListActivity extends AppCompatActivity {
 
         sharedpreferencesManager = new SharedpreferencesManager(ListActivity.this);
         listName = findViewById(R.id.list_listName);
+        list_info_image = findViewById(R.id.list_info);
         parentLayout = findViewById(R.id.list_parent_layout);
         goToHomepage = findViewById(R.id.list_navigation_goToHomepage);
         goToMyAccount = findViewById(R.id.list_navigation_goToMyProfile);
@@ -106,6 +110,13 @@ public class ListActivity extends AppCompatActivity {
                     getProductsFromList(id);
                 }
                 pullToRefresh.setRefreshing(false);
+            }
+        });
+
+        list_info_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
