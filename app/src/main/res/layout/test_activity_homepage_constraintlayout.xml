@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/app_logo" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="134dp" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/rounded_rectangles"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
+
+    <EditText
+        android:id="@+id/searchItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="Suchen"
+        android:inputType="textPersonName"
+        android:textColor="#000"
+        android:textColorHint="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/searchItems"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@mipmap/search_icon" />
+
+    <ListView
+        android:id="@+id/homepage_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="10.0sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        tools:listitem="@layout/test_template_homepage_items" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="100dp" />
+
+    <ListView
+        android:id="@+id/homepage_lists_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="5.0sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        tools:listitem="@layout/template_homepage_lists" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="256dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="11dp"
+        android:autoSizeTextType="uniform"
+        android:text="Vorgeschlagen"
+        android:textColor="#000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_obst"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Obst"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_gemuese"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Gemüse"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_fleisch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Fleisch"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_fisch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Fisch"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_milchprodukte"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Milchprodukte"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_sueßigkeiten"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Süßigkeiten"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_getraenke"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Getränke"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_gewuerze"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Gewürze"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/homepage_category_gebaeck"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/weniger_rounded_rectangle"
+                android:elevation="6dp"
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="Gebäck"
+                    android:textColor="#000"
+                    android:textSize="23dp" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/linke_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mittlere_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        android:elevation="6dp"
+        android:background="#fff" />
+
+    <View
+        android:id="@+id/mittlere_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintStart_toEndOf="@id/linke_view"
+        app:layout_constraintEnd_toStartOf="@id/rechte_view"
+        android:elevation="6dp"
+        android:background="#d9d9d9" />
+
+    <View
+        android:id="@+id/rechte_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintStart_toEndOf="@id/mittlere_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/linke_view"
+        app:layout_constraintStart_toStartOf="@+id/linke_view"
+        app:layout_constraintTop_toTopOf="@+id/linke_view"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:srcCompat="@mipmap/account_icon"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Account"
+        android:gravity="center|top"
+        android:textColor="#a6a6a6a6"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linke_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/mittlere_view"
+        app:layout_constraintStart_toStartOf="@+id/mittlere_view"
+        app:layout_constraintTop_toTopOf="@+id/mittlere_view"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:srcCompat="@mipmap/add_icon"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center|top"
+        android:text="Startseite"
+        android:textColor="#a6a6a6a6"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mittlere_view"
+        app:layout_constraintStart_toStartOf="@id/mittlere_view"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/rechte_view"
+        app:layout_constraintStart_toStartOf="@+id/rechte_view"
+        app:layout_constraintTop_toTopOf="@+id/rechte_view"
+        app:layout_constraintBottom_toTopOf="@id/textView8"
+        app:srcCompat="@mipmap/meine_listen_icon"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center|top"
+        android:text="Meine Listen"
+        android:textColor="#a6a6a6a6"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rechte_view"
+        app:layout_constraintStart_toStartOf="@id/rechte_view"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

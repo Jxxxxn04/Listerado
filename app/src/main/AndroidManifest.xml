@@ -83,6 +83,11 @@
             android:screenOrientation="portrait"
             android:exported="true" />
 
+        <activity
+            android:name=".test_xml_activity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
     </application>
 
 </manifest>

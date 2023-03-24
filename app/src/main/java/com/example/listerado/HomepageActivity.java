@@ -12,13 +12,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,7 +26,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +41,8 @@ public class HomepageActivity extends AppCompatActivity {
     ArrayList<ListItemLists> lists;
     static ArrayList<String> selectedLists;
     DrawerLayout drawerLayout;
-    LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists, homepage_button;
+    //LinearLayout NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists, homepage_button;
+    View NAV_homepage_goToMyProfileLayout, NAV_homepage_goToMyLists;
     ImageView appIcon, navbarProfileImageView;
     Intent switchToAccountIntent, switchToMyListsIntent;
     SwipeRefreshLayout pullToRefresh;
@@ -61,7 +59,7 @@ public class HomepageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homepage);
+        setContentView(R.layout.test_activity_homepage_constraintlayout);
 
 
         //Initialize the needed UI elements from the xml file

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF"
     android:elevation="23dp"
     android:orientation="vertical">
@@ -111,14 +111,14 @@
                         android:layout_marginTop="7dp"
                         android:layout_marginEnd="7dp"
                         android:layout_marginBottom="7dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeMinTextSize="5sp"
+                        android:autoSizeStepGranularity="1sp"
+                        android:autoSizeTextType="uniform"
+                        android:maxLines="2"
                         android:text="Obst"
                         android:textColor="#000000"
-                        android:textSize="18sp"
-                        android:maxLines="2"
-                        android:autoSizeMinTextSize="5sp"
-                        android:autoSizeMaxTextSize="18sp"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeStepGranularity="1sp"/>
+                        android:textSize="18sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -314,15 +314,13 @@
             android:layout_height="match_parent">
 
 
-
-
-                <ListView
-                    android:id="@+id/homepage_lists_listview"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:dividerHeight="5.0sp"
-                    android:paddingTop="20dp"
-                    tools:listitem="@layout/template_homepage_lists" />
+            <ListView
+                android:id="@+id/homepage_lists_listview"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:dividerHeight="5.0sp"
+                android:paddingTop="20dp"
+                tools:listitem="@layout/template_homepage_lists" />
 
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -343,17 +341,16 @@
                         android:layout_height="match_parent"
                         android:dividerHeight="10.0sp"
                         android:orientation="vertical"
-                        tools:listitem="@layout/template_homepage_item"
+                        android:paddingStart="15dp"
                         android:paddingTop="10dp"
-                        android:paddingStart="15dp"/>
+                        tools:listitem="@layout/template_homepage_item" />
 
                 </FrameLayout>
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-    </LinearLayout>
-
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -381,8 +378,8 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/homepage_movebar_Konto_imageView"
@@ -392,17 +389,17 @@
 
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/invite_textview_2"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:text="0"
-                        android:padding="4dp"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/circle_background"
                         android:layout_gravity="bottom|end"
+                        android:background="@drawable/circle_background"
                         android:gravity="center"
-                        android:textSize="11sp"/>
+                        android:padding="4dp"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
 
                 </FrameLayout>
 
@@ -426,16 +423,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#d9d9d9"
                 android:gravity="bottom|center"
-                android:orientation="vertical"
-                android:background="#d9d9d9">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/imageView41231322"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:srcCompat="@mipmap/add_icon"
-                    />
+                    app:srcCompat="@mipmap/add_icon" />
 
                 <TextView
                     android:id="@+id/textView4123123"
