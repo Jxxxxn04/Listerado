@@ -63,8 +63,8 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         //Initialize the needed UI elements from the xml file
-        NAV_homepage_goToMyProfileLayout = findViewById(R.id.homepage_navigation_goToMyProfile);
-        NAV_homepage_goToMyLists = findViewById(R.id.homepage_navigation_goToMyList);
+        NAV_homepage_goToMyProfileLayout = findViewById(R.id.linke_view);
+        NAV_homepage_goToMyLists = findViewById(R.id.rechte_view);
         drawerLayout = findViewById(R.id.drawerlayout);
         listView = findViewById(R.id.homepage_listview);
         searchItem = findViewById(R.id.searchItems);
@@ -84,8 +84,10 @@ public class HomepageActivity extends AppCompatActivity {
         gebaeck = findViewById(R.id.homepage_category_gebaeck);
         ImageManager imageManager = new ImageManager(HomepageActivity.this, navbarProfileImageView);
         sharedpreferencesManager = new SharedpreferencesManager(HomepageActivity.this);
-        notificationManager = new NotificationManager(HomepageActivity.this, textView);
-        notificationManager.getUserInvites();
+
+        // TODO : Kleines Info Zeichen in XML implementieren danach auskommentieren
+        //notificationManager = new NotificationManager(HomepageActivity.this, textView);
+        //notificationManager.getUserInvites();
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         products = new ArrayList<>();
