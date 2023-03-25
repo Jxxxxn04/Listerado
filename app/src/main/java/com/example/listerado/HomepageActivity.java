@@ -59,17 +59,15 @@ public class HomepageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_activity_homepage_constraintlayout);
+        setContentView(R.layout.activity_homepage);
 
 
         //Initialize the needed UI elements from the xml file
         NAV_homepage_goToMyProfileLayout = findViewById(R.id.linke_view);
         NAV_homepage_goToMyLists = findViewById(R.id.rechte_view);
-        drawerLayout = findViewById(R.id.drawerlayout);
         listView = findViewById(R.id.homepage_listview);
         searchItem = findViewById(R.id.searchItems);
         listsListView = findViewById(R.id.homepage_lists_listview);
-        appIcon = findViewById(R.id.appIcon);
         pullToRefresh = findViewById(R.id.pullToRefresh);
         navbarProfileImageView = findViewById(R.id.homepage_movebar_Konto_imageView);
         textView = findViewById(R.id.invite_textview_2);
@@ -85,9 +83,8 @@ public class HomepageActivity extends AppCompatActivity {
         ImageManager imageManager = new ImageManager(HomepageActivity.this, navbarProfileImageView);
         sharedpreferencesManager = new SharedpreferencesManager(HomepageActivity.this);
 
-        // TODO : Kleines Info Zeichen in XML implementieren danach auskommentieren
-        //notificationManager = new NotificationManager(HomepageActivity.this, textView);
-        //notificationManager.getUserInvites();
+        notificationManager = new NotificationManager(HomepageActivity.this, textView);
+        notificationManager.getUserInvites();
         imageManager.refreshImageViewFromSharedPreferences();
         imageManager.refreshImage();
         products = new ArrayList<>();
