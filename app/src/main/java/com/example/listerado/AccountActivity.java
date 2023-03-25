@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +49,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
 
     Integer onClickedColorChange;
-    TextView username, email, logoutButton, invitesTextView, invitesTextView2;
-    LinearLayout changeUsernameLayoutButton, parentLayout, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout,
-            deleteUserLayoutButton, changeUserPasswordLayoutButton, changeUserEmailLayoutButton;
+    TextView username, email, invitesTextView, invitesTextView2;
+    View changeUsernameLayoutButton, NAV_account_goToHomepageLayout, NAV_account_goTomyListLayout,
+            deleteUserLayoutButton, changeUserPasswordLayoutButton, changeUserEmailLayoutButton, logoutButton;
     Intent switchToHomepageIntent, switchToLoginActivity, switchToMyListsActivity;
     CircleImageView profileImageViewButton, navbar_profileImageView;
     ImageView invitesImageView;
@@ -68,20 +67,19 @@ public class AccountActivity extends AppCompatActivity {
 
 
         changeUsernameLayoutButton = findViewById(R.id.change_username_layout_button);
-        deleteUserLayoutButton = findViewById(R.id.account_linearlayout_delete_user);
+        deleteUserLayoutButton = findViewById(R.id.account_delete_layout_button);
         changeUserPasswordLayoutButton = findViewById(R.id.change_password_layout_button);
         profileImageViewButton = findViewById(R.id.account_imageView_Button);
         navbar_profileImageView = findViewById(R.id.account_movebar_Konto_imageView);
         invitesImageView = findViewById(R.id.has_invites_imageview);
         changeUserEmailLayoutButton = findViewById(R.id.change_email_layout_button);
-        NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHomepage);
+        NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHompage);
         NAV_account_goTomyListLayout = findViewById(R.id.account_navigation_goToMyList);
-        parentLayout = findViewById(R.id.account_parentLayout);
         username = findViewById(R.id.myAccount_username);
         email = findViewById(R.id.myAccount_email);
-        logoutButton = findViewById(R.id.logout_Button);
+        logoutButton = findViewById(R.id.logout_button);
         logoutButton.bringToFront();
-        invitesTextView = findViewById(R.id.has_invites_textview);
+        invitesTextView = findViewById(R.id.invite_textview_3);
         invitesTextView2 = findViewById(R.id.invite_textview_2);
         onClickedColorChange = Color.parseColor("#EEEEEE");
         ImageManager imageManager = new ImageManager(AccountActivity.this, profileImageViewButton, navbar_profileImageView);

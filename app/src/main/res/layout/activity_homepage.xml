@@ -386,45 +386,47 @@
     </HorizontalScrollView>
 
     <View
-        android:id="@+id/linke_view"
+        android:id="@+id/account_navigation_goToMyProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/mittlere_view"
+        app:layout_constraintEnd_toStartOf="@+id/account_navigation_goToHompage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
         android:elevation="6dp"
         android:background="#fff" />
 
     <View
-        android:id="@+id/mittlere_view"
+        android:id="@+id/account_navigation_goToHompage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@id/linke_view"
-        app:layout_constraintEnd_toStartOf="@id/rechte_view"
+        app:layout_constraintStart_toEndOf="@id/account_navigation_goToMyProfile"
+        app:layout_constraintEnd_toStartOf="@id/account_navigation_goToMyList"
         android:elevation="6dp"
         android:background="#d9d9d9" />
 
     <View
-        android:id="@+id/rechte_view"
+        android:id="@+id/account_navigation_goToMyList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@id/mittlere_view"
+        app:layout_constraintStart_toEndOf="@id/account_navigation_goToHompage"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/homepage_movebar_Konto_imageView"
+        android:id="@+id/account_movebar_Konto_imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/linke_view"
-        app:layout_constraintStart_toStartOf="@+id/linke_view"
-        app:layout_constraintTop_toTopOf="@+id/linke_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToMyProfile"
         app:layout_constraintBottom_toTopOf="@id/textView6"
         android:src="@mipmap/account_icon"
 
@@ -445,10 +447,10 @@
         android:gravity="center"
         android:text="0"
         android:textColor="#FFF"
-        app:layout_constraintBottom_toBottomOf="@id/homepage_movebar_Konto_imageView"
+        app:layout_constraintBottom_toBottomOf="@id/account_movebar_Konto_imageView"
         app:layout_constraintEnd_toStartOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/homepage_movebar_Konto_imageView"
-        app:layout_constraintTop_toTopOf="@id/homepage_movebar_Konto_imageView" />
+        app:layout_constraintStart_toStartOf="@id/account_movebar_Konto_imageView"
+        app:layout_constraintTop_toTopOf="@id/account_movebar_Konto_imageView" />
 
 
     <TextView
@@ -460,9 +462,9 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linke_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyProfile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homepage_movebar_Konto_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/account_movebar_Konto_imageView"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />
 
@@ -473,9 +475,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="6dp"
-        app:layout_constraintEnd_toEndOf="@+id/mittlere_view"
-        app:layout_constraintStart_toStartOf="@+id/mittlere_view"
-        app:layout_constraintTop_toTopOf="@+id/mittlere_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToHompage"
         app:layout_constraintBottom_toTopOf="@id/textView6"
         app:srcCompat="@mipmap/add_icon"
         app:layout_constraintVertical_chainStyle="spread"
@@ -490,8 +492,8 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/mittlere_view"
-        app:layout_constraintStart_toStartOf="@id/mittlere_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintStart_toStartOf="@id/account_navigation_goToHompage"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />
@@ -503,9 +505,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="6dp"
-        app:layout_constraintEnd_toEndOf="@+id/rechte_view"
-        app:layout_constraintStart_toStartOf="@+id/rechte_view"
-        app:layout_constraintTop_toTopOf="@+id/rechte_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToMyList"
         app:layout_constraintBottom_toTopOf="@id/textView8"
         app:srcCompat="@mipmap/meine_listen_icon"
         app:layout_constraintVertical_chainStyle="spread"
@@ -520,8 +522,8 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rechte_view"
-        app:layout_constraintStart_toStartOf="@id/rechte_view"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/account_navigation_goToMyList"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />

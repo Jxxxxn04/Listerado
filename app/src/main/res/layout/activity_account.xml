@@ -1,343 +1,480 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/account_parentLayout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guideline4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:elevation="23dp"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="Mein Account"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp" />
-
-        <FrameLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="40dp">
+    android:background="#fff">
 
 
-            <ImageView
-                android:id="@+id/has_invites_imageview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/list_icon"/>
-            
-            <TextView
-                android:id="@+id/has_invites_textview"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:text="0"
-                android:padding="4dp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/circle_background"
-                android:layout_gravity="bottom|end"
-                android:gravity="center"
-                android:textSize="11sp"/>
-            
-        </FrameLayout>
-        
-
-    </LinearLayout>
+    <View
+        android:id="@+id/change_username_layout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/myAccount_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/change_email_layout_button" />
 
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Benutzername ändern"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|start"
+        android:elevation="11dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/change_username_layout_button"
+        app:layout_constraintBottom_toBottomOf="@id/change_username_layout_button"
+        app:layout_constraintEnd_toEndOf="@id/change_username_layout_button"
+        app:layout_constraintTop_toTopOf="@id/change_username_layout_button" />
+
+    <View
+        android:id="@+id/change_email_layout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="10dp"
+        android:layout_marginTop="1dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_username_layout_button"
+        app:layout_constraintBottom_toTopOf="@id/change_password_layout_button" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Email ändern"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|start"
+        android:elevation="11dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/change_email_layout_button"
+        app:layout_constraintBottom_toBottomOf="@id/change_email_layout_button"
+        app:layout_constraintEnd_toEndOf="@id/change_email_layout_button"
+        app:layout_constraintTop_toTopOf="@id/change_email_layout_button" />
 
 
+    <View
+        android:id="@+id/change_password_layout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="10dp"
+        android:layout_marginTop="1dp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_email_layout_button"
+        app:layout_constraintBottom_toTopOf="@id/logout_button" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Passwort ändern"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|start"
+        android:elevation="11dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/change_password_layout_button"
+        app:layout_constraintBottom_toBottomOf="@id/change_password_layout_button"
+        app:layout_constraintEnd_toEndOf="@id/change_password_layout_button"
+        app:layout_constraintTop_toTopOf="@id/change_password_layout_button" />
+
+
+    <View
+        android:id="@+id/logout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="10dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_password_layout_button"
+        app:layout_constraintBottom_toTopOf="@id/account_delete_layout_button" />
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Abmelden"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|start"
+        android:elevation="11dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/logout_button"
+        app:layout_constraintBottom_toBottomOf="@id/logout_button"
+        app:layout_constraintEnd_toEndOf="@id/logout_button"
+        app:layout_constraintTop_toTopOf="@id/logout_button" />
+
+
+    <View
+        android:id="@+id/account_delete_layout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="10dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logout_button"
+        app:layout_constraintBottom_toTopOf="@id/guideline14" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Account Löschen"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|start"
+        android:elevation="11dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/account_delete_layout_button"
+        app:layout_constraintBottom_toBottomOf="@id/account_delete_layout_button"
+        app:layout_constraintEnd_toEndOf="@id/account_delete_layout_button"
+        app:layout_constraintTop_toTopOf="@id/account_delete_layout_button" />
+    <!--
+    <View
+        android:id="@+id/changepassword"
+        android:layout_width="415dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="136dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+    <View
+        android:id="@+id/abmelden"
+        android:layout_width="415dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+    <View
+        android:id="@+id/kontoLoeschen"
+        android:layout_width="415dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="272dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        -->
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="90dp" />
+
+    <View
+        android:id="@+id/account_navigation_goToMyProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#d9d9d9"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <View
+        android:id="@+id/account_navigation_goToHompage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/account_navigation_goToMyList"
+        app:layout_constraintStart_toEndOf="@id/account_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <View
+        android:id="@+id/account_navigation_goToMyList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/account_navigation_goToHompage"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/account_movebar_Konto_imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="8dp"
+        android:src="@mipmap/account_icon"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToMyProfile"
+
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToMyProfile"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
+
+
+    <TextView
+        android:id="@+id/invite_textview_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/circle_background"
+        android:elevation="9dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toBottomOf="@id/account_movebar_Konto_imageView"
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/account_movebar_Konto_imageView"
+        app:layout_constraintTop_toTopOf="@id/account_movebar_Konto_imageView" />
+
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Account"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_movebar_Konto_imageView"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/add_icon" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Startseite"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToHompage"
+        app:layout_constraintStart_toStartOf="@id/account_navigation_goToHompage"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView8"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/meine_listen_icon" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Meine Listen"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/account_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/account_navigation_goToMyList"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="88dp" />
+
+    <TextView
+        android:id="@+id/myaccount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:autoSizeMaxTextSize="33sp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:text="Mein Account"
+        android:textColor="#000"
+        android:textSize="33sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@id/has_invites_imageview"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/has_invites_imageview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/list_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline6"
+        app:layout_constraintStart_toEndOf="@id/myaccount"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <TextView
+        android:id="@+id/invite_textview_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/circle_background"
+        android:elevation="9dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toBottomOf="@id/has_invites_imageview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/has_invites_imageview"
+        app:layout_constraintTop_toTopOf="@id/has_invites_imageview" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/account_imageView_Button"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/circle"
-        android:src="@mipmap/account_icon"
-        android:clickable="true"
-        android:contentDescription="ImageView" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        android:src="@mipmap/account_icon" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        >
-
-        <TextView
-            android:id="@+id/myAccount_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Benutzername"
-            android:textColor="#000000"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/myAccount_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Email"
-            android:textColor="#A6A6A6A6"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#FFF"
-        android:elevation="1.1dp">
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/change_username_layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:elevation="1dp"
-        android:background="#FFF"
-        android:layout_marginBottom="5dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center|start"
-            android:paddingStart="20dp"
-            android:text="Benutzername ändern"
-            android:textColor="#000000"
-            android:textSize="20sp"
-
-            />
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/change_email_layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:elevation="1dp"
-        android:background="#FFF"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:elevation="6dp"
-            android:gravity="center|left"
-            android:paddingLeft="20dp"
-            android:text="Email ändern"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/change_password_layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:elevation="1dp"
-        android:background="#FFF"
-
-        android:layout_marginBottom="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:elevation="6dp"
-            android:gravity="center|left"
-            android:paddingLeft="20dp"
-            android:text="Passwort ändern"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:elevation="1dp"
-        android:background="#fff"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-            android:id="@+id/logout_Button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:elevation="6dp"
-            android:gravity="center|left"
-            android:paddingLeft="20dp"
-            android:text="Abmelden"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/account_linearlayout_delete_user"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:elevation="1dp"
-        android:background="#FFF"
-        android:layout_marginBottom="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:elevation="6dp"
-            android:gravity="center|left"
-            android:paddingLeft="20dp"
-            android:text="Account löschen"
-            android:textColor="#ff0000"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:elevation="12dp"
-        android:gravity="bottom"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="43dp">
+        app:layout_constraintGuide_begin="254dp" />
 
-        <LinearLayout
-            android:id="@+id/account_navigation_goToMyProfile"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="#d9d9d9">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="347dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/myAccount_username"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:text="Benutzername"
+        android:text="Benutzername"
+        android:textColor="#000"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="33sp"
+        android:autoSizeMinTextSize="20sp"
+        android:textSize="33sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_imageView_Button"
+        app:layout_constraintBottom_toTopOf="@id/myAccount_email" />
+
+    <TextView
+        android:id="@+id/myAccount_email"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="15sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center|top"
+        android:text="Email"
+        android:textColor="#a6a6a6a6"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myAccount_username"
+        tools:text="Email" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="137dp" />
 
 
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/account_movebar_Konto_imageView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@mipmap/account_icon" />
-
-
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/invite_textview_2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:padding="4dp"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/circle_background"
-                        android:layout_gravity="bottom|end"
-                        android:gravity="center"
-                        android:textSize="11sp"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Account"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/account_navigation_goToHomepage"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView41231322"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/add_icon" />
-
-                <TextView
-                    android:id="@+id/textView4123123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Startseite"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/account_navigation_goToMyList"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView412313"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/meine_listen_icon" />
-
-                <TextView
-                    android:id="@+id/textView423123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Meine Listen"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
