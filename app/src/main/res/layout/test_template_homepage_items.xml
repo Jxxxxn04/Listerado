@@ -5,7 +5,7 @@
     android:background="@drawable/rectangle_for_login">
 
     <TextView
-        android:id="@+id/item_name_textview"
+        android:id="@+id/homepage_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -39,8 +39,8 @@
             android:id="@+id/add_item_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@mipmap/add_icon"
             android:layout_centerInParent="true"
+            android:background="@mipmap/add_icon"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </RelativeLayout>

@@ -49,7 +49,7 @@ public class HomepageAdapter extends ArrayAdapter<ListItemHomepage> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_homepage_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.test_template_homepage_items, parent, false);
         }
 
         ListItemHomepage item = getItem(position);
