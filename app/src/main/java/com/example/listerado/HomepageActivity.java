@@ -63,8 +63,8 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         //Initialize the needed UI elements from the xml file
-        NAV_homepage_goToMyProfileLayout = findViewById(R.id.account_navigation_goToMyProfile);
-        NAV_homepage_goToMyLists = findViewById(R.id.account_navigation_goToMyList);
+        NAV_homepage_goToMyProfileLayout = findViewById(R.id.myList_navigation_goToMyProfile);
+        NAV_homepage_goToMyLists = findViewById(R.id.myList_navigation_goToMyList);
         listView = findViewById(R.id.homepage_listview);
         searchItem = findViewById(R.id.searchItems);
         listsListView = findViewById(R.id.homepage_lists_listview);

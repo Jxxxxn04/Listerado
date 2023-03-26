@@ -37,7 +37,7 @@ import java.util.Map;
 public class MyListsActivity extends AppCompatActivity {
 
     protected static ArrayList<ListItemLists> items;
-    LinearLayout NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
+    View NAV_myList_goToHomepageLayout, NAV_myList_goTomyAccountLayout;
     Intent switchToAccountIntent, switchToHomepageIntent;
     ImageView navbar_ProfileImageView, addListImageView;
     ListView listView;

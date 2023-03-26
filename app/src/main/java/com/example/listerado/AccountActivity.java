@@ -73,8 +73,8 @@ public class AccountActivity extends AppCompatActivity {
         navbar_profileImageView = findViewById(R.id.account_movebar_Konto_imageView);
         invitesImageView = findViewById(R.id.has_invites_imageview);
         changeUserEmailLayoutButton = findViewById(R.id.change_email_layout_button);
-        NAV_account_goToHomepageLayout = findViewById(R.id.account_navigation_goToHompage);
-        NAV_account_goTomyListLayout = findViewById(R.id.account_navigation_goToMyList);
+        NAV_account_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
+        NAV_account_goTomyListLayout = findViewById(R.id.myList_navigation_goToMyList);
         username = findViewById(R.id.myAccount_username);
         email = findViewById(R.id.myAccount_email);
         logoutButton = findViewById(R.id.logout_button);

@@ -1,186 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_marginTop="30dp"
+    <TextView
+        android:id="@+id/meine_listen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:autoSizeMaxTextSize="33sp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:text="Meine Listen"
+        android:gravity="center|start"
+        android:textColor="#000"
+        android:textSize="33sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_item_relativlayout"
+        app:layout_constraintBottom_toTopOf="@id/upper_guidline"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="6"/>
+
+    <RelativeLayout
+        android:id="@+id/add_item_relativlayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/rectangle_for_add_product"
+        app:layout_constraintBottom_toTopOf="@id/upper_guidline"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/meine_listen"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/myLists_add_list_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/add_icon" />
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/myLists_listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:dividerHeight="25.0sp"
         android:layout_marginStart="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        >
-
-
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meine_listen"
-            android:textColor="#000000"
-            android:textSize="35sp"
-            />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/myLists_add_list_button"
-                android:layout_marginEnd="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/add_icon"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/rectangle_for_add_product"
-                android:contentDescription="@string/content_desc_add_button" />
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
+        tools:listitem="@layout/template_owned_lists"
+        app:layout_constraintTop_toBottomOf="@id/upper_guidline"
+        app:layout_constraintBottom_toTopOf="@id/movebar_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 
 
 
-        <ListView
-            android:layout_marginTop="40dp"
-            android:id="@+id/myLists_listView"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:dividerHeight="25.0sp"
-            tools:listitem="@layout/template_owned_lists"
-            android:paddingStart="30dp">
-
-
-        </ListView>
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:elevation="12dp"
-        android:gravity="bottom"
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <View
+        android:id="@+id/myList_navigation_goToMyProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <View
+        android:id="@+id/myList_navigation_goToHomepage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/myList_navigation_goToMyList"
+        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <View
+        android:id="@+id/myList_navigation_goToMyList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#d9d9d9"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/myLists_movebar_Konto_imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="8dp"
+        android:src="@mipmap/account_icon"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+
+
+
+    <TextView
+        android:id="@+id/invite_textview_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/circle_background"
+        android:elevation="9dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/myLists_movebar_Konto_imageView"
+        app:layout_constraintEnd_toStartOf="@id/movebar_center_guideline"
+        app:layout_constraintStart_toStartOf="@id/myLists_movebar_Konto_imageView"
+        app:layout_constraintTop_toTopOf="@id/myLists_movebar_Konto_imageView" />
+
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Account"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myLists_movebar_Konto_imageView"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/add_icon" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Startseite"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView8"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/meine_listen_icon" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Meine Listen"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToMyList"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upper_guidline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="27dp">
+        app:layout_constraintGuide_begin="120dp" />
 
-        <LinearLayout
-            android:id="@+id/myList_navigation_goToMyProfile"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movebar_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="90dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/myLists_movebar_Konto_imageView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@mipmap/account_icon" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movebar_center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
 
 
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/invite_textview_2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:padding="4dp"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/circle_background"
-                        android:layout_gravity="bottom|end"
-                        android:gravity="center"
-                        android:textSize="11sp"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Account"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/myList_navigation_goToHomepage"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView41231322"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/add_icon" />
-
-                <TextView
-                    android:id="@+id/textView4123123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Startseite"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/myList_navigation_goToMyList"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="#d9d9d9">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView412313"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/meine_listen_icon" />
-
-                <TextView
-                    android:id="@+id/textView423123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Meine Listen"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
