@@ -173,7 +173,7 @@ public class InviteActivity extends AppCompatActivity {
 
     public void createAdapter() {
         // Create the adapter
-        System.out.println("Liste: " + items);
+        //System.out.println("Liste: " + items);
         adapter = new InviteAdapter(this, items);
         listView.setAdapter(adapter);
     }

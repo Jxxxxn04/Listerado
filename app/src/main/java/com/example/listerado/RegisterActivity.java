@@ -236,7 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
-                                System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
 
                                 //Breaks up the JSON response into several variables
                                 try {
@@ -249,7 +249,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     ToastManager.showToast(RegisterActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                                     e.printStackTrace();
-                                    System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus + "\njsonMessage: " + jsonMessage + "\n\n\n\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus + "\njsonMessage: " + jsonMessage + "\n\n\n\n\n\n\n\n\n");
                                 }
 
                                 try {

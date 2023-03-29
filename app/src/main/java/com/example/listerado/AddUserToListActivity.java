@@ -102,7 +102,7 @@ public class AddUserToListActivity extends AppCompatActivity {
                 if (!searchText.isEmpty()) {
                     clearItems();
                     getUser(searchText, id);
-                    System.out.println(searchText);
+                    //System.out.println(searchText);
 
                 } else {
                     items.clear();

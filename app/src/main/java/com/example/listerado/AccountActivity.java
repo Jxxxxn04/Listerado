@@ -188,7 +188,7 @@ public class AccountActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
-                                System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
 
                                 //Breaks up the JSON response into several variables
                                 try {
@@ -200,11 +200,11 @@ public class AccountActivity extends AppCompatActivity {
                                         jsonMessage[0] = jsonObject.getString("message");
                                     }
 
-                                    System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                                     e.printStackTrace();
-                                    System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
                                 }
 
                                 if (jsonStatus[0].equals("200")) {
@@ -272,7 +272,7 @@ public class AccountActivity extends AppCompatActivity {
                 String savedID = sharedpreferencesManager.getId();
                 String savedPassword = sharedpreferencesManager.getPassword();
 
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nid: " + savedID + "\n\n\n\n\n\n\n\n\n");
+                //System.out.println("\n\n\n\n\n\n\n\n\n\n\n\nid: " + savedID + "\n\n\n\n\n\n\n\n\n");
 
                 final String[] jsonMessage = new String[1];
                 final String[] jsonStatus = new String[1];
@@ -290,7 +290,7 @@ public class AccountActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
-                                System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
 
                                 //Breaks up the JSON response into several variables
                                 try {
@@ -301,11 +301,11 @@ public class AccountActivity extends AppCompatActivity {
                                         jsonMessage[0] = jsonObject.getString("message");
                                     }
 
-                                    System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n\n\n" + response + "\n\n\n\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     ToastManager.showToast(AccountActivity.this, "Failed to parse server response!", Toast.LENGTH_SHORT);
                                     e.printStackTrace();
-                                    System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n\n\n\nJsonObject: " + jsonObject + "\nJsonStatus: " + jsonStatus[0] + "\njsonMessage: " + jsonMessage[0] + "\n\n\n\n\n\n\n\n\n");
                                 }
 
                                 if (jsonObject.has("status")) {
@@ -329,7 +329,7 @@ public class AccountActivity extends AppCompatActivity {
                             params.put("user_id", savedID);
                             params.put("password", edPassword.getText().toString());
                             params.put("new_username", edNewUsername.getText().toString());
-                            System.out.println("\n\n\n\n\n\n\nid: " + savedID + "\npassword: " + edPassword.getText().toString() + "\nnew_username: " + edNewUsername.getText().toString());
+                            //System.out.println("\n\n\n\n\n\n\nid: " + savedID + "\npassword: " + edPassword.getText().toString() + "\nnew_username: " + edNewUsername.getText().toString());
                             return params;
                         }
                     };
@@ -451,8 +451,8 @@ public class AccountActivity extends AppCompatActivity {
             String savedPassword = sharedpreferencesManager.getPassword();
 
             if (!edPassword.getText().toString().equals(savedPassword)) {
-                System.out.println(savedPassword);
-                System.out.println("\n" + edPassword.getText().toString());
+                //System.out.println(savedPassword);
+                //System.out.println("\n" + edPassword.getText().toString());
                 ToastManager.showToast(AccountActivity.this, "Falsches Passwort", Toast.LENGTH_SHORT);
             } else {
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,

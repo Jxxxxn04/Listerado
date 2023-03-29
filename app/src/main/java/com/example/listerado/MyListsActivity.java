@@ -227,7 +227,7 @@ public class MyListsActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                System.out.println(jsonObject);
+                                //System.out.println(jsonObject);
                                 try {
 
                                     JSONArray jsonArray = jsonObject.getJSONArray("lists");

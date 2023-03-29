@@ -474,7 +474,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
 
                                 try {
                                     JSONArray jsonArray = jsonObject.getJSONArray("products");
@@ -560,7 +560,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                                     }
                                     listAdapter.notifyDataSetChanged();
-                                    System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                    //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }

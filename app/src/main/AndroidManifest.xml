@@ -51,7 +51,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".HomepageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".MyListsActivity"

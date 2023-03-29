@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Map<String, String> params = new HashMap<String, String>();
                                 params.put("name", edUsername.getText().toString());
                                 params.put("password", edPassword.getText().toString());
-                                System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
+                                //System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
                                 return params;
                             }
                         };
@@ -344,7 +344,7 @@ public class LoginActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", usernameOrEmail);
                 params.put("password", sharedpreferncesManager.getPassword());
-                System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
+                //System.out.println("\n\n\n\n\n\n\n\npassword: " + edPassword.getText().toString() + "\nusername: " + edUsername.getText().toString() + "\n\n\n\n\n\n\n\n\n");
                 return params;
             }
         };
