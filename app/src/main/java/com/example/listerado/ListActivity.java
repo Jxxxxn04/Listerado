@@ -1,11 +1,9 @@
 package com.example.listerado;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +31,7 @@ public class ListActivity extends AppCompatActivity {
     SharedpreferencesManager sharedpreferencesManager;
     static ArrayList<ListItemProduct> items;
     TextView listName, textView;
-    LinearLayout goToHomepage;
-    LinearLayout toToMyLists;
-    LinearLayout goToMyAccount;
-    @SuppressLint("StaticFieldLeak")
-    static LinearLayout parentLayout;
+    View goToHomepage, toToMyLists, goToMyAccount;
     ImageManager imageManager;
     CircleImageView navbarImageView;
     ImageView list_info_image;
@@ -54,7 +48,6 @@ public class ListActivity extends AppCompatActivity {
         sharedpreferencesManager = new SharedpreferencesManager(ListActivity.this);
         listName = findViewById(R.id.list_listName);
         list_info_image = findViewById(R.id.list_info);
-        parentLayout = findViewById(R.id.list_parent_layout);
         goToHomepage = findViewById(R.id.list_navigation_goToHomepage);
         goToMyAccount = findViewById(R.id.list_navigation_goToMyProfile);
         toToMyLists = findViewById(R.id.list_navigation_goToMyList);
@@ -109,6 +102,7 @@ public class ListActivity extends AppCompatActivity {
                 if(items != null) {
                     getProductsFromList(id);
                 }
+                ToastManager.showToast(ListActivity.this, "Produkte erfolgreich neugeladen!", 0);
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -158,8 +152,8 @@ public class ListActivity extends AppCompatActivity {
 
                         if (jsonObject.has("status")) {
                             if (jsonStatus[0].equals("200")) {
-                                ToastManager.showToast(ListActivity.this, "Produkte erfolgreich geladen", Toast.LENGTH_SHORT);
-                                System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
+                                //ToastManager.showToast(ListActivity.this, "Produkte erfolgreich geladen", Toast.LENGTH_SHORT);
+                                //System.out.println("\n\n\n\n\n\n" + jsonObject + "\n\n\n\n\n\n");
                                 listName.setText(jsonListName[0]);
                                 try {
 
@@ -229,11 +223,6 @@ public class ListActivity extends AppCompatActivity {
         startActivity(new Intent(this, MyListsActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
-    }
-
-
-    public static void setParentAlpha(float lightLevel) {
-        parentLayout.setAlpha(lightLevel);
     }
 
 }

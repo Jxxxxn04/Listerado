@@ -1,21 +1,11 @@
 package com.example.listerado;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +17,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListAdapter extends ArrayAdapter<ListItemProduct> {
 
@@ -59,7 +44,7 @@ public class ListAdapter extends ArrayAdapter<ListItemProduct> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Inflate the view if it doesn't exist
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.template_list_products, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.test_template_list_products, parent, false);
         }
 
         ImageView imageView, little_info_icon;

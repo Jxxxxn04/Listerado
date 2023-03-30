@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_parent_layout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFF"
-    android:orientation="vertical">
+    android:background="#fff"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/list_listName"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="35dp"
-            android:gravity="center"
-            android:textColor="#000"
-            android:textSize="40sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:autoSizeMinTextSize="20sp"
-            android:autoSizeMaxTextSize="40sp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeStepGranularity="1sp"
-            tools:text="listname" />
-
-
-        <ImageView
-            android:id="@+id/list_info"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="28dp"
-            android:src="@mipmap/info_icon" />
+    <TextView
+        android:id="@+id/list_listName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        tools:text="listenname"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#000"
+        android:textSize="40sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeMaxTextSize="40sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeStepGranularity="1sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/list_info"
+        app:layout_constraintBottom_toTopOf="@id/upper_guidline"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="6" />
 
 
-    </LinearLayout>
-
-
+    <ImageView
+        android:id="@+id/list_info"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/info_icon"
+        app:layout_constraintStart_toEndOf="@id/list_listName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/upper_guidline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        android:layout_margin="30dp"/>
 
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/list_refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="630dp"
-        >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/upper_guidline"
+        app:layout_constraintBottom_toTopOf="@id/movebar_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
 
         <ListView
             android:id="@+id/list_listView"
             android:layout_width="match_parent"
-            android:layout_height="610dp"
+            android:layout_height="match_parent"
             android:dividerHeight="10.0sp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="vertical"
             tools:listitem="@layout/template_list_products"
-            android:paddingStart="35dp"
-            android:paddingTop="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
-
-
+            android:scrollbars="none"/>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -75,125 +71,189 @@
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:elevation="12dp"
-        android:gravity="bottom"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <View
+        android:id="@+id/list_navigation_goToMyProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <View
+        android:id="@+id/list_navigation_goToHomepage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/list_navigation_goToMyList"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <View
+        android:id="@+id/list_navigation_goToMyList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#d9d9d9"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/list_movebar_Konto_imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="8dp"
+        android:src="@mipmap/account_icon"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2" />
+
+
+
+
+    <TextView
+        android:id="@+id/invite_textview_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/circle_background"
+        android:elevation="9dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/list_movebar_Konto_imageView"
+        app:layout_constraintEnd_toStartOf="@id/movebar_center_guideline"
+        app:layout_constraintStart_toStartOf="@id/list_movebar_Konto_imageView"
+        app:layout_constraintTop_toTopOf="@id/list_movebar_Konto_imageView" />
+
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Account"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_movebar_Konto_imageView"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/add_icon" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Startseite"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToHomepage"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textView8"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="2"
+        app:srcCompat="@mipmap/meine_listen_icon" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="6dp"
+        android:gravity="center|top"
+        android:text="Meine Listen"
+        android:textColor="#a6a6a6a6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToMyList"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upper_guidline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="27dp">
+        app:layout_constraintGuide_begin="120dp" />
 
-        <LinearLayout
-            android:id="@+id/list_navigation_goToMyProfile"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movebar_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="90dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/list_movebar_Konto_imageView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@mipmap/account_icon" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movebar_center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
 
 
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/invite_textview_2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:padding="4dp"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/circle_background"
-                        android:layout_gravity="bottom|end"
-                        android:gravity="center"
-                        android:textSize="11sp"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Account"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/list_navigation_goToHomepage"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView41231322"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/add_icon" />
-
-                <TextView
-                    android:id="@+id/textView4123123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Startseite"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/list_navigation_goToMyList"
-            android:layout_width="136dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="#d9d9d9">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imageView412313"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@mipmap/meine_listen_icon" />
-
-                <TextView
-                    android:id="@+id/textView423123"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="Meine Listen"
-                    android:textColor="#A6A6A6A6" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

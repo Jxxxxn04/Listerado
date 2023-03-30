@@ -386,36 +386,36 @@
     </HorizontalScrollView>
 
     <View
-        android:id="@+id/myList_navigation_goToMyProfile"
+        android:id="@+id/list_navigation_goToMyProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toStartOf="@+id/list_navigation_goToHomepage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
         android:elevation="6dp"
         android:background="#fff" />
 
     <View
-        android:id="@+id/myList_navigation_goToHomepage"
+        android:id="@+id/list_navigation_goToHomepage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToMyProfile"
-        app:layout_constraintEnd_toStartOf="@id/myList_navigation_goToMyList"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToMyProfile"
+        app:layout_constraintEnd_toStartOf="@id/list_navigation_goToMyList"
         android:elevation="6dp"
         android:background="#d9d9d9" />
 
     <View
-        android:id="@+id/myList_navigation_goToMyList"
+        android:id="@+id/list_navigation_goToMyList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToHomepage"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -424,9 +424,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyProfile"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyProfile"
         app:layout_constraintBottom_toTopOf="@id/textView6"
         android:src="@mipmap/account_icon"
 
@@ -463,7 +463,7 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_movebar_Konto_imageView"
         app:layout_constraintVertical_chainStyle="spread"
@@ -476,9 +476,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="6dp"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToHomepage"
         app:layout_constraintBottom_toTopOf="@id/textView6"
         app:srcCompat="@mipmap/add_icon"
         app:layout_constraintVertical_chainStyle="spread"
@@ -493,8 +493,8 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToHomepage"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />
@@ -506,9 +506,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="6dp"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyList"
         app:layout_constraintBottom_toTopOf="@id/textView8"
         app:srcCompat="@mipmap/meine_listen_icon"
         app:layout_constraintVertical_chainStyle="spread"
@@ -523,8 +523,8 @@
         android:textColor="#a6a6a6a6"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToMyList"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToMyList"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />

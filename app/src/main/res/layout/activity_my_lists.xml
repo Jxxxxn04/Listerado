@@ -59,11 +59,13 @@
         android:layout_height="0dp"
         android:dividerHeight="25.0sp"
         android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         tools:listitem="@layout/template_owned_lists"
         app:layout_constraintTop_toBottomOf="@id/upper_guidline"
         app:layout_constraintBottom_toTopOf="@id/movebar_guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="none"/>
 
 
 
@@ -86,49 +88,49 @@
 
 
     <View
-        android:id="@+id/myList_navigation_goToMyProfile"
+        android:id="@+id/list_navigation_goToMyProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toStartOf="@+id/list_navigation_goToHomepage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
 
     <View
-        android:id="@+id/myList_navigation_goToHomepage"
+        android:id="@+id/list_navigation_goToHomepage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/myList_navigation_goToMyList"
-        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToMyProfile"
+        app:layout_constraintEnd_toStartOf="@id/list_navigation_goToMyList"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToMyProfile"
         app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
 
     <View
-        android:id="@+id/myList_navigation_goToMyList"
+        android:id="@+id/list_navigation_goToMyList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#d9d9d9"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintStart_toEndOf="@id/list_navigation_goToHomepage"
         app:layout_constraintTop_toTopOf="@+id/movebar_guideline" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/myLists_movebar_Konto_imageView"
+        android:id="@+id/list_movebar_Konto_imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:elevation="8dp"
         android:src="@mipmap/account_icon"
         app:layout_constraintBottom_toTopOf="@id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyProfile"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyProfile"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyProfile"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="2" />
 
@@ -148,10 +150,10 @@
         android:text="0"
         android:textColor="#FFF"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/myLists_movebar_Konto_imageView"
+        app:layout_constraintBottom_toBottomOf="@id/list_movebar_Konto_imageView"
         app:layout_constraintEnd_toStartOf="@id/movebar_center_guideline"
-        app:layout_constraintStart_toStartOf="@id/myLists_movebar_Konto_imageView"
-        app:layout_constraintTop_toTopOf="@id/myLists_movebar_Konto_imageView" />
+        app:layout_constraintStart_toStartOf="@id/list_movebar_Konto_imageView"
+        app:layout_constraintTop_toTopOf="@id/list_movebar_Konto_imageView" />
 
 
     <TextView
@@ -163,9 +165,9 @@
         android:text="Account"
         android:textColor="#a6a6a6a6"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyProfile"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyProfile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myLists_movebar_Konto_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/list_movebar_Konto_imageView"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />
 
@@ -177,9 +179,9 @@
         android:layout_marginTop="10dp"
         android:elevation="6dp"
         app:layout_constraintBottom_toTopOf="@id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToHomepage"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="2"
         app:srcCompat="@mipmap/add_icon" />
@@ -193,8 +195,8 @@
         android:text="Startseite"
         android:textColor="#a6a6a6a6"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToHomepage"
-        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToHomepage"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToHomepage"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToHomepage"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />
@@ -207,9 +209,9 @@
         android:layout_marginTop="10dp"
         android:elevation="6dp"
         app:layout_constraintBottom_toTopOf="@id/textView8"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintStart_toStartOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintTop_toTopOf="@+id/myList_navigation_goToMyList"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintTop_toTopOf="@+id/list_navigation_goToMyList"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="2"
         app:srcCompat="@mipmap/meine_listen_icon" />
@@ -223,8 +225,8 @@
         android:text="Meine Listen"
         android:textColor="#a6a6a6a6"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/myList_navigation_goToMyList"
-        app:layout_constraintStart_toStartOf="@id/myList_navigation_goToMyList"
+        app:layout_constraintEnd_toEndOf="@+id/list_navigation_goToMyList"
+        app:layout_constraintStart_toStartOf="@id/list_navigation_goToMyList"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="1" />

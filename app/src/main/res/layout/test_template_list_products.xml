@@ -6,47 +6,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rectangle_for_login">
 
-    <TextView
-        android:id="@+id/template_list_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:maxWidth="270dp"
-        tools:text="Produktname"
-        android:gravity="center|start"
-        android:textColor="#000"
-        android:textSize="20sp"
-        android:autoSizeMaxTextSize="20sp"
-        android:autoSizeMinTextSize="10sp"
-        android:autoSizeStepGranularity="1sp"
-        android:autoSizeTextType="uniform"
-        android:breakStrategy="balanced"
-        android:ellipsize="end"
-        android:textStyle="bold"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/center_guideline"
-        app:layout_constraintEnd_toStartOf="@id/little_info_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="4"/>
 
-    <ImageView
-        android:id="@+id/little_info_icon"
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@mipmap/little_info_icon"
-        android:layout_marginBottom="9dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="17dp"
-        android:scaleType="fitStart"
-        app:layout_constraintStart_toEndOf="@id/template_list_textView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/end_guideline"
         app:layout_constraintBottom_toTopOf="@id/center_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/template_list_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:maxWidth="200dp"
+            tools:text="sehrLangerNameWeilIchDenZumTestenBraucheDiesdas"
+            android:gravity="center|start"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:breakStrategy="balanced"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/little_info_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/little_info_icon"
+            android:layout_marginBottom="9dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="17dp"
+            android:scaleType="fitStart"
+            />
+    </LinearLayout>
+
+
 
 
     <TextView

@@ -1,7 +1,6 @@
 package com.example.listerado;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -9,10 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,9 +50,9 @@ public class MyListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_lists);
 
-        NAV_myList_goToHomepageLayout = findViewById(R.id.myList_navigation_goToHomepage);
-        NAV_myList_goTomyAccountLayout = findViewById(R.id.myList_navigation_goToMyProfile);
-        navbar_ProfileImageView = findViewById(R.id.myLists_movebar_Konto_imageView);
+        NAV_myList_goToHomepageLayout = findViewById(R.id.list_navigation_goToHomepage);
+        NAV_myList_goTomyAccountLayout = findViewById(R.id.list_navigation_goToMyProfile);
+        navbar_ProfileImageView = findViewById(R.id.list_movebar_Konto_imageView);
         addListImageView = findViewById(R.id.myLists_add_list_button);
         listView = findViewById(R.id.myLists_listView);
         textView = findViewById(R.id.invite_textview_2);
